@@ -6,18 +6,17 @@ import styles from "./Footer.module.css";
 export default function Footer({ t }) {
   return (
     <footer className={styles.footer} role="contentinfo">
-      {}
-      <p className={styles.line}>
-        <span className={styles.comment}>// {t.footer_follow}</span>
-      </p>
+      <div className={styles.footerProp} aria-hidden="true">
+        <svg width="64" height="20">
+          <use href="#prop-bare" />
+        </svg>
+      </div>
 
-      {}
-      <div className={styles.social} aria-label="Social media links">
+      <div className={styles.footerSocial} aria-label="Social media links">
         <a
           href="https://www.instagram.com/_empaerial_"
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.function}
           aria-label="Follow Empaerial on Instagram"
         >
           {t.footer_instagram}
@@ -26,7 +25,6 @@ export default function Footer({ t }) {
           href="https://www.linkedin.com/company/emp%C3%A6rial/"
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.keyword}
           aria-label="Connect with Empaerial on LinkedIn"
         >
           {t.footer_linkedin}
@@ -35,28 +33,23 @@ export default function Footer({ t }) {
           href="https://www.youtube.com/@Emp%C3%A6rial_UAV"
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.number}
           aria-label="Visit Empaerial YouTube channel"
         >
           {t.footer_youtube}
         </a>
       </div>
 
-      {}
-      <p className={styles.copy}>
-        {}
+      <div className={styles.footerCopy}>
         <Link
           href="/admin-login"
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-            cursor: "pointer",
-          }}
+          className={styles.adminLink}
+          aria-label="Admin login"
+          tabIndex={-1}
         >
-          <span className={styles.variable}>return</span>
+          Admin
         </Link>{" "}
-        <span className={styles.string}>{t.footer_copyright}</span>
-      </p>
+        <span>{t.footer_copyright}</span>
+      </div>
     </footer>
   );
 }

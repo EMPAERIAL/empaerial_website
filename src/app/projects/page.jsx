@@ -68,7 +68,7 @@ export default function Projects({ t }) {
   if (loading) {
     return (
       <section className={styles.projectSection} id="projects">
-        <div className={styles.header}>
+        <div className={`${styles.header} reveal`}>
           <div className={styles.eyebrow}>PROJECTS</div>
           <h2 className={styles.title}>{t.projects.title}</h2>
           <p className={styles.subtitle}>{t.projects.subtitle}</p>
@@ -98,7 +98,7 @@ export default function Projects({ t }) {
           <p className={styles.status}>No projects found.</p>
         ) : (
           <>
-            <div className={styles.projectFeatured}>
+            <div className={`${styles.projectFeatured} reveal`}>
               <div className={styles.projGallery}>
                 <img
                   src={galleryImages[activeImage] || featuredProject.image_url || FALLBACK_IMAGES[0]}
@@ -149,7 +149,7 @@ export default function Projects({ t }) {
               </div>
             </div>
 
-            <div className={styles.projPlaceholders}>
+            <div className={`${styles.projPlaceholders} reveal`}>
               {[2, 3, 4].map((projectNumber) => (
                 <div className={styles.projPlaceholder} key={projectNumber}>
                   <div className={styles.placeholderNumber}>

@@ -24,18 +24,18 @@ export default function Page() {
   const t = lang === "tr" ? tr : en;
 
   useEffect(() => {
-    const elements = document.querySelectorAll(".fade-in, section");
-    const observer = new IntersectionObserver(
+    const elements = document.querySelectorAll(".reveal");
+    const revealObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
+          if (entry.isIntersecting) entry.target.classList.add("on");
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.12 }
     );
 
-    elements.forEach((el) => observer.observe(el));
-    return () => elements.forEach((el) => observer.unobserve(el));
+    elements.forEach((el) => revealObs.observe(el));
+    return () => elements.forEach((el) => revealObs.unobserve(el));
   }, []);
 
   return (
@@ -47,7 +47,7 @@ export default function Page() {
       <main role="main">
         <Hero />
 
-        <Section className="fade-in" id="team" aria-labelledby="team-title">
+        <Section id="team" aria-labelledby="team-title">
           <Team t={t} />
         </Section>
 
@@ -57,7 +57,7 @@ export default function Page() {
 
         <section className={styles.contactSection} id="contact" aria-labelledby="contact-title">
           <div className={styles.contactInner}>
-            <div className={styles.contactHeader}>
+            <div className={`${styles.contactHeader} reveal`}>
               <div className={styles.eyebrow}>{t.contact_eyebrow || "CONTACT"}</div>
               <h2 id="contact-title" className={styles.contactTitle}>
                 {t.contact_heading || t.contact_title}
@@ -67,7 +67,7 @@ export default function Page() {
               </p>
             </div>
 
-            <div className={styles.contactGrid}>
+            <div className={`${styles.contactGrid} reveal`}>
               <div className={styles.contactItem}>
                 <div className={styles.contactChannel}>
                   {t.contact_email_short_label || t.contact_email_label}
@@ -91,7 +91,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className={styles.contactSocial}>
+            <div className={`${styles.contactSocial} reveal`}>
               <a href="https://www.instagram.com/_empaerial_" target="_blank" rel="noopener noreferrer">
                 {t.footer_instagram}
               </a>
@@ -110,9 +110,7 @@ export default function Page() {
         </section>
       </main>
 
-      <footer role="contentinfo">
-        <Footer t={t} />
-      </footer>
+      <Footer t={t} />
     </>
   );
 }

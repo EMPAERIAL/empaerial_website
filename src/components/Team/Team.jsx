@@ -7,12 +7,14 @@ export default function Team({ t }) {
 
   return (
     <section className={styles.teamSection} aria-labelledby="team-title">
-      <h2 id="team-title" className={styles.teamTitle}>
-        {t.team_title}
-      </h2>
-      <p className={styles.teamSubtitle}>{t.team_subtitle}</p>
+      <div className={`${styles.teamHeader} reveal`}>
+        <h2 id="team-title" className={styles.teamTitle}>
+          {t.team_title}
+        </h2>
+        <p className={styles.teamSubtitle}>{t.team_subtitle}</p>
+      </div>
 
-      <div className={styles.carouselWrapper}>
+      <div className={`${styles.carouselWrapper} reveal`}>
         <div className={styles.cardContainer}>
           {teams.map((group, index) => (
             <article key={index} className={styles.bigCard}>

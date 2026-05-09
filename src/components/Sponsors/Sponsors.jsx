@@ -10,14 +10,14 @@ export default function Sponsors({ t }) {
   return (
     <section className={styles.sponsorsSection} id="sponsors" aria-labelledby="sponsors-title">
       <div className={styles.inner}>
-        <div className={styles.header}>
+        <div className={`${styles.header} reveal`}>
           <div className={styles.eyebrow}>{t.sponsors_eyebrow || "SPONSORS"}</div>
           <h2 id="sponsors-title" className={styles.title}>
             {t.sponsors_title}
           </h2>
         </div>
 
-        <div className={styles.sponsorsTier}>
+        <div className={`${styles.sponsorsTier} reveal`}>
           <div className={styles.tierLabel}>GOLD</div>
           <div className={styles.goldWrap}>
             <a
@@ -32,7 +32,7 @@ export default function Sponsors({ t }) {
           </div>
         </div>
 
-        <div className={styles.sponsorsTier}>
+        <div className={`${styles.sponsorsTier} reveal`}>
           <div className={styles.tierLabel}>SILVER</div>
           <div className={styles.placeholderRow}>
             {placeholders.map((item) => (
@@ -43,7 +43,7 @@ export default function Sponsors({ t }) {
           </div>
         </div>
 
-        <div className={styles.sponsorsTier}>
+        <div className={`${styles.sponsorsTier} reveal`}>
           <div className={styles.tierLabel}>BRONZE</div>
           <div className={styles.placeholderRow}>
             {placeholders.map((item) => (
@@ -54,7 +54,7 @@ export default function Sponsors({ t }) {
           </div>
         </div>
 
-        <p className={styles.sponsorsNote}>
+        <p className={`${styles.sponsorsNote} reveal`}>
           {t.sponsors_note_prefix || "Interested in supporting EMPÆRIAL?"}{" "}
           <a href={`mailto:${t.contact_email || "empaerial.uav@gmail.com"}`}>
             {t.sponsors_note_link || "Contact us →"}
