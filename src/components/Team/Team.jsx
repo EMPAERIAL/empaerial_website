@@ -1,109 +1,113 @@
 'use client';
-import styles from "./Team.module.css";
-import useTeams from "@/hooks/useTeams";
+import { useState } from 'react';
+import styles from './Team.module.css';
+import useTeams from '@/hooks/useTeams';
+import WingCut from '../WingCut/WingCut';
+
+const TAB_MAP = {
+  software:     { label: 'SOFTWARE',     descKey: 'team_software_desc' },
+  electronics:  { label: 'ELECTRONICS',  descKey: 'team_electronics_desc' },
+  mechanical:   { label: 'MECHANICAL',   descKey: 'team_mechanical_desc' },
+  coordinators: { label: 'COORDINATORS', descKey: 'team_coord_desc' },
+};
+
+function getKey(title = '') {
+  const s = title.toLowerCase();
+  if (s.includes('software'))   return 'software';
+  if (s.includes('electron'))   return 'electronics';
+  if (s.includes('mechanic'))   return 'mechanical';
+  if (s.includes('coord'))      return 'coordinators';
+  return 'software';
+}
 
 export default function Team({ t }) {
-  const { teams } = useTeams();
+  const { teams, loading } = useTeams();
+  const [activeKey, setActiveKey] = useState('software');
+
+  const activeGroup = teams.find((g) => getKey(g.title) === activeKey);
 
   return (
-    <section className={styles.teamSection} aria-labelledby="team-title">
-      <div className={`${styles.teamHeader} reveal`}>
-        <h2 id="team-title" className={styles.teamTitle}>
-          {t.team_title}
-        </h2>
-        <p className={styles.teamSubtitle}>{t.team_subtitle}</p>
-      </div>
+    <section className="sec sec-light" id="team" aria-labelledby="team-title">
+      <div className="sec-inner">
+        {/* Section header */}
+        <div className="sec-head reveal">
+          <p className="sec-eyebrow">TEAM</p>
+          <h2 id="team-title" className="sec-h2">{t.team_title}</h2>
+          <p className="sec-sub">{t.team_subtitle}</p>
+        </div>
 
-      <div className={`${styles.carouselWrapper} reveal`}>
-        <div className={styles.cardContainer}>
-          {teams.map((group, index) => (
-            <article key={index} className={styles.bigCard}>
-              <div className={styles.cardInner}>
-
-                {/* FRONT SIDE */}
-                <div className={styles.cardFront}>
-                  <h3 className={styles.cardTitle}>{group.title}</h3>
-
-                  <p className={styles.cardDescription}>
-                    {Array.isArray(group.description)
-                      ? group.description.join(" ")
-                      : group.description}
-                  </p>
-                </div>
-
-                {/* BACK SIDE */}
-                <div className={styles.cardBack}>
-                  <h3>{t.team_members}</h3>
-
-                  <ul className={styles.membersList}>
-                    {group.members.map((member, i) => (
-                      <li key={i} className={styles.memberItem}>
-                        <a
-                          href={member.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.memberLink}
-                        >
-                          {member.name}
-                        </a>
-
-                        <div className={styles.memberTooltip}>
-  {member.photo ? (
-    <img
-      src={member.photo}
-      alt={`${member.name}, ${member.role}`}
-      className={styles.memberPhoto}
-    />
-  ) : (
-    <div className={styles.memberPhotoPlaceholder}>
-      No Photo
-    </div>
-  )}
-
-
-                          <div className={styles.tooltipContent}>
-                            {member.age && (
-                              <p>
-                                <strong>{t.team_age}:</strong> {member.age}
-                              </p>
-                            )}
-
-                            {member.country && (
-                              <p>
-                                <strong>{t.team_country}:</strong> {member.country}
-                              </p>
-                            )}
-
-                            {member.role && (
-                              <p>
-                                <strong>{t.team_role}:</strong> {member.role}
-                              </p>
-                            )}
-
-                            {member.skills && (
-                              <p>
-                                <strong>{t.team_skills}:</strong>{" "}
-                                {member.skills}
-                              </p>
-                            )}
-
-                            {member.funFact && (
-                              <p>
-                                <strong>{t.team_funfact}:</strong> "{member.funFact}"
-                              </p>
-                            )}
-                          </div>
-                        </div>
-
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </article>
+        {/* Tabs */}
+        <div className={styles.tabs} role="tablist" aria-label="Team departments">
+          {Object.entries(TAB_MAP).map(([key, { label }]) => (
+            <button
+              key={key}
+              role="tab"
+              aria-selected={activeKey === key}
+              className={`${styles.tab} ${activeKey === key ? styles.tabActive : ''}`}
+              onClick={() => setActiveKey(key)}
+            >
+              {label}
+            </button>
           ))}
         </div>
+
+        {/* Tab description */}
+        <p className={styles.tabDesc}>
+          {t[TAB_MAP[activeKey].descKey]}
+        </p>
+
+        {/* Member grid */}
+        {loading ? (
+          <p className={styles.loading}>Loading…</p>
+        ) : (
+          <div className={`${styles.grid} reveal`} role="tabpanel" aria-live="polite">
+            {(activeGroup?.members ?? []).map((member, i) => (
+              <div key={i} className={styles.card}>
+                <div className={styles.photoWrap}>
+                  {member.photo ? (
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      className={styles.photo}
+                    />
+                  ) : (
+                    <div className={styles.photoPlaceholder} aria-hidden="true" />
+                  )}
+                </div>
+                <div className={styles.info}>
+                  <p className={styles.name}>{member.name}</p>
+                  <p className={styles.role}>{member.role}</p>
+                </div>
+
+                {/* Hover tooltip */}
+                <div className={styles.tooltip} role="tooltip">
+                  <p className={styles.tooltipName}>{member.name}</p>
+                  {member.role && (
+                    <p className={styles.tooltipRow}>
+                      <span>{t.team_role}</span>
+                      {member.role}
+                    </p>
+                  )}
+                  {member.skills && (
+                    <p className={styles.tooltipRow}>
+                      <span>{t.team_skills}</span>
+                      {member.skills}
+                    </p>
+                  )}
+                  {member.funFact && (
+                    <p className={styles.tooltipRow}>
+                      <span>{t.team_funfact}</span>
+                      &ldquo;{member.funFact}&rdquo;
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
+      <WingCut fill="#fff" bgColor="#000" />
     </section>
   );
 }

@@ -1,169 +1,103 @@
 'use client';
 
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Header.module.css';
-import SearchBar from '../Search/SearchBar';
 
-const Header = ({ t, lang, setLang }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const searchRef = useRef(null);
-
-  const toggleMenu = () => setIsOpen((o) => !o);
-  const closeMenu = () => setIsOpen(false);
-
-  const searchData = useMemo(
-    () => [
-      { title: 'Home', link: '/' },
-      { title: 'Blogs', link: '/blogs' },
-      { title: 'Projects', link: '/#projects' },
-      { title: 'Sponsors', link: '/#sponsors' },
-      { title: 'Contact', link: '/#contact' },
-    ],
-    []
-  );
+export default function Header({ t, lang, setLang }) {
+  const [light, setLight] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 50) setShow(false);
-      else setShow(true);
-      setLastScrollY(window.scrollY);
+      const hero = document.getElementById('hero');
+      const threshold = hero ? hero.offsetHeight - 80 : 80;
+      setLight(window.scrollY > threshold);
     };
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, [lastScrollY]);
+  }, []);
 
   useEffect(() => {
-    const onDocClick = (e) => {
-      if (
-        isOpen &&
-        !e.target.closest(`.${styles.nav}`) &&
-        !e.target.closest(`.${styles.hamburger}`)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('click', onDocClick);
-    return () => document.removeEventListener('click', onDocClick);
-  }, [isOpen]);
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
 
-  const handleNavClick = (e, id) => {
-    e.preventDefault();
-    closeMenu();
-
-    if (id === 'blogs') {
-      window.location.href = '/blogs';
-      return;
-    }
-
-    if (window.location.pathname !== '/') {
-      window.location.href = `/#${id}`;
-    } else {
-      document.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const close = () => setOpen(false);
 
   return (
-    <header
-      className={`${styles.header} ${show ? styles.show : styles.hide}`}
-      role="banner"
+    <nav
+      className={`${styles.nav} ${light ? styles.light : ''}`}
+      role="navigation"
+      aria-label="Main navigation"
     >
-      <div className={styles.container}>
-        <a href="/" className={styles.logo} onClick={closeMenu}>
-          <img
-            src="/images/logo.png"
-            alt="Empaerial logo"
-            className={styles.logoImage}
-          />
+      <div className={styles.inner}>
+        {/* Brand */}
+        <a href="/" className={styles.brand} aria-label="EMPÆRIAL home">
+          <span className={styles.ae}>Æ</span>
+          <span className={styles.wordmark}>EMPÆRIAL</span>
         </a>
 
-        <nav
-          className={`${styles.nav} ${isOpen ? styles.navOpen : ''}`}
-          role="navigation"
-          aria-label="Main navigation"
-        >
-          <a
-            href="/#hero"
-            className={`${styles.navLink} ${styles.function}`}
-            onClick={(e) => handleNavClick(e, 'hero')}
-          >
-            {t.nav_home}
-          </a>
-
-          {}
-          <a
-            href="/blogs"
-            className={`${styles.navLink} ${styles.keyword}`}
-            onClick={(e) => handleNavClick(e, 'blogs')}
-          >
-            {t.nav_blogs}
-          </a>
-
-          <a
-            href="/#projects"
-            className={`${styles.navLink} ${styles.number}`}
-            onClick={(e) => handleNavClick(e, 'projects')}
-          >
-            {t.nav_projects}
-          </a>
-
-          <a
-            href="/#contact"
-            className={`${styles.navLink} ${styles.string}`}
-            onClick={(e) => handleNavClick(e, 'contact')}
-          >
-            {t.nav_contact}
-          </a>
-
-          <div className={styles.searchArea} ref={searchRef}>
-            <SearchBar data={searchData} />
-          </div>
-
-          <div className={styles.langSwitch}>
-            <span
-              onClick={() => setLang('en')}
-              style={{
-                color:
-                  lang === 'en' ? 'var(--function)' : 'rgba(214,197,197,0.8)',
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label="Switch to English"
-            >
-              EN
-            </span>
-            <span>|</span>
-            <span
-              onClick={() => setLang('tr')}
-              style={{
-                color:
-                  lang === 'tr' ? 'var(--function)' : 'rgba(214,197,197,0.8)',
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label="Switch to Turkish"
-            >
-              TR
-            </span>
-          </div>
-        </nav>
-
-        <div
-          className={`${styles.hamburger} ${isOpen ? styles.active : ''}`}
-          onClick={toggleMenu}
-          role="button"
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={isOpen}
-          aria-controls="primary-navigation"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
+        {/* Desktop links */}
+        <div className={styles.links}>
+          <span className={styles.dot} aria-hidden="true">·</span>
+          <a href="/" className={styles.link}>{t.nav_home}</a>
+          <span className={styles.dot} aria-hidden="true">·</span>
+          <a href="/blogs" className={styles.link}>{t.nav_blogs}</a>
+          <span className={styles.dot} aria-hidden="true">·</span>
+          <a href="/#projects" className={styles.link}>{t.nav_projects}</a>
+          <span className={styles.dot} aria-hidden="true">·</span>
+          <a href="/#contact" className={styles.link}>{t.nav_contact}</a>
+          <span className={styles.dot} aria-hidden="true">·</span>
         </div>
-      </div>
-    </header>
-  );
-};
 
-export default Header;
+        {/* Right controls */}
+        <div className={styles.right}>
+          <div className={styles.lang} role="group" aria-label="Language switch">
+            <button
+              className={lang === 'en' ? styles.langActive : styles.langBtn}
+              onClick={() => setLang('en')}
+              aria-label="Switch to English"
+            >EN</button>
+            <span className={styles.langSep} aria-hidden="true">|</span>
+            <button
+              className={lang === 'tr' ? styles.langActive : styles.langBtn}
+              onClick={() => setLang('tr')}
+              aria-label="Switch to Turkish"
+            >TR</button>
+          </div>
+          <a href="/#contact" className={styles.apply}>APPLY →</a>
+        </div>
+
+        {/* Hamburger */}
+        <button
+          className={`${styles.hamburger} ${open ? styles.open : ''}`}
+          onClick={() => setOpen((o) => !o)}
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          aria-controls="nav-drawer"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div id="nav-drawer" className={styles.drawer} role="dialog" aria-modal="true" aria-label="Navigation menu">
+          <a href="/" className={styles.drawerLink} onClick={close}>{t.nav_home}</a>
+          <a href="/blogs" className={styles.drawerLink} onClick={close}>{t.nav_blogs}</a>
+          <a href="/#projects" className={styles.drawerLink} onClick={close}>{t.nav_projects}</a>
+          <a href="/#contact" className={styles.drawerLink} onClick={close}>{t.nav_contact}</a>
+          <div className={styles.drawerLang}>
+            <button className={lang === 'en' ? styles.langActive : styles.langBtn} onClick={() => setLang('en')}>EN</button>
+            <span className={styles.langSep} aria-hidden="true">|</span>
+            <button className={lang === 'tr' ? styles.langActive : styles.langBtn} onClick={() => setLang('tr')}>TR</button>
+          </div>
+          <a href="/#contact" className={`${styles.apply} ${styles.drawerApply}`} onClick={close}>APPLY →</a>
+        </div>
+      )}
+    </nav>
+  );
+}

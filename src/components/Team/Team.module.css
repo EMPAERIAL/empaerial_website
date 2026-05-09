@@ -1,213 +1,178 @@
-.teamSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 80px 20px;
-}
-
-.teamHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.teamTitle {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--function);
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.teamSubtitle {
-  font-size: 1.2rem;
-  color: var(--string);
-  text-align: center;
-  max-width: 700px;
-  margin-bottom: 60px;
-  font-style: italic;
-}
-
-.cardContainer {
+/* ── TABS ────────────────────────────────────────────── */
+.tabs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.bigCard {
-  width: 300px;
-  height: 360px;
-  perspective: 1200px;
+.tab {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink-40);
+  border: 1px solid var(--ink-10);
+  padding: 8px 20px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition:
+    background var(--dur-micro),
+    color var(--dur-micro),
+    border-color var(--dur-micro);
 }
 
-.cardInner {
+.tab:hover {
+  color: #000;
+  border-color: var(--ink-40);
+}
+
+.tabActive {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.tabDesc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-60);
+  margin-bottom: 36px;
+  min-height: 1.5em;
+}
+
+/* ── MEMBER GRID ─────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 24px;
+}
+
+/* ── MEMBER CARD ─────────────────────────────────────── */
+.card {
+  position: relative;
+  cursor: default;
+}
+
+.photoWrap {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.photo {
   width: 100%;
   height: 100%;
-  position: relative;
-  border-radius: 20px;
-  transform-style: preserve-3d;
-  transition: transform 0.7s ease-in-out, box-shadow 0.35s ease;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition: filter var(--dur-state);
 }
 
-.bigCard:hover .cardInner {
-  transform: rotateY(180deg);
-  box-shadow: 0 0 28px rgba(120, 200, 255, 0.22);
+.card:hover .photo {
+  filter: grayscale(0);
 }
 
-.cardFront,
-.cardBack {
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  backface-visibility: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 25px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+.photoPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: #e8e8e8;
 }
 
-.cardFront {
-  background: linear-gradient(135deg, #0b1a28, #0a3848);
-  color: #f8f8f2;
-  text-align: center;
-  border: 1px solid rgba(120, 200, 255, 0.12);
+.info {
+  padding: 0 2px;
 }
 
-.cardBack {
-  background: linear-gradient(135deg, #0e141b, #1b2734);
-  color: var(--text);
-  transform: rotateY(180deg);
-  border: 1px solid rgba(120, 200, 255, 0.12);
-}
-
-.cardTitle {
-  font-size: 1.6rem;
+.name {
+  font-family: var(--font-display);
   font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 3px;
 }
 
-.cardDescription {
-  font-size: 1rem;
-  margin-bottom: 10px;
+.role {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--ink-60);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.cardBack h3 {
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--function);
-}
-
-.membersList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.membersList li {
-  margin-bottom: 10px;
-  font-weight: 500;
-  text-align: center;
-  position: relative;
-}
-
-.memberLink {
-  color: var(--string);
-  text-decoration: none;
-  transition: 0.25s;
-}
-
-.memberLink:hover {
-  color: var(--variable);
-  text-decoration: underline;
-}
-
-.memberTooltip {
+/* ── TOOLTIP ─────────────────────────────────────────── */
+.tooltip {
   position: absolute;
-  bottom: 5%;
+  bottom: calc(100% + 12px);
   left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20, 26, 36, 0.97);
-  color: #f8f8f2;
-  padding: 20px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  width: 280px;
-  text-align: left;
+  transform: translateX(-50%) translateY(6px);
+  background: #000;
+  color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  width: 240px;
+  font-size: 12px;
+  line-height: 1.55;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  z-index: 20;
-  border: 1px solid rgba(120, 200, 255, 0.12);
+  transition: opacity var(--dur-state), transform var(--dur-state);
+  z-index: 10;
 }
 
-.memberItem:hover .memberTooltip,
-.memberTooltip:hover {
+.card:hover .tooltip {
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
   pointer-events: auto;
-  transform: translateX(-50%) translateY(-10px);
 }
 
-.memberTooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
-  border-style: solid;
-  border-color: rgba(20, 26, 36, 0.97) transparent transparent transparent;
-}
-
-.memberPhoto {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+.tooltipName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   margin-bottom: 10px;
-  object-fit: cover;
+  color: #fff;
 }
 
-.memberPhotoPlaceholder {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  background: #222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  font-size: 0.7rem;
+.tooltipRow {
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 6px;
 }
 
-
-.skillTag {
-  display: inline-block;
-  background: var(--keyword);
-  color: var(--bg);
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin: 2px 2px 2px 0;
+.tooltipRow span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  display: block;
+  margin-bottom: 2px;
 }
 
-
-
-.variable {
-  color: var(--variable);
+/* ── LOADING ─────────────────────────────────────────── */
+.loading {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-40);
+  padding: 40px 0;
 }
 
-.string {
-  color: var(--string);
-}
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
 
-.number {
-  color: var(--number);
-}
-
-.function {
-  color: var(--function);
+  .tooltip {
+    display: none;
+  }
 }

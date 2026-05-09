@@ -1,8 +1,8 @@
 {
-  "nav_home": "Home()",
-  "nav_blogs": "Blogs()",
-  "nav_projects": "Projects()",
-  "nav_contact": "Contact()",
+  "nav_home": "HOME",
+  "nav_blogs": "BLOGS",
+  "nav_projects": "PROJECTS",
+  "nav_contact": "CONTACT",
 
   "hero_title": "EMPAERIAL",
   "hero_subtitle": "Empaerial is a community of international students working on UAVs, sharing knowledge and building innovation together.",

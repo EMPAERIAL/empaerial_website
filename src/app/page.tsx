@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header/Header";
 import Hero from "../components/Hero/Hero";
-import Section from "../components/Section/Section";
 import Footer from "../components/Footer/Footer";
 import Team from "../components/Team/Team";
 import Projects from "./projects/page";
@@ -45,11 +44,9 @@ export default function Page() {
       </header>
 
       <main role="main">
-        <Hero />
+        <Hero t={t} />
 
-        <Section id="team" aria-labelledby="team-title">
-          <Team t={t} />
-        </Section>
+        <Team t={t} />
 
         <Projects t={t} />
 
