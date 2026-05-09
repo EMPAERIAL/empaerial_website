@@ -1,5 +1,4 @@
 import "./globals.css";
-import Footer from "../components/Footer/Footer";
 
 export const metadata = {
   title: "Empaerial | We Don’t Fly. We Redefine Air.",
@@ -48,8 +47,22 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body>
-        <main>{children}</main>
+        {/* Propeller symbol — referenced via <use href="#prop-bare"/> anywhere in the tree */}
+        <svg width="0" height="0" style={{ position: 'absolute', overflow: 'hidden' }} aria-hidden="true">
+          <defs>
+            <symbol id="prop-bare" viewBox="0 0 200 60">
+              <path d="M 2 30 L 98 30 C 78 52,26 52,2 30 Z" fill="currentColor" />
+              <path d="M 198 30 L 102 30 C 122 8,174 8,198 30 Z" fill="currentColor" />
+              <circle cx="100" cy="30" r="9" fill="currentColor" />
+            </symbol>
+          </defs>
+        </svg>
+        {children}
       </body>
     </html>
   );
