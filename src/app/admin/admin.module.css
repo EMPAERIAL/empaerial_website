@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+  .panelGrid div[style*="border-radius: 18px"] {
+    padding: 1rem !important;
+    width: 100% !important;
+  }
+
+  .panelGrid select {
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 0.9rem !important;
+    padding: 0.7rem !important;
+  }
+
+  .panelGrid button {
+    width: 100% !important;
+    margin-top: 0.4rem !important;
+  }
+
+  .panelGrid div[style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.6rem !important;
+  }
+}
