@@ -10,15 +10,23 @@
   "team_title": "Meet Our Team",
   "team_subtitle": "A passionate group of students from around the world — combining creativity, engineering, and collaboration to build the future of UAVs.",
   "projects_title": "Our Projects",
+  "sponsors_eyebrow": "SPONSORS",
   "sponsors_title": "Our Sponsors",
+  "sponsors_note_prefix": "Interested in supporting EMPÆRIAL?",
+  "sponsors_note_link": "Contact us →",
 
-  "contact_title": "Contact() {",
+  "contact_eyebrow": "CONTACT",
+  "contact_heading": "GET IN TOUCH",
+  "contact_title": "GET IN TOUCH",
+  "contact_sub": "Reach out for collaborations, sponsorships, or to join the team.",
   "contact_text": "Send us an email at empaerial.uav@gmail.com or reach us at +90 531 496 69 47.",
   "contact_end": "}",
 
-  "contact_email_label": "Send us an email at:",
+  "contact_email_label": "EMAIL",
+  "contact_email_short_label": "EMAIL",
   "contact_email": "empaerial.uav@gmail.com",
-  "contact_number_label": "or reach us at:",
+  "contact_number_label": "WHATSAPP",
+  "contact_number_short_label": "WHATSAPP",
   "contact_number": "+90 531 496 69 47",
 
   "footer_follow": "Follow us on social media",
@@ -128,12 +136,14 @@
   "vespasian": {
     "summary": "Lightweight quadcopter prototype for stable flight and durability.",
     "description": "Vespasian is a lightweight quadcopter prototype featuring carbon fiber arms and 3D printed PLA body components, designed for stability, modularity, and precision performance.",
-    "specs": {
+      "specs": {
       "weight": "Weight",
       "max_takeoff": "Max takeoff weight",
       "flight_duration": "Flight duration (no load)",
       "frame_length": "Frame length",
-      "height": "Height"
+      "height": "Height",
+      "motors": "Motors",
+      "firmware": "Firmware"
     },
     "bom": {
       "arms": "Arms",

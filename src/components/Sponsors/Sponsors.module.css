@@ -1,122 +1,123 @@
 .sponsorsSection {
   width: 100%;
-  padding: 80px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
+  background: #fff;
+  color: #000;
+  padding: 80px 0 0;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.header {
+  margin-bottom: 44px;
+}
+
+.eyebrow,
+.tierLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--ink-40);
+  margin-bottom: 10px;
 }
 
 .title {
-  font-size: 2.8rem;
-  font-weight: 800;
-  color: var(--function);
-  margin-bottom: 50px;
-  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.goldSection {
+.sponsorsTier {
+  margin-bottom: 44px;
+}
+
+.tierLabel {
+  color: var(--ink-20);
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--ink-10);
+  margin-bottom: 18px;
+}
+
+.goldWrap {
+  display: inline-flex;
+}
+
+.goldLink {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 60px;
+  justify-content: center;
+  padding: 28px 44px;
+  border: 1px solid var(--ink-10);
+  background: var(--paper-warm);
+  transition: border-color var(--dur-micro);
+}
+
+.goldLink:hover {
+  border-color: #000;
+}
+
+.goldLink img {
+  width: auto;
+  height: 52px;
+  filter: grayscale(100%);
+  transition: filter var(--dur-state);
+}
+
+.goldLink:hover img {
+  filter: grayscale(50%);
+}
+
+.placeholderRow {
+  display: flex;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 80px;
 }
 
-.goldLogo img {
-  width: 240px;
-  max-width: 100%;
-  transition: transform 0.3s ease, filter 0.3s ease;
- 
-}
-
-.goldLogo img:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-}
-
-.silverSection {
-  width: 100%;
-  overflow: hidden;
-  margin-bottom: 70px;
-  position: relative;
-}
-
-.silverTrack {
+.sponsorPlaceholder {
+  width: 110px;
+  height: 64px;
   display: flex;
-  gap: 50px;
-  animation: scrollStep 30s linear infinite;
-}
-
-.silverLogo {
-  flex: 0 0 auto;
-  width: 180px;
-  display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-.silverLogo img {
-  max-width: 100%;
-  opacity: 0.9;
-  transition: transform 0.25s ease;
-  filter: drop-shadow(0 0 10px rgba(192, 192, 192, 0.3));
-}
-
-.silverLogo img:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 15px rgba(192, 192, 192, 0.6));
-}
-
-@keyframes scrollStep {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-25%); }
-  50% { transform: translateX(-50%); }
-  75% { transform: translateX(-75%); }
-  100% { transform: translateX(-100%); }
-}
-
-.bronzeSection {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.bronzeTrack {
-  display: flex;
-  gap: 40px;
-  animation: scrollContinuous 15s linear infinite;
-}
-
-.bronzeLogo {
-  flex: 0 0 auto;
-  width: 150px;
-  display: flex;
   justify-content: center;
-  align-items: center;
+  border: 1px dashed var(--ink-10);
 }
 
-.bronzeLogo img {
-  max-width: 100%;
-  opacity: 0.8;
-  transition: transform 0.25s ease;
-  filter: drop-shadow(0 0 8px rgba(205, 127, 50, 0.4));
+.sponsorPlaceholder span {
+  color: var(--ink-20);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.bronzeLogo img:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 12px rgba(205, 127, 50, 0.6));
+.sponsorsNote {
+  color: var(--ink-40);
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ink-05);
 }
 
-@keyframes scrollContinuous {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+.sponsorsNote a {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-@media (max-width: 900px) {
-  .goldLogo img { width: 180px; }
-  .silverLogo { width: 150px; }
-  .bronzeLogo { width: 120px; }
-  .title { font-size: 2.2rem; }
+@media (max-width: 720px) {
+  .inner {
+    padding: 0 24px;
+  }
 }

@@ -51,43 +51,63 @@ export default function Page() {
           <Team t={t} />
         </Section>
 
-        <Section className="fade-in" id="projects" aria-labelledby="projects-title">
-          <Projects t={t} />
-        </Section>
+        <Projects t={t} />
 
-        <Section className="fade-in" id="sponsors" aria-labelledby="sponsors-title">
-          <Sponsors t={t} />
-        </Section>
+        <Sponsors t={t} />
 
-        {}
-        <Section className="fade-in" id="contact" aria-labelledby="contact-title">
-          <h2 id="contact-title" className={styles.title}>
-            <span className={styles.function}>{t.contact_title}</span>
-          </h2>
+        <section className={styles.contactSection} id="contact" aria-labelledby="contact-title">
+          <div className={styles.contactInner}>
+            <div className={styles.contactHeader}>
+              <div className={styles.eyebrow}>{t.contact_eyebrow || "CONTACT"}</div>
+              <h2 id="contact-title" className={styles.contactTitle}>
+                {t.contact_heading || t.contact_title}
+              </h2>
+              <p className={styles.contactSubtitle}>
+                {t.contact_sub || "Reach out for collaborations, sponsorships, or to join the team."}
+              </p>
+            </div>
 
-          <p className={styles.subtitle}>
-  {t.contact_email_label}{" "}
-  <a
-    href={`mailto:${t.contact_email}`}
-    className={styles.contactLink}
-  >
-    {t.contact_email}
-  </a>{" "}
-  {t.contact_number_label}{" "}
-  <a
-  href={`https://wa.me/${t.contact_number.replace(/\D/g, '')}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className={styles.contactLink}
->
-  {t.contact_number}
-</a>
+            <div className={styles.contactGrid}>
+              <div className={styles.contactItem}>
+                <div className={styles.contactChannel}>
+                  {t.contact_email_short_label || t.contact_email_label}
+                </div>
+                <a href={`mailto:${t.contact_email}`} className={styles.contactValue}>
+                  {t.contact_email}
+                </a>
+              </div>
+              <div className={styles.contactItem}>
+                <div className={styles.contactChannel}>
+                  {t.contact_number_short_label || t.contact_number_label}
+                </div>
+                <a
+                  href={`https://wa.me/${t.contact_number.replace(/\D/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.contactValue}
+                >
+                  {t.contact_number}
+                </a>
+              </div>
+            </div>
 
-</p>
-
-<h2 className={styles.title}>{t.contact_end}</h2>
-
-        </Section>
+            <div className={styles.contactSocial}>
+              <a href="https://www.instagram.com/_empaerial_" target="_blank" rel="noopener noreferrer">
+                {t.footer_instagram}
+              </a>
+              <a
+                href="https://www.linkedin.com/company/emp%C3%A6rial/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t.footer_linkedin}
+              </a>
+              <a href="https://www.youtube.com/@Emp%C3%A6rial_UAV" target="_blank" rel="noopener noreferrer">
+                {t.footer_youtube}
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer role="contentinfo">
