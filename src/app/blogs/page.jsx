@@ -1,28 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import useBlogs from "@/hooks/useBlogs";
 
 export default function BlogsPage() {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchBlogs() {
-      try {
-        const res = await fetch("/api/blogs", { cache: "no-store" });
-        const data = await res.json();
-        setBlogs(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error("❌ Failed to load blogs:", err);
-        setBlogs([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchBlogs();
-  }, []);
+  const { blogs, loading } = useBlogs();
 
   if (loading) {
     return (

@@ -1,39 +1,13 @@
 'use client';
 export const dynamic = "force-dynamic";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import styles from "./Projects.module.css";
+import useProjects from "@/hooks/useProjects";
 
 export default function Projects({ t }) {
-const [projects, setProjects] = useState([]);
-const [loading, setLoading] = useState(true);
-
-useEffect(() => {
-const fetchProjects = async () => {
-try {
-const res = await fetch("/api/projects", { cache: "no-store" });
-const data = await res.json();
-
-    if (Array.isArray(data)) {
-      setProjects(data);
-    } else if (data && typeof data === "object" && Array.isArray(data.projects)) {
-      setProjects(data.projects);
-    } else {
-      console.warn("⚠️ Unexpected API format:", data);
-      setProjects([]);
-    }
-  } catch (err) {
-    console.error("❌ Error fetching projects:", err);
-    setProjects([]);
-  } finally {
-    setLoading(false);
-  }
-};
-
-fetchProjects();
-
-}, []);
+const { projects, loading } = useProjects();
 
 if (!t || !t.projects) {
 return ( <section className={styles.projectSection} id="projects">

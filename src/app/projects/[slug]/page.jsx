@@ -6,12 +6,11 @@ import Header from '@/components/Header/Header';
 import styles from '@/app/DronePage.module.css';
 import en from '@/translations/en.json';
 import tr from '@/translations/tr.json';
+import useProjects from '@/hooks/useProjects';
 
 export default function ProjectDetails() {
   const { slug } = useParams();
   const [lang, setLang] = useState('en');
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const userLang = navigator.language.startsWith('tr') ? 'tr' : 'en';
@@ -20,21 +19,8 @@ export default function ProjectDetails() {
 
   const t = lang === 'tr' ? tr : en;
 
-  useEffect(() => {
-    async function fetchProject() {
-      try {
-        const res = await fetch('/api/projects', { cache: 'no-store' });
-        const data = await res.json();
-        const found = data.find((p) => p.slug === slug);
-        setProject(found);
-      } catch (err) {
-        console.error('❌ Error fetching project:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProject();
-  }, [slug]);
+  const { projects, loading } = useProjects();
+  const project = projects.find((p) => p.slug === slug);
 
   if (loading) return <p style={{ padding: '2rem' }}>Loading...</p>;
   if (!project) return <p style={{ padding: '2rem' }}>Project not found.</p>;

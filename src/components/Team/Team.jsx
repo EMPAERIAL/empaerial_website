@@ -1,29 +1,9 @@
 'use client';
-import { useEffect, useState } from "react";
 import styles from "./Team.module.css";
+import useTeams from "@/hooks/useTeams";
 
 export default function Team({ t }) {
-  const [teams, setTeams] = useState([]);
-
-  useEffect(() => {
-    async function loadTeams() {
-      try {
-        const res = await fetch("/api/teams");
-        const data = await res.json();
-
-        // Ensure members is always an array
-        const normalized = (data || []).map(team => ({
-          ...team,
-          members: Array.isArray(team.members) ? team.members : [],
-        }));
-
-        setTeams(normalized);
-      } catch (err) {
-        console.error("❌ Failed to load teams:", err);
-      }
-    }
-    loadTeams();
-  }, []);
+  const { teams } = useTeams();
 
   return (
     <section className={styles.teamSection} aria-labelledby="team-title">

@@ -1,10 +1,13 @@
 'use client'
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import ProjectEditor from "@/components/admin/ProjectEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import TeamManager from "@/components/admin/TeamManager";
 import styles from "./admin.module.css"
+import useProjects from "@/hooks/useProjects";
+import useBlogs from "@/hooks/useBlogs";
+import useTeams from "@/hooks/useTeams";
 
 import {
   pageContainer, panelContainer, title, subtitle, gridContainer,
@@ -13,34 +16,15 @@ import {
 export default function AdminPage() {
   const router = useRouter()
 
-  const [projects, setProjects] = useState([])
-  const [blogs, setBlogs] = useState([])
-  const [teams, setTeams] = useState([]);
+  const { projects, refetch: refetchProjects } = useProjects()
+  const { blogs, refetch: refetchBlogs } = useBlogs()
+  const { teams, refetch: refetchTeams } = useTeams()
 
   useEffect(() => {
     if (typeof window !== "undefined" && sessionStorage.getItem("isAdmin") !== "true") {
       router.push("/admin-login")
     }
   }, [router])
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [projRes, blogRes, teamRes] = await Promise.all([
-          fetch("/api/projects").then(r => r.json()),
-          fetch("/api/blogs").then(r => r.json()),
-          fetch("/api/teams").then(r => r.json()),
-        ])
-
-        setProjects((projRes || []).filter(p => p && p.name))
-        setBlogs((blogRes || []).filter(b => b && b.title))
-        setTeams((teamRes || []).filter(t => t && (t.title || t.name)))
-      } catch (err) {
-        console.error("❌ Fetch failed:", err)
-      }
-    }
-    fetchData()
-  }, [])
 
   return (
     <div style={pageContainer}>
@@ -49,11 +33,11 @@ export default function AdminPage() {
         <p style={subtitle}>Build drone pages dynamically & manage blogs</p>
 
         <div style={gridContainer} className={styles.panelGrid}>
-          <ProjectEditor projects={projects} onProjectsChange={setProjects} />
+          <ProjectEditor projects={projects} onProjectsChange={() => refetchProjects()} />
 
-          <BlogEditor blogs={blogs} onBlogsChange={setBlogs} />
+          <BlogEditor blogs={blogs} onBlogsChange={() => refetchBlogs()} />
 
-          <TeamManager teams={teams} onTeamsChange={setTeams} />
+          <TeamManager teams={teams} onTeamsChange={() => refetchTeams()} />
         </div>
       </div>
     </div>

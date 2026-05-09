@@ -1,17 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import useBlogs from "@/hooks/useBlogs";
 
 export default function BlogPage() {
   const { slug } = useParams();
-  const [blog, setBlog] = useState(null);
-
-  useEffect(() => {
-    fetch("/api/blogs")
-      .then((res) => res.json())
-      .then((data) => setBlog(data.find((b) => b.slug === slug)));
-  }, [slug]);
+  const { blogs } = useBlogs();
+  const blog = blogs.find((b) => b.slug === slug);
 
   if (!blog) return <p style={{ color: "#ccc", textAlign: "center" }}>Loading...</p>;
 
