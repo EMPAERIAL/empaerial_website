@@ -46,12 +46,14 @@
 }
 
 .adminLink {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.16);
+  text-decoration: none;
+  margin-right: 6px;
+  transition: color var(--dur-micro);
+}
+
+.adminLink:hover {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 720px) {
