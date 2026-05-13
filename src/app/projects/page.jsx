@@ -79,15 +79,17 @@ export default function Projects({ t }) {
   }
 
   const featuredProject = Array.isArray(projects) && projects.length > 0 ? projects[0] : null;
+  const secondaryProjects = Array.isArray(projects) ? projects.slice(1, 4) : [];
   const galleryImages = getGalleryImages(featuredProject);
   const specs = getProjectSpecs(featuredProject, t);
   const comingSoon = t.projects.comingSoon || "Coming Soon";
+  const totalBuilds = Math.max(Array.isArray(projects) ? projects.length : 0, 4);
 
   return (
     <section className={styles.projectSection} id="projects" aria-labelledby="projects-title">
       <div className={styles.inner}>
         <div className={styles.header}>
-          <div className={styles.eyebrow}>PROJECTS · 4 BUILDS</div>
+          <div className={styles.eyebrow}>{`PROJECTS - ${totalBuilds} BUILDS`}</div>
           <h2 id="projects-title" className={styles.title}>
             {t.projects.title}
           </h2>
@@ -124,7 +126,7 @@ export default function Projects({ t }) {
 
               <div className={styles.projBody}>
                 <div>
-                  <div className={styles.projEyebrow}>PROJECT · 01</div>
+                  <div className={styles.projEyebrow}>PROJECT - 01</div>
                   <h3 className={styles.projName}>{featuredProject.name || "Untitled Project"}</h3>
                   <p className={styles.projSummary}>
                     {featuredProject.summary ||
@@ -143,21 +145,43 @@ export default function Projects({ t }) {
 
                 <div className={styles.projCta}>
                   <Link href={`/projects/${featuredProject.slug || "project"}`}>
-                    {t.projects.viewDetails || "View Details"} →
+                    {`${t.projects.viewDetails || "View Details"} ->`}
                   </Link>
                 </div>
               </div>
             </div>
 
             <div className={`${styles.projPlaceholders} reveal`}>
-              {[2, 3, 4].map((projectNumber) => (
-                <div className={styles.projPlaceholder} key={projectNumber}>
+              {secondaryProjects.map((project, index) => (
+                <Link
+                  href={`/projects/${project.slug || "project"}`}
+                  className={styles.projPlaceholder}
+                  key={project.id || project.slug || project.name || index}
+                >
                   <div className={styles.placeholderNumber}>
-                    PROJECT · {String(projectNumber).padStart(2, "0")}
+                    {`PROJECT - ${String(index + 2).padStart(2, "0")}`}
                   </div>
-                  <div className={styles.placeholderLabel}>{comingSoon}</div>
-                </div>
+                  <div className={styles.placeholderLabel}>
+                    {project.name || `Project ${index + 2}`}
+                  </div>
+                  <p className={styles.placeholderSummary}>
+                    {project.summary || comingSoon}
+                  </p>
+                </Link>
               ))}
+
+              {Array.from({ length: Math.max(0, 3 - secondaryProjects.length) }).map((_, index) => {
+                const projectNumber = secondaryProjects.length + index + 2;
+
+                return (
+                  <div className={styles.projPlaceholder} key={`placeholder-${projectNumber}`}>
+                    <div className={styles.placeholderNumber}>
+                      {`PROJECT - ${String(projectNumber).padStart(2, "0")}`}
+                    </div>
+                    <div className={styles.placeholderLabel}>{comingSoon}</div>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}

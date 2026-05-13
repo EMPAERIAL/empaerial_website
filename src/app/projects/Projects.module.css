@@ -201,6 +201,18 @@
   gap: 12px;
   padding: 40px 24px;
   border: 1px dashed rgba(255, 255, 255, 0.12);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--dur-micro),
+    background var(--dur-micro),
+    transform var(--dur-micro);
+}
+
+.projPlaceholder:hover {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-2px);
 }
 
 .placeholderNumber {
@@ -215,6 +227,13 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.placeholderSummary {
+  color: rgba(255, 255, 255, 0.48);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 @media (max-width: 900px) {
