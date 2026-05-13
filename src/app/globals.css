@@ -193,3 +193,38 @@ button {
     padding: 0 24px;
   }
 }
+
+/* ===== Home section visibility hardening ===== */
+#team,
+#team * {
+  color: #000;
+}
+
+#team {
+  background: #fff;
+}
+
+#team .sec-sub,
+#team .member-role,
+#team .tabDesc {
+  color: rgba(0, 0, 0, 0.62);
+}
+
+#projects,
+#projects * {
+  color: #fff;
+}
+
+#projects {
+  background: #000;
+}
+
+#projects .projSummary,
+#projects .subtitle,
+#projects .status {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+#projects a {
+  color: inherit;
+}
