@@ -1,14 +1,9 @@
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const BUCKET = "uploads"
-
 export async function uploadWithProgress(file, folder, onProgress) {
-  const ext = file.name.split(".").pop()
-  const filename = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`
-  const path = folder ? `${folder}/${filename}` : filename
-
-  const url = `${SUPABASE_URL}/storage/v1/object/${encodeURIComponent(BUCKET)}/${encodeURIComponent(path)}`
   const xhr = new XMLHttpRequest()
+  const body = new FormData()
+
+  body.append("file", file)
+  body.append("folder", folder || "")
 
   const promise = new Promise((resolve, reject) => {
     xhr.upload.onprogress = (evt) => {
@@ -18,7 +13,12 @@ export async function uploadWithProgress(file, folder, onProgress) {
     }
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path}`)
+        try {
+          const data = JSON.parse(xhr.responseText)
+          resolve(data.publicUrl)
+        } catch (err) {
+          reject(new Error("Invalid upload response"))
+        }
       } else {
         console.error("Upload failed:", xhr.status, xhr.responseText)
         reject(new Error("Upload failed"))
@@ -30,9 +30,7 @@ export async function uploadWithProgress(file, folder, onProgress) {
     }
   })
 
-  xhr.open("PUT", url)
-  xhr.setRequestHeader("Authorization", `Bearer ${SUPABASE_ANON}`)
-  xhr.setRequestHeader("Content-Type", file.type || "application/octet-stream")
-  xhr.send(file)
+  xhr.open("POST", "/api/upload")
+  xhr.send(body)
   return promise
 }
