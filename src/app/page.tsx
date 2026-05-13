@@ -23,7 +23,7 @@ export default function Page() {
   const t = lang === "tr" ? tr : en;
 
   useEffect(() => {
-    const elements = document.querySelectorAll(".reveal");
+    const observed = new Set<Element>();
     const revealObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -33,8 +33,32 @@ export default function Page() {
       { threshold: 0.12 }
     );
 
-    elements.forEach((el) => revealObs.observe(el));
-    return () => elements.forEach((el) => revealObs.unobserve(el));
+    const observeIfReveal = (el: Element) => {
+      if (!el.classList.contains("reveal")) return;
+      if (observed.has(el)) return;
+      observed.add(el);
+      revealObs.observe(el);
+    };
+
+    document.querySelectorAll(".reveal").forEach((el) => observeIfReveal(el));
+
+    const mutationObs = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+          observeIfReveal(node);
+          node.querySelectorAll?.(".reveal").forEach((el) => observeIfReveal(el));
+        });
+      });
+    });
+
+    mutationObs.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutationObs.disconnect();
+      observed.forEach((el) => revealObs.unobserve(el));
+      revealObs.disconnect();
+    };
   }, []);
 
   return (
