@@ -1,45 +1,97 @@
-'use client'
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+"use client";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import ProjectEditor from "@/components/admin/ProjectEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import TeamManager from "@/components/admin/TeamManager";
-import styles from "./admin.module.css"
+import styles from "./admin.module.css";
 import useProjects from "@/hooks/useProjects";
 import useBlogs from "@/hooks/useBlogs";
 import useTeams from "@/hooks/useTeams";
 
-import {
-  pageContainer, panelContainer, title, subtitle, gridContainer,
-} from "./adminStyles"
+import { pageContainer, panelContainer } from "./adminStyles";
+
+const TABS = [
+  {
+    key: "projects",
+    label: "Projects",
+    description: "Create and manage project pages",
+  },
+  {
+    key: "blogs",
+    label: "Blogs",
+    description: "Publish and maintain blog content",
+  },
+  { key: "team", label: "Team", description: "Manage team members and roles" },
+];
 
 export default function AdminPage() {
-  const router = useRouter()
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("projects");
 
-  const { projects, refetch: refetchProjects } = useProjects()
-  const { blogs, refetch: refetchBlogs } = useBlogs()
-  const { teams, refetch: refetchTeams } = useTeams()
+  const { projects, refetch: refetchProjects } = useProjects();
+  const { blogs, refetch: refetchBlogs } = useBlogs();
+  const { teams, refetch: refetchTeams } = useTeams();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("isAdmin") !== "true") {
-      router.push("/admin-login")
+    if (
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("isAdmin") !== "true"
+    ) {
+      router.push("/admin-login");
     }
-  }, [router])
+  }, [router]);
+
+  const activeTabMeta = useMemo(
+    () => TABS.find((tab) => tab.key === activeTab) || TABS[0],
+    [activeTab]
+  );
 
   return (
     <div style={pageContainer}>
-      <div style={panelContainer}>
-        <h1 style={title}>ADMIN DASHBOARD</h1>
-        <p style={subtitle}>Build drone pages dynamically & manage blogs</p>
+      <div style={panelContainer} className={styles.shellWrap}>
+        <header className={styles.shellHeader}>
+          <div>
+            <p className={styles.overline}>EMPÆRIAL Control</p>
+            <h1 className={styles.title}>Admin Dashboard</h1>
+            <p className={styles.subtitle}>{activeTabMeta.description}</p>
+          </div>
+        </header>
 
-        <div style={gridContainer} className={styles.panelGrid}>
-          <ProjectEditor projects={projects} onProjectsChange={() => refetchProjects()} />
+        <nav className={styles.tabNav} aria-label="Admin sections">
+          {TABS.map((tab) => {
+            const isActive = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                className={`${styles.tabBtn} ${isActive ? styles.tabBtnActive : ""}`}
+                onClick={() => setActiveTab(tab.key)}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </nav>
 
-          <BlogEditor blogs={blogs} onBlogsChange={() => refetchBlogs()} />
+        <section className={styles.activePanel}>
+          {activeTab === "projects" && (
+            <ProjectEditor
+              projects={projects}
+              onProjectsChange={() => refetchProjects()}
+            />
+          )}
 
-          <TeamManager teams={teams} onTeamsChange={() => refetchTeams()} />
-        </div>
+          {activeTab === "blogs" && (
+            <BlogEditor blogs={blogs} onBlogsChange={() => refetchBlogs()} />
+          )}
+
+          {activeTab === "team" && (
+            <TeamManager teams={teams} onTeamsChange={() => refetchTeams()} />
+          )}
+        </section>
       </div>
     </div>
-  )
+  );
 }
