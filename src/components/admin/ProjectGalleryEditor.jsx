@@ -1,61 +1,51 @@
-'use client'
-import { useState } from "react"
-import { moveItem } from "@/Lib/adminUtils"
-import {
-  gridThumbs,
-  thumbBox,
-  thumbImg,
-  thumbClose,
-  formLayout,
-} from "@/app/admin/adminStyles"
-import { FileDropMulti } from "@/components/admin/FileDroppers"
+﻿"use client";
+import { useState } from "react";
+import { moveItem } from "@/Lib/adminUtils";
+import { FileDropMulti } from "@/components/admin/FileDroppers";
+import styles from "@/app/admin/adminTheme.module.css";
 
 export default function ProjectGalleryEditor({ images, onChange }) {
-  const [dragIdx, setDragIdx] = useState(null)
+  const [dragIdx, setDragIdx] = useState(null);
 
-  const onThumbDragStart = (i) => setDragIdx(i)
-  const onThumbDragOver = (e) => e.preventDefault()
   const onThumbDrop = (i) => {
-    if (dragIdx === null || dragIdx === i) return
-    const next = moveItem(images || [], dragIdx, i)
-    onChange(next)
-    setDragIdx(null)
-  }
+    if (dragIdx === null || dragIdx === i) return;
+    onChange(moveItem(images || [], dragIdx, i));
+    setDragIdx(null);
+  };
 
   return (
-    <div style={formLayout}>
-      <FileDropMulti
-        label="Upload Project Gallery Images"
-        folder=""
-        onUploaded={(urls) => onChange([...(images || []), ...urls])}
-      />
+    <div className={styles.formLayout}>
+      <FileDropMulti label="Upload Project Gallery Images" folder="" onUploaded={(urls) => onChange([...(images || []), ...urls])} />
       {Array.isArray(images) && images.length > 0 && (
-        <div style={gridThumbs}>
+        <div className={styles.gridThumbs}>
           {images.map((url, idx) => (
             <div
               key={`${url}-${idx}`}
-              style={thumbBox}
+              className={styles.thumbBox}
               draggable
-              onDragStart={() => onThumbDragStart(idx)}
-              onDragOver={onThumbDragOver}
+              onDragStart={() => setDragIdx(idx)}
+              onDragOver={(e) => e.preventDefault()}
               onDrop={() => onThumbDrop(idx)}
               title="Drag to reorder"
             >
-              <img src={url} alt={`proj-gallery-${idx}`} style={thumbImg}/>
+              <img src={url} alt={`proj-gallery-${idx}`} className={styles.thumbImg} />
               <button
                 type="button"
                 onClick={() => {
-                  const arr = [...images]
-                  arr.splice(idx, 1)
-                  onChange(arr)
+                  const arr = [...images];
+                  arr.splice(idx, 1);
+                  onChange(arr);
                 }}
                 title="Remove"
-                style={thumbClose}
-              >✕</button>
+                className={styles.thumbClose}
+              >
+                x
+              </button>
             </div>
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
+

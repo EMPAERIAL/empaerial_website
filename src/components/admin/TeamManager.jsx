@@ -1,27 +1,5 @@
-"use client";
-import { useState } from "react";
-import CustomSelect from "@/components/CustomSelect";
-import { FileDrop } from "@/components/admin/FileDroppers";
-import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
-import {
-  sectionCard,
-  sectionTitle,
-  inputField,
-  submitButton,
-  listItem,
-  deleteButton,
-  editButton,
-  listContainer,
-  scrollList,
-  miniHeader,
-  modeSwitchBar,
-  modeSwitchButton,
-  modeSwitchButtonActive,
-  actionRow,
-  formCard,
-  rowMetaText,
-  sectionAccentTitle,
-} from "@/app/admin/adminStyles";
+﻿"use client";
+import styles from "@/app/admin/adminTheme.module.css";
 
 const emptyMember = {
   name: "",
@@ -104,8 +82,8 @@ export default function TeamManager({ teams, onTeamsChange }) {
   };
 
   return (
-    <div className="team-section" style={sectionCard}>
-      <h2 style={sectionTitle}>Team Management</h2>
+    <div className="team-section" className={styles.sectionCard}>
+      <h2 className={styles.sectionTitle}>Team Management</h2>
 
       <CustomSelect
         label="Select Team"
@@ -123,48 +101,44 @@ export default function TeamManager({ teams, onTeamsChange }) {
 
       {selectedTeamId && (
         <>
-          <div style={modeSwitchBar}>
+          <div className={styles.modeSwitchBar}>
             <button
               type="button"
-              style={
-                mode === "create" ? modeSwitchButtonActive : modeSwitchButton
-              }
+              className={`${styles.modeSwitchButton} ${mode === "create" ? styles.modeSwitchButtonActive : ""}`}
               onClick={() => setMode("create")}
             >
               Create/Edit
             </button>
             <button
               type="button"
-              style={
-                mode === "manage" ? modeSwitchButtonActive : modeSwitchButton
-              }
+              className={`${styles.modeSwitchButton} ${mode === "manage" ? styles.modeSwitchButtonActive : ""}`}
               onClick={() => setMode("manage")}
             >
               Manage List
             </button>
           </div>
 
-          <h3 style={{ marginTop: "0.5rem", ...sectionAccentTitle }}>
+          <h3 className={styles.sectionAccentTitle} style={{ marginTop: "0.5rem" }}>
             Members of {selectedTeam?.title}
           </h3>
 
           {mode === "manage" && (
-            <div style={listContainer}>
-              <h3 style={miniHeader}>Current Members</h3>
-              <div style={scrollList}>
+            <div className={styles.listContainer}>
+              <h3 className={styles.miniHeader}>Current Members</h3>
+              <div className={styles.scrollList}>
                 {(selectedTeam?.members || []).map((member, index) => (
-                  <div key={index} className="member-card" style={listItem}>
+                  <div key={index} className={styles.listItem}>
                     <div>
                       <strong>{member.name}</strong>
-                      <p style={{ ...rowMetaText, fontSize: "0.8rem", opacity: 0.6 }}>
+                      <p className={styles.rowMetaText} style={{ fontSize: "0.8rem", opacity: 0.6 }}>
                         {member.role}
                       </p>
                     </div>
 
-                    <div style={actionRow}>
+                    <div className={styles.actionRow}>
                       <button
                         className="team-button"
-                        style={editButton}
+                        className={styles.editButton}
                         onClick={() => {
                           setMode("create");
                           setEditingMemberIndex(index);
@@ -179,7 +153,7 @@ export default function TeamManager({ teams, onTeamsChange }) {
 
                       <button
                         className="team-button"
-                        style={deleteButton}
+                        className={styles.deleteButton}
                         onClick={() => {
                           setDeleteTargetMember(member);
                           setDeleteError("");
@@ -199,7 +173,8 @@ export default function TeamManager({ teams, onTeamsChange }) {
               <button
                 className="team-button"
                 type="button"
-                style={{ ...submitButton, marginBottom: "1rem" }}
+                className={styles.submitButton}
+                style={{ marginBottom: "1rem" }}
                 onClick={() => {
                   setEditingMemberIndex(null);
                   setNewMember({ ...emptyMember });
@@ -210,9 +185,9 @@ export default function TeamManager({ teams, onTeamsChange }) {
 
               {newMember && (
                 <div
-                  style={formCard}
+                  className={styles.formCard}
                 >
-                  <h3 style={sectionAccentTitle}>
+                  <h3 className={styles.sectionAccentTitle}>
                     {editingMemberIndex === null ? "Add Member" : "Edit Member"}
                   </h3>
 
@@ -234,7 +209,7 @@ export default function TeamManager({ teams, onTeamsChange }) {
                       onChange={(e) =>
                         setNewMember({ ...newMember, [field]: e.target.value })
                       }
-                      style={inputField}
+                      className={styles.inputField}
                       className="team-input"
                     />
                   ))}
@@ -251,18 +226,15 @@ export default function TeamManager({ teams, onTeamsChange }) {
                     <img
                       src={newMember.photo}
                       alt="member"
-                      style={{
-                        width: "100px",
-                        borderRadius: "10px",
-                        marginTop: "10px",
-                      }}
+                      className={styles.thumbImg}
+                      style={{ width: "100px", height: "100px", borderRadius: "10px", marginTop: "10px" }}
                     />
                   )}
 
                   <button
                     className="team-button"
                     type="button"
-                    style={submitButton}
+                    className={styles.submitButton}
                     onClick={handleSaveMember}
                   >
                     Save
@@ -271,7 +243,8 @@ export default function TeamManager({ teams, onTeamsChange }) {
                   <button
                     className="team-button"
                     type="button"
-                    style={{ ...submitButton, background: "#444" }}
+                    className={styles.submitButton}
+                    style={{ background: "rgba(255,255,255,0.12)", color: "#fff" }}
                     onClick={() => {
                       setNewMember(null);
                       setEditingMemberIndex(null);
@@ -307,3 +280,5 @@ export default function TeamManager({ teams, onTeamsChange }) {
     </div>
   );
 }
+
+

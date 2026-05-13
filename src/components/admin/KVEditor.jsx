@@ -1,135 +1,57 @@
-'use client'
-import { useState } from "react"
-import { moveItem } from "@/Lib/adminUtils"
-import {
-  inputField,
-  addSectionBtn,
-  kvRow,
-  deleteButton,
-  sectionAccentTitle,
-} from "@/app/admin/adminStyles"
+﻿"use client";
+import { useState } from "react";
+import { moveItem } from "@/Lib/adminUtils";
+import styles from "@/app/admin/adminTheme.module.css";
 
 export default function KVEditor({ rows, onChange }) {
   const [dragIdx, setDragIdx] = useState(null);
 
-  const onDragStart = (i) => setDragIdx(i);
-  const onDragOver = (e) => e.preventDefault();
   const onDrop = (i) => {
     if (dragIdx === null || dragIdx === i) return;
-    const next = moveItem(rows || [], dragIdx, i);
-    onChange(next);
+    onChange(moveItem(rows || [], dragIdx, i));
     setDragIdx(null);
   };
 
-  const updateKey = (i, val) => {
-    const next = rows.map((r, idx) => (idx === i ? { ...r, key: val } : r));
-    onChange(next);
-  };
-  const updateValue = (i, val) => {
-    const next = rows.map((r, idx) => (idx === i ? { ...r, value: val } : r));
-    onChange(next);
-  };
-  const addRow = () => onChange([...(rows || []), { key: "", value: "" }]);
-  const removeRow = (i) => onChange(rows.filter((_, idx) => idx !== i));
+  const updateKey = (i, val) => onChange(rows.map((r, idx) => (idx === i ? { ...r, key: val } : r)));
+  const updateValue = (i, val) => onChange(rows.map((r, idx) => (idx === i ? { ...r, value: val } : r)));
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+    <div className={styles.formLayout}>
       {(rows || []).map((r, i) => (
         <div
           key={i}
           draggable
-          onDragStart={() => onDragStart(i)}
-          onDragOver={onDragOver}
+          onDragStart={() => setDragIdx(i)}
+          onDragOver={(e) => e.preventDefault()}
           onDrop={() => onDrop(i)}
           title="Drag to reorder"
-          style={kvRow}
+          className={styles.kvRow}
         >
-          {}
-          <div
-            style={{
-              ...sectionAccentTitle,
-              fontSize: "1rem",
-              cursor: "grab",
-              userSelect: "none",
-              flex: "0 0 auto",
-            }}
-          >
-            ⠿
-          </div>
-
-          {}
+          <div className={styles.dragHandle}>?</div>
           <input
             type="text"
             value={r.key ?? ""}
             onChange={(e) => updateKey(i, e.target.value)}
             placeholder="Attribute"
-            style={{
-              ...inputField,
-              flex: "1 1 42%",
-              minWidth: "120px",
-              fontSize: "0.9rem",
-            }}
+            className={styles.inputField}
           />
-
-          {}
           <input
             type="text"
             value={r.value ?? ""}
             onChange={(e) => updateValue(i, e.target.value)}
             placeholder="Value"
-            style={{
-              ...inputField,
-              flex: "1 1 42%",
-              minWidth: "120px",
-              fontSize: "0.9rem",
-            }}
+            className={styles.inputField}
           />
-
-          {}
-          <button
-            type="button"
-            onClick={() => removeRow(i)}
-            title="Remove row"
-            style={{
-              ...deleteButton,
-              padding: "0.4rem 0.7rem",
-              flex: "0 0 auto",
-            }}
-          >
-            ✖
+          <button type="button" onClick={() => onChange(rows.filter((_, idx) => idx !== i))} className={styles.deleteButton}>
+            Remove
           </button>
         </div>
       ))}
 
-      {}
-      <button
-        type="button"
-        onClick={addRow}
-        style={{
-          ...addSectionBtn,
-          width: "100%",
-          marginTop: "0.5rem",
-          fontWeight: "600",
-          padding: "0.7rem 0",
-        }}
-      >
+      <button type="button" onClick={() => onChange([...(rows || []), { key: "", value: "" }])} className={styles.addSectionBtn}>
         + Add Row
       </button>
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          div[draggable] {
-            flex-direction: column;
-            align-items: stretch;
-          }
-          div[draggable] input {
-            width: 100%;
-          }
-          div[draggable] button {
-            align-self: flex-end;
-          }
-        }
-      `}</style>
     </div>
   );
 }
+

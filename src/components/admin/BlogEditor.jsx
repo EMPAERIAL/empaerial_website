@@ -1,38 +1,5 @@
-"use client";
-import { useState } from "react";
-import {
-  FileDrop,
-  FileDropMulti,
-  FileDropMultiVideo,
-} from "@/components/admin/FileDroppers";
-import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
-import {
-  sectionCard,
-  sectionTitle,
-  formLayout,
-  inputField,
-  readonlyInput,
-  submitButton,
-  builderBox,
-  addSectionBtn,
-  builderTextarea,
-  listContainer,
-  scrollList,
-  miniHeader,
-  listItem,
-  deleteButton,
-  editButton,
-  iconDeleteBtn,
-  gridThumbs,
-  thumbBox,
-  thumbImg,
-  thumbClose,
-  modeSwitchBar,
-  modeSwitchButton,
-  modeSwitchButtonActive,
-  rowMetaText,
-  actionRow,
-} from "@/app/admin/adminStyles";
+﻿"use client";
+import styles from "@/app/admin/adminTheme.module.css";
 import { moveItem, generateSlug } from "@/Lib/adminUtils";
 
 const emptyForm = {
@@ -145,20 +112,20 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
   };
 
   return (
-    <div style={sectionCard}>
-      <h2 style={sectionTitle}>{blogForm.id ? "Edit Blog" : "Add New Blog"}</h2>
+    <div className={styles.sectionCard}>
+      <h2 className={styles.sectionTitle}>{blogForm.id ? "Edit Blog" : "Add New Blog"}</h2>
 
-      <div style={modeSwitchBar}>
+      <div className={styles.modeSwitchBar}>
         <button
           type="button"
-          style={mode === "create" ? modeSwitchButtonActive : modeSwitchButton}
+          className={`${styles.modeSwitchButton} ${mode === "create" ? styles.modeSwitchButtonActive : ""}`}
           onClick={() => setMode("create")}
         >
           Create/Edit
         </button>
         <button
           type="button"
-          style={mode === "manage" ? modeSwitchButtonActive : modeSwitchButton}
+          className={`${styles.modeSwitchButton} ${mode === "manage" ? styles.modeSwitchButtonActive : ""}`}
           onClick={() => setMode("manage")}
         >
           Manage List
@@ -166,7 +133,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
       </div>
 
       {mode === "create" && (
-        <form onSubmit={handleBlogSubmit} style={formLayout}>
+        <form onSubmit={handleBlogSubmit} className={styles.formLayout}>
           <input
             placeholder="Blog Title"
             value={blogForm.title}
@@ -177,7 +144,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                 slug: generateSlug(e.target.value),
               }))
             }
-            style={inputField}
+            className={styles.inputField}
           />
           <input
             placeholder="Author"
@@ -185,11 +152,11 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
             onChange={(e) =>
               setBlogForm((prev) => ({ ...prev, author: e.target.value }))
             }
-            style={inputField}
+            className={styles.inputField}
           />
 
-          <div style={{ ...builderBox, padding: "1rem" }}>
-            <h3 style={miniHeader}>Blog Cover</h3>
+          <div className={styles.builderBox}>
+            <h3 className={styles.miniHeader}>Blog Cover</h3>
             <FileDrop
               label="Upload Blog Cover"
               folder=""
@@ -198,18 +165,12 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
               }
             />
             {blogForm.image_url && (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "90px",
-                  gap: "10px",
-                }}
-              >
-                <div style={thumbBox}>
+              <div className={styles.gridThumbs} style={{ gridTemplateColumns: "90px" }}>
+                <div className={styles.thumbBox}>
                   <img
                     src={blogForm.image_url}
                     alt="blog-cover"
-                    style={thumbImg}
+                    className={styles.thumbImg}
                   />
                   <button
                     type="button"
@@ -217,7 +178,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                       setBlogForm((prev) => ({ ...prev, image_url: "" }))
                     }
                     title="Remove"
-                    style={thumbClose}
+                    className={styles.thumbClose}
                   >
                     x
                   </button>
@@ -232,7 +193,8 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
             onChange={(e) =>
               setBlogForm((prev) => ({ ...prev, content: e.target.value }))
             }
-            style={{ ...builderTextarea, minHeight: "120px" }}
+            className={styles.builderTextarea}
+            style={{ minHeight: "120px" }}
           />
           <input
             placeholder="Video URL (YouTube or MP4)"
@@ -240,11 +202,11 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
             onChange={(e) =>
               setBlogForm((prev) => ({ ...prev, video_url: e.target.value }))
             }
-            style={inputField}
+            className={styles.inputField}
           />
 
-          <div style={{ ...builderBox, padding: "1rem", marginTop: "1rem" }}>
-            <h3 style={miniHeader}>Blog Gallery</h3>
+          <div className={styles.builderBox} style={{ marginTop: "1rem" }}>
+            <h3 className={styles.miniHeader}>Blog Gallery</h3>
             <FileDropMulti
               label="Upload Gallery Images"
               folder=""
@@ -257,18 +219,18 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
             />
             {Array.isArray(blogForm.gallery_images) &&
               blogForm.gallery_images.length > 0 && (
-                <div style={gridThumbs}>
+                <div className={styles.gridThumbs}>
                   {blogForm.gallery_images.map((url, idx) => (
                     <div
                       key={`${url}-${idx}`}
-                      style={thumbBox}
+                      className={styles.thumbBox}
                       draggable
                       onDragStart={() => setDragBlogIdx(idx)}
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={() => onBlogThumbDrop(idx)}
                       title="Drag to reorder"
                     >
-                      <img src={url} alt={`gallery-${idx}`} style={thumbImg} />
+                      <img src={url} alt={`gallery-${idx}`} className={styles.thumbImg} />
                       <button
                         type="button"
                         onClick={() => {
@@ -279,7 +241,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                           });
                         }}
                         title="Remove"
-                        style={thumbClose}
+                        className={styles.thumbClose}
                       >
                         x
                       </button>
@@ -289,8 +251,8 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
               )}
           </div>
 
-          <div style={{ ...builderBox, padding: "1rem", marginTop: "1rem" }}>
-            <h3 style={miniHeader}>Blog Videos</h3>
+          <div className={styles.builderBox} style={{ marginTop: "1rem" }}>
+            <h3 className={styles.miniHeader}>Blog Videos</h3>
             <FileDropMultiVideo
               label="Upload Blog Videos"
               folder="videos"
@@ -302,18 +264,18 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
               }
             />
             {Array.isArray(blogForm.videos) && blogForm.videos.length > 0 && (
-              <div style={gridThumbs}>
+              <div className={styles.gridThumbs}>
                 {blogForm.videos.map((url, idx) => (
                   <div
                     key={`${url}-${idx}`}
-                    style={thumbBox}
+                    className={styles.thumbBox}
                     draggable
                     onDragStart={() => setDragBlogIdx(idx)}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={() => onVideoDrop(idx)}
                     title="Drag to reorder"
                   >
-                    <video src={url} controls style={thumbImg}></video>
+                    <video src={url} controls className={styles.thumbImg}></video>
                     <button
                       type="button"
                       onClick={() => {
@@ -324,7 +286,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                         });
                       }}
                       title="Remove"
-                      style={thumbClose}
+                      className={styles.thumbClose}
                     >
                       x
                     </button>
@@ -334,18 +296,10 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
             )}
           </div>
 
-          <div style={{ ...builderBox, padding: "1rem" }}>
-            <h3 style={miniHeader}>Graph Builder</h3>
+          <div className={styles.builderBox}>
+            <h3 className={styles.miniHeader}>Graph Builder</h3>
             {(blogForm.graph_data?.labels || []).map((label, i) => (
-              <div
-                key={i}
-                style={{
-                  ...actionRow,
-                  flexWrap: "wrap",
-                  marginBottom: "0.5rem",
-                  alignItems: "center",
-                }}
-              >
+              <div key={i} className={styles.actionRow} style={{ marginBottom: "0.5rem", alignItems: "center" }}>
                 <input
                   type="text"
                   placeholder={`X${i + 1} Label`}
@@ -361,7 +315,8 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                       },
                     }));
                   }}
-                  style={{ ...inputField, flex: "1 1 42%", minWidth: "120px" }}
+                  className={styles.inputField}
+                  style={{ flex: "1 1 42%", minWidth: "120px" }}
                 />
                 <input
                   type="number"
@@ -378,7 +333,8 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                       },
                     }));
                   }}
-                  style={{ ...inputField, flex: "1 1 42%", minWidth: "120px" }}
+                  className={styles.inputField}
+                  style={{ flex: "1 1 42%", minWidth: "120px" }}
                 />
                 <button
                   type="button"
@@ -392,7 +348,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                       graph_data: { labels: newLabels, values: newValues },
                     }));
                   }}
-                  style={iconDeleteBtn}
+                  className={styles.iconDeleteBtn}
                 >
                   x
                 </button>
@@ -410,7 +366,8 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                   },
                 }));
               }}
-              style={{ ...addSectionBtn, width: "100%" }}
+              className={styles.addSectionBtn}
+              style={{ width: "100%" }}
             >
               + Add Data Point
             </button>
@@ -420,32 +377,32 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
             placeholder="Slug (auto-generated)"
             value={blogForm.slug}
             readOnly
-            style={readonlyInput}
+            className={styles.readonlyInput}
           />
-          <button type="submit" style={submitButton}>
+          <button type="submit" className={styles.submitButton}>
             {blogForm.id ? "Update Blog" : "+ Add Blog"}
           </button>
         </form>
       )}
 
       {mode === "manage" && blogs.length > 0 && (
-        <div style={listContainer}>
-          <h3 style={miniHeader}>Existing Blogs</h3>
-          <div style={scrollList}>
+        <div className={styles.listContainer}>
+          <h3 className={styles.miniHeader}>Existing Blogs</h3>
+          <div className={styles.scrollList}>
             {blogs.map((b) => (
-              <div key={b.id} style={listItem}>
+              <div key={b.id} className={styles.listItem}>
                 <div>
                   <strong>{b.title}</strong>
-                  <p style={rowMetaText}>
+                  <p className={styles.rowMetaText}>
                     by {b.author}
                   </p>
                 </div>
-                <div style={actionRow}>
-                  <button style={editButton} onClick={() => handleEdit(b)}>
+                <div className={styles.actionRow}>
+                  <button className={styles.editButton} onClick={() => handleEdit(b)}>
                     Edit
                   </button>
                   <button
-                    style={deleteButton}
+                    className={styles.deleteButton}
                     onClick={() => {
                       setDeleteTargetId(b.id);
                       setDeleteError("");
@@ -475,3 +432,5 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
     </div>
   );
 }
+
+

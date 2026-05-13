@@ -1,36 +1,10 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import KVEditor from "@/components/admin/KVEditor";
 import ProjectGalleryEditor from "@/components/admin/ProjectGalleryEditor";
 import { FileDrop } from "@/components/admin/FileDroppers";
 import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
-import {
-  sectionCard,
-  sectionTitle,
-  formLayout,
-  inputField,
-  readonlyInput,
-  submitButton,
-  builderBox,
-  addSectionBtn,
-  builderTextarea,
-  sectionEditorBox,
-  listContainer,
-  scrollList,
-  miniHeader,
-  listItem,
-  deleteButton,
-  editButton,
-  thumbBox,
-  thumbImg,
-  thumbClose,
-  modeSwitchBar,
-  modeSwitchButton,
-  modeSwitchButtonActive,
-  rowMetaText,
-  actionRow,
-  sectionAccentTitle,
-} from "@/app/admin/adminStyles";
+import styles from "@/app/admin/adminTheme.module.css";
 import {
   toTitleCaseNoUnderscore,
   generateSlug,
@@ -208,22 +182,22 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
   };
 
   return (
-    <div style={sectionCard}>
-      <h2 style={sectionTitle}>
+    <div className={styles.sectionCard}>
+      <h2 className={styles.sectionTitle}>
         {form.id ? "Edit Project" : "Add New Project"}
       </h2>
 
-      <div style={modeSwitchBar}>
+      <div className={styles.modeSwitchBar}>
         <button
           type="button"
-          style={mode === "create" ? modeSwitchButtonActive : modeSwitchButton}
+          className={`${styles.modeSwitchButton} ${mode === "create" ? styles.modeSwitchButtonActive : ""}`}
           onClick={() => setMode("create")}
         >
           Create/Edit
         </button>
         <button
           type="button"
-          style={mode === "manage" ? modeSwitchButtonActive : modeSwitchButton}
+          className={`${styles.modeSwitchButton} ${mode === "manage" ? styles.modeSwitchButtonActive : ""}`}
           onClick={() => setMode("manage")}
         >
           Manage List
@@ -231,7 +205,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
       </div>
 
       {mode === "create" && (
-        <form onSubmit={handleProjectSubmit} style={formLayout}>
+        <form onSubmit={handleProjectSubmit} className={styles.formLayout}>
           <input
             placeholder="Project Name"
             value={form.name}
@@ -243,7 +217,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                 slug: generateSlug(val),
               }));
             }}
-            style={inputField}
+            className={styles.inputField}
           />
           <input
             placeholder="Summary"
@@ -251,11 +225,11 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
             onChange={(e) =>
               setForm((prev) => ({ ...prev, summary: e.target.value }))
             }
-            style={inputField}
+            className={styles.inputField}
           />
 
-          <div style={{ ...builderBox, padding: "1rem" }}>
-            <h3 style={miniHeader}>Project Cover</h3>
+          <div className={styles.builderBox}>
+            <h3 className={styles.miniHeader}>Project Cover</h3>
             <FileDrop
               label="Upload Project Cover"
               folder=""
@@ -264,26 +238,16 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
               }
             />
             {form.image_url && (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "90px",
-                  gap: "10px",
-                }}
-              >
-                <div style={thumbBox}>
-                  <img
-                    src={form.image_url}
-                    alt="project-cover"
-                    style={thumbImg}
-                  />
+              <div className={styles.gridThumbs} style={{ gridTemplateColumns: "90px" }}>
+                <div className={styles.thumbBox}>
+                  <img src={form.image_url} alt="project-cover" className={styles.thumbImg} />
                   <button
                     type="button"
                     onClick={() =>
                       setForm((prev) => ({ ...prev, image_url: "" }))
                     }
                     title="Remove"
-                    style={thumbClose}
+                    className={styles.thumbClose}
                   >
                     x
                   </button>
@@ -296,35 +260,28 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
             placeholder="Slug (auto-generated)"
             value={form.slug}
             readOnly
-            style={readonlyInput}
+            className={styles.readonlyInput}
           />
 
-          <div style={builderBox}>
-            <h3 style={miniHeader}>Page Builder</h3>
-            <div style={{ ...actionRow, flexWrap: "wrap" }}>
+          <div className={styles.builderBox}>
+            <h3 className={styles.miniHeader}>Page Builder</h3>
+            <div className={styles.actionRow}>
               {["specs", "materials", "gallery", "text"].map((type) => (
                 <button
                   key={type}
                   type="button"
                   onClick={() => addSection(type)}
-                  style={addSectionBtn}
+                  className={styles.addSectionBtn}
                 >
                   + {type.charAt(0).toUpperCase() + type.slice(1)}
                 </button>
               ))}
             </div>
 
-            <div
-              style={{
-                marginTop: "1rem",
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-              }}
-            >
+            <div className={styles.formLayout} style={{ marginTop: "1rem" }}>
               {sections.map((s) => (
-                <div key={s.id} style={sectionEditorBox}>
-                  <h4 style={sectionAccentTitle}>{s.type.toUpperCase()}</h4>
+                <div key={s.id} className={styles.sectionEditorBox}>
+                  <h4 className={styles.sectionAccentTitle}>{s.type.toUpperCase()}</h4>
 
                   {s.type === "specs" || s.type === "materials" ? (
                     <KVEditor
@@ -338,13 +295,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                       onChange={(rows) => updateSection(s.id, { rows })}
                     />
                   ) : s.type === "text" ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.6rem",
-                      }}
-                    >
+                    <div className={styles.formLayout}>
                       <input
                         type="text"
                         placeholder="Heading (e.g., ABOUT THIS PROJECT)"
@@ -355,7 +306,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                             heading: e.target.value,
                           })
                         }
-                        style={inputField}
+                        className={styles.inputField}
                       />
                       <textarea
                         placeholder="Write content here..."
@@ -366,7 +317,8 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                             content: e.target.value,
                           })
                         }
-                        style={{ ...builderTextarea, minHeight: "120px" }}
+                        className={styles.builderTextarea}
+                        style={{ minHeight: "120px" }}
                       />
                     </div>
                   ) : s.type === "gallery" ? (
@@ -387,14 +339,14 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                           updateSection(s.id, { raw: e.target.value });
                         }
                       }}
-                      style={builderTextarea}
+                      className={styles.builderTextarea}
                     />
                   )}
 
                   <button
                     type="button"
                     onClick={() => removeSection(s.id)}
-                    style={deleteButton}
+                    className={styles.deleteButton}
                   >
                     Remove Section
                   </button>
@@ -403,30 +355,30 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
             </div>
           </div>
 
-          <button type="submit" style={submitButton}>
+          <button type="submit" className={styles.submitButton}>
             {form.id ? "Update Project" : "+ Save Project"}
           </button>
         </form>
       )}
 
       {mode === "manage" && projects.length > 0 && (
-        <div style={listContainer}>
-          <h3 style={miniHeader}>Existing Projects</h3>
-          <div style={scrollList}>
+        <div className={styles.listContainer}>
+          <h3 className={styles.miniHeader}>Existing Projects</h3>
+          <div className={styles.scrollList}>
             {projects.map((p) => (
-              <div key={p.id} style={listItem}>
+              <div key={p.id} className={styles.listItem}>
                 <div>
                   <strong>{p.name}</strong>
-                  <p style={rowMetaText}>
+                  <p className={styles.rowMetaText}>
                     {p.summary}
                   </p>
                 </div>
-                <div style={actionRow}>
-                  <button style={editButton} onClick={() => handleEdit(p)}>
+                <div className={styles.actionRow}>
+                  <button className={styles.editButton} onClick={() => handleEdit(p)}>
                     Edit
                   </button>
                   <button
-                    style={deleteButton}
+                    className={styles.deleteButton}
                     onClick={() => {
                       setDeleteTargetId(p.id);
                       setDeleteError("");
@@ -456,3 +408,5 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
     </div>
   );
 }
+
+

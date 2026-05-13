@@ -1,27 +1,17 @@
-"use client";
+﻿"use client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProjectEditor from "@/components/admin/ProjectEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import TeamManager from "@/components/admin/TeamManager";
-import styles from "./admin.module.css";
+import styles from "./adminTheme.module.css";
 import useProjects from "@/hooks/useProjects";
 import useBlogs from "@/hooks/useBlogs";
 import useTeams from "@/hooks/useTeams";
 
-import { pageContainer, panelContainer } from "./adminStyles";
-
 const TABS = [
-  {
-    key: "projects",
-    label: "Projects",
-    description: "Create and manage project pages",
-  },
-  {
-    key: "blogs",
-    label: "Blogs",
-    description: "Publish and maintain blog content",
-  },
+  { key: "projects", label: "Projects", description: "Create and manage project pages" },
+  { key: "blogs", label: "Blogs", description: "Publish and maintain blog content" },
   { key: "team", label: "Team", description: "Manage team members and roles" },
 ];
 
@@ -34,28 +24,20 @@ export default function AdminPage() {
   const { teams, refetch: refetchTeams } = useTeams();
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      sessionStorage.getItem("isAdmin") !== "true"
-    ) {
+    if (typeof window !== "undefined" && sessionStorage.getItem("isAdmin") !== "true") {
       router.push("/admin-login");
     }
   }, [router]);
 
-  const activeTabMeta = useMemo(
-    () => TABS.find((tab) => tab.key === activeTab) || TABS[0],
-    [activeTab]
-  );
+  const activeTabMeta = useMemo(() => TABS.find((tab) => tab.key === activeTab) || TABS[0], [activeTab]);
 
   return (
-    <div style={pageContainer}>
-      <div style={panelContainer} className={styles.shellWrap}>
+    <div className={styles.adminPage}>
+      <div className={styles.adminShell}>
         <header className={styles.shellHeader}>
-          <div>
-            <p className={styles.overline}>EMPÆRIAL Control</p>
-            <h1 className={styles.title}>Admin Dashboard</h1>
-            <p className={styles.subtitle}>{activeTabMeta.description}</p>
-          </div>
+          <p className={styles.overline}>EMPÆRIAL Control</p>
+          <h1 className={styles.title}>Admin Dashboard</h1>
+          <p className={styles.subtitle}>{activeTabMeta.description}</p>
         </header>
 
         <nav className={styles.tabNav} aria-label="Admin sections">
@@ -75,23 +57,13 @@ export default function AdminPage() {
           })}
         </nav>
 
-        <section className={styles.activePanel}>
-          {activeTab === "projects" && (
-            <ProjectEditor
-              projects={projects}
-              onProjectsChange={() => refetchProjects()}
-            />
-          )}
-
-          {activeTab === "blogs" && (
-            <BlogEditor blogs={blogs} onBlogsChange={() => refetchBlogs()} />
-          )}
-
-          {activeTab === "team" && (
-            <TeamManager teams={teams} onTeamsChange={() => refetchTeams()} />
-          )}
+        <section>
+          {activeTab === "projects" && <ProjectEditor projects={projects} onProjectsChange={() => refetchProjects()} />}
+          {activeTab === "blogs" && <BlogEditor blogs={blogs} onBlogsChange={() => refetchBlogs()} />}
+          {activeTab === "team" && <TeamManager teams={teams} onTeamsChange={() => refetchTeams()} />}
         </section>
       </div>
     </div>
   );
 }
+

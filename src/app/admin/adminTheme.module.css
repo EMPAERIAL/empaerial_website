@@ -1,0 +1,368 @@
+﻿.adminPage {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  padding: 64px 0 80px;
+}
+
+.adminShell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.shellHeader {
+  margin-bottom: 24px;
+}
+
+.overline {
+  color: rgba(255, 255, 255, 0.35);
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin-top: 10px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  margin-top: 14px;
+  max-width: 580px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.tabNav {
+  display: flex;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 14px 0;
+  margin: 0 0 28px;
+  overflow-x: auto;
+}
+
+.tabBtn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 18px;
+  background: transparent;
+  transition: border-color var(--dur-micro), color var(--dur-micro), background var(--dur-micro);
+}
+
+.tabBtn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+.tabBtnActive {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.sectionCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.sectionTitle {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.modeSwitchBar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.modeSwitchButton {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.modeSwitchButtonActive {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+}
+
+.formLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputField,
+.builderTextarea,
+.selectBox,
+.selectMenuItem {
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+.inputField,
+.builderTextarea,
+.readonlyInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px 14px;
+}
+
+.readonlyInput {
+  color: rgba(255, 255, 255, 0.55);
+  border-style: dashed;
+}
+
+.builderBox,
+.listContainer,
+.formCard,
+.sectionEditorBox {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.miniHeader,
+.sectionAccentTitle {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.actionRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.addSectionBtn,
+.editButton,
+.deleteButton,
+.submitButton,
+.iconDeleteBtn {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 9px 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.submitButton {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.deleteButton,
+.iconDeleteBtn {
+  border-color: rgba(255, 109, 109, 0.5);
+  color: #ff9d9d;
+}
+
+.listContainer {
+  margin-top: 18px;
+}
+
+.scrollList {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.rowMetaText {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+
+.gridThumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbBox {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  aspect-ratio: 1/1;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbClose {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  border-radius: 999px;
+  padding: 4px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+}
+
+.kvRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dragHandle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  line-height: 1;
+  cursor: grab;
+}
+
+.dropZone {
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+  transition: border-color var(--dur-micro), background var(--dur-micro);
+}
+
+.dropZoneActive {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.selectRoot {
+  margin-bottom: 16px;
+}
+
+.selectLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.selectBox {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #fff;
+  position: relative;
+}
+
+.selectMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.selectMenuItem {
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.selectMenuItemActive,
+.selectMenuItem:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+@media (max-width: 720px) {
+  .adminShell {
+    padding: 0 24px;
+  }
+
+  .adminPage {
+    padding-top: 36px;
+  }
+
+  .sectionCard {
+    padding: 16px;
+  }
+
+  .listItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
