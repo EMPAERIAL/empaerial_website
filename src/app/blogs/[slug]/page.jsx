@@ -31,7 +31,7 @@ export default function BlogPost() {
     return (
       <div
         style={{
-          color: "#00B4D8",
+          color: "var(--blog-heading)",
           textAlign: "center",
           marginTop: "3rem",
           fontFamily: "Fira Code, monospace",
@@ -74,8 +74,8 @@ export default function BlogPost() {
     <div
       style={{
         minHeight: "100vh",
-        background: "radial-gradient(circle at top, #051727, #000)",
-        color: "#EAEAEA",
+        background: "var(--blog-bg)",
+        color: "var(--blog-fg)",
         fontFamily: "'Poppins', sans-serif",
         padding: "3rem 1rem 5rem",
         width: "100%",
@@ -91,7 +91,7 @@ export default function BlogPost() {
           right: "25px",
           background: "transparent",
           border: "none",
-          color: "#ffffff",
+          color: "var(--admin-fg)",
           fontSize: "2.2rem",
           cursor: "pointer",
           fontWeight: "600",
@@ -107,7 +107,7 @@ export default function BlogPost() {
       {/* Blog Header */}
       <h1
         style={{
-          color: "#00B4D8",
+          color: "var(--blog-heading)",
           marginBottom: "0.3rem",
           fontSize: "2.6rem",
           textAlign: "center",
@@ -117,7 +117,7 @@ export default function BlogPost() {
       </h1>
       <p
         style={{
-          color: "#aaa",
+          color: "var(--blog-muted)",
           fontStyle: "italic",
           textAlign: "center",
           marginBottom: "2rem",
@@ -133,7 +133,7 @@ export default function BlogPost() {
           margin: "0 auto",
           fontSize: "1.1rem",
           lineHeight: "1.8",
-          color: "#E0E0E0",
+          color: "var(--blog-fg)",
           textAlign: "justify",
         }}
       >
@@ -165,7 +165,7 @@ export default function BlogPost() {
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.03)";
                 e.currentTarget.style.boxShadow =
-                  "0 0 20px rgba(0,200,255,0.55)";
+                  "var(--blog-surface-hover-shadow)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "scale(1)";
@@ -187,7 +187,7 @@ export default function BlogPost() {
             <div style={{ marginTop: "3rem", clear: "both" }}>
               <h3
                 style={{
-                  color: "#00B4D8",
+                  color: "var(--blog-heading)",
                   marginBottom: "1rem",
                   textAlign: "center",
                 }}
@@ -217,9 +217,9 @@ export default function BlogPost() {
                     <Tooltip
                       contentStyle={{
                         backgroundColor: "#001933",
-                        border: "1px solid #00B4D8",
+                        border: "1px solid var(--blog-accent-strong)",
                         borderRadius: "8px",
-                        color: "#fff",
+                        color: "var(--admin-fg)",
                       }}
                     />
                     <Line
@@ -337,7 +337,7 @@ export default function BlogPost() {
           style={{
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(0,0,0,0.8)",
+            backgroundColor: "var(--blog-overlay)",
             backdropFilter: "blur(6px)",
             display: "flex",
             justifyContent: "center",
