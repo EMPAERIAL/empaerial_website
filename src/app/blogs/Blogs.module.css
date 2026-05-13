@@ -1,9 +1,12 @@
+.pageMain {
+  background: var(--ui-page-bg);
+  color: var(--ui-page-fg);
+}
+
 .blogsSection {
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   width: 100%;
-  background: var(--blog-bg);
-  color: var(--blog-fg);
-  padding: 96px 0;
+  padding: 128px 0 96px;
 }
 
 .inner {
@@ -37,22 +40,25 @@
   line-height: 1;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--blog-fg);
+  color: var(--ui-page-fg);
   margin-bottom: 14px;
 }
 
 .subtitle {
   max-width: 620px;
-  color: var(--blog-muted);
+  color: var(--ui-muted-fg);
   font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.65;
 }
 
 .status {
-  color: var(--blog-muted);
+  color: var(--ui-muted-fg);
   font-family: var(--font-body);
   text-align: center;
+  border: 1px solid var(--ui-border-soft);
+  background: var(--ui-surface-2);
+  padding: 24px;
 }
 
 .grid {
@@ -62,8 +68,8 @@
 }
 
 .card {
-  border: 1px solid var(--blog-surface-border);
-  background: var(--blog-surface);
+  border: 1px solid var(--ui-border-soft);
+  background: var(--ui-surface-1);
   display: flex;
   flex-direction: column;
   transition: transform var(--dur-state), border-color var(--dur-micro);
@@ -71,11 +77,11 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: var(--blog-accent-strong);
+  border-color: var(--ui-border-strong);
 }
 
 .mediaWrap {
-  border-bottom: 1px solid var(--blog-surface-border);
+  border-bottom: 1px solid var(--ui-border-soft);
   overflow: hidden;
 }
 
@@ -99,7 +105,7 @@
 }
 
 .meta {
-  color: var(--blog-muted);
+  color: var(--ui-subtle-fg);
   font-family: var(--font-mono);
   margin-bottom: 12px;
 }
@@ -115,14 +121,14 @@
 }
 
 .author {
-  color: var(--blog-muted);
+  color: var(--ui-muted-fg);
   font-family: var(--font-mono);
   font-size: 12px;
   margin-bottom: 14px;
 }
 
 .snippet {
-  color: var(--blog-fg);
+  color: var(--ui-page-fg);
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.6;
@@ -133,22 +139,22 @@
   margin-top: auto;
   display: inline-block;
   align-self: flex-start;
-  background: var(--blog-accent-soft);
-  color: var(--blog-accent-strong);
+  background: var(--ui-surface-1);
+  color: var(--ui-page-fg);
   font-family: var(--font-display);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  border: 1px solid var(--blog-accent-strong);
+  border: 1px solid var(--ui-border-strong);
   border-radius: 9999px;
   padding: 12px 22px;
-  transition: background var(--dur-micro);
+  transition: background var(--dur-micro), color var(--dur-micro);
 }
 
 .cta:hover {
-  background: var(--blog-accent-strong);
-  color: var(--blog-accent-contrast);
+  background: #000;
+  color: #fff;
 }
 
 @media (max-width: 1024px) {
@@ -158,6 +164,10 @@
 }
 
 @media (max-width: 720px) {
+  .blogsSection {
+    padding-top: 112px;
+  }
+
   .inner {
     padding: 0 24px;
   }
