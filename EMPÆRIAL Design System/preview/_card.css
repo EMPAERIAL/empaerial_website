@@ -1,0 +1,48 @@
+/* Shared styles for preview cards.
+   Each card targets ~700×variable. Skip titles — the asset name
+   renders OUTSIDE the card. Just show the specimens. */
+
+@import url("../colors_and_type.css");
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink-100);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  width: 700px;
+  padding: 28px;
+  background: var(--paper);
+  box-sizing: border-box;
+}
+
+.card.dark {
+  background: var(--ink-100);
+  color: var(--paper);
+}
+
+.row { display: flex; gap: 16px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.grow { flex: 1; }
+
+.label-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+.dark .label-display { color: var(--ink-inverse-60); }
+
+.divider {
+  height: 1px;
+  background: var(--ink-10);
+  width: 100%;
+}
+.dark .divider { background: var(--ink-inverse-10); }

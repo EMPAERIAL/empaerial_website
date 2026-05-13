@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .btn {
+    font-family:'Saira',sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:0.14em; text-transform:uppercase;
+    padding:13px 27px; cursor:pointer; border-radius:9999px;
+    background:#fff; color:#000; border:1px solid #000;
+  }
+  .btn-hover { background:#000; color:#fff; }
+  .btn-press { background:#1A1A1A; color:#fff; }
+  .btn-disabled { background:#fff; color:#A8A8A8; border-color:#A8A8A8; cursor:not-allowed; }
+  .lab { font-family:'JetBrains Mono',monospace; font-size:10px; color:#707070; margin-top:8px; text-align:center; }
+  .col { display:flex; flex-direction:column; gap:0; align-items:center; }
+
+  .link {
+    font-family:'Inter',sans-serif; font-weight:500; font-size:15px;
+    color:#000; text-decoration:none; padding:4px 0;
+  }
+  .link-hover { text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .link-press { color:#3A3A3A; }
+  .link-disabled { color:#A8A8A8; }
+</style></head>
+<body>
+<div class="card">
+  <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
+    <div class="col"><button class="btn">VIEW BRIEF</button><div class="lab">secondary</div></div>
+    <div class="col"><button class="btn btn-hover">VIEW BRIEF</button><div class="lab">hover · invert</div></div>
+    <div class="col"><button class="btn btn-press">VIEW BRIEF</button><div class="lab">pressed</div></div>
+    <div class="col"><button class="btn btn-disabled">VIEW BRIEF</button><div class="lab">disabled</div></div>
+  </div>
+  <div style="height:1px;background:#D4D4D4;margin:18px 0;"></div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:center;">
+    <div class="col"><a class="link">Read more →</a><div class="lab">tertiary link</div></div>
+    <div class="col"><a class="link link-hover">Read more →</a><div class="lab">hover · underline</div></div>
+    <div class="col"><a class="link link-press">Read more →</a><div class="lab">pressed</div></div>
+    <div class="col"><a class="link link-disabled">Read more →</a><div class="lab">disabled</div></div>
+  </div>
+</div>
+</body></html>

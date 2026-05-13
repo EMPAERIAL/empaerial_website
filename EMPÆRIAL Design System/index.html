@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>EMPÆRIAL · Design System</title>
+<link rel="stylesheet" href="colors_and_type.css"/>
+<style>
+  body { margin:0; background:var(--paper); color:var(--ink-100); font-family:var(--font-body); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 64px 32px 96px; }
+  .nav { display:flex; align-items:center; gap:14px; padding:18px 32px; border-bottom:1px solid var(--ink-10); position:sticky; top:0; background:rgba(255,255,255,0.85); backdrop-filter: blur(8px); z-index:5; }
+  .badge { width:30px; height:30px; border-radius:9999px; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:18px; line-height:1; }
+  .wordmark { font-family:var(--font-display); font-weight:700; letter-spacing:0.14em; text-transform:uppercase; font-size:15px; }
+  .eyebrow { font-family:var(--font-display); font-weight:600; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-40); }
+  h1.display { margin: 24px 0 0; font-family:var(--font-display); font-weight:700; font-size: clamp(56px, 9vw, 112px); line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; }
+  .lead { font-size:18px; color:var(--ink-60); line-height:1.6; max-width: 640px; margin: 22px 0 0; }
+  .wing { display:block; width:100%; height:64px; color:#000; margin: 56px 0 24px; }
+  .grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px; }
+  .tile { border:1px solid var(--ink-10); padding: 22px; background: var(--paper); }
+  .tile h3 { font-family:var(--font-display); font-weight:600; font-size:18px; letter-spacing:0.06em; text-transform:uppercase; margin: 0 0 6px; }
+  .tile p { font-size:14px; color:var(--ink-60); line-height:1.55; margin:0; }
+  .tile code { font-family:var(--font-mono); font-size:11px; color:var(--ink-40); display:block; margin-top: 12px; }
+  .row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding: 14px 0; border-bottom: 1px solid var(--ink-05); }
+  .row:last-child { border-bottom:0; }
+  .row .left { font-family:var(--font-body); font-weight:500; font-size:15px; }
+  .row code { font-family:var(--font-mono); font-size:12px; color:var(--ink-40); }
+  .telemetry { font-family:var(--font-mono); font-size:12px; color:var(--ink-40); margin-top:32px; }
+  .telemetry strong { color:var(--ink-100); font-weight:500; }
+  section { margin-top: 56px; }
+  section .head { display:flex; align-items:baseline; justify-content:space-between; gap:24px; border-bottom:1px solid var(--ink-100); padding-bottom: 14px; margin-bottom: 18px; }
+  section h2 { font-family:var(--font-display); font-weight:700; font-size:28px; letter-spacing:0.04em; text-transform:uppercase; margin:0; }
+</style>
+</head>
+<body data-screen-label="00 System Overview">
+  <nav class="nav">
+    <div class="badge">Æ</div>
+    <span class="wordmark">EMPÆRIAL · Design System</span>
+    <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-40);">build 2026.05.09</span>
+  </nav>
+
+  <div class="wrap">
+    <div class="eyebrow">System · v 0.1 · monochrome</div>
+    <h1 class="display">Built by<br/>students.<br/>Engineered like<br/>aerospace.</h1>
+    <p class="lead">A strict black-and-white system built around two recurring shapes — the propeller and the wing-cut. Wide geometric type. Hairline rules over shadow. No emoji, no gradients, no decoration that doesn't earn its place.</p>
+
+    <svg class="wing" viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M 0 0 L 1200 0 L 1200 28 Q 600 100 0 28 Z" fill="currentColor"/></svg>
+
+    <section>
+      <div class="head"><h2>Foundations</h2><span class="eyebrow">Tokens · type · motion</span></div>
+      <div class="grid">
+        <div class="tile"><h3>Palette</h3><p>11-step ink scale, 3 paper tones, mirror inverse for dark surfaces. No color accents.</p><code>colors_and_type.css → --ink-* / --paper-*</code></div>
+        <div class="tile"><h3>Type</h3><p>Saira (display, wide UPPERCASE), Inter (body), JetBrains Mono (telemetry).</p><code>--font-display · --font-body · --font-mono</code></div>
+        <div class="tile"><h3>Spacing</h3><p>4 px base. Pick small (4–16) or large (48–128). Skip the middle.</p><code>--sp-1 → --sp-32</code></div>
+        <div class="tile"><h3>Radii</h3><p>Sharp 0 by default; pill 9999px for wing buttons + the Æ badge. Nothing in between.</p><code>--radius-sharp · --radius-pill</code></div>
+        <div class="tile"><h3>Elevation</h3><p>Two shadows. Hairlines do most separation work.</p><code>--shadow-lift · --shadow-modal</code></div>
+        <div class="tile"><h3>Motion</h3><p>Sharp, mechanical. 120 / 200 / 400 ms. <code style="display:inline;">cubic-bezier(0.2, 0, 0, 1)</code> — propeller catching air.</p><code>--ease-prop · --dur-micro</code></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Files</h2><span class="eyebrow">Repo manifest</span></div>
+      <div>
+        <div class="row"><span class="left">README.md</span><code>brand context · content · visual foundations · iconography</code></div>
+        <div class="row"><span class="left">colors_and_type.css</span><code>tokens + semantic styles · drop-in</code></div>
+        <div class="row"><span class="left">SKILL.md</span><code>Agent Skill manifest</code></div>
+        <div class="row"><span class="left">assets/</span><code>logo lockups · Æ badge · propeller-mark.svg · wing-cut.svg</code></div>
+        <div class="row"><span class="left">preview/</span><code>28 specimen cards (visible in Design System tab)</code></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>What's missing</h2><span class="eyebrow">Asks · open</span></div>
+      <div>
+        <div class="row"><span class="left">Original wordmark font</span><code>Saira flagged as substitute</code></div>
+        <div class="row"><span class="left">Icon set</span><code>Lucide flagged as substitute</code></div>
+        <div class="row"><span class="left">Codebase / Figma / website</span><code>UI kits cannot be built without source</code></div>
+        <div class="row"><span class="left">Reference photography</span><code>look + tone calibration</code></div>
+        <div class="row"><span class="left">Real product copy</span><code>voice calibration</code></div>
+      </div>
+      <p class="telemetry"><strong>telemetry</strong> &nbsp; foundations: ready &nbsp; · &nbsp; UI kits: pending source &nbsp; · &nbsp; slide templates: pending source</p>
+    </section>
+
+    <svg class="wing" viewBox="0 0 1200 80" preserveAspectRatio="none" style="transform:scaleY(-1);"><path d="M 0 0 L 1200 0 L 1200 28 Q 600 100 0 28 Z" fill="currentColor"/></svg>
+
+  </div>
+</body>
+</html>

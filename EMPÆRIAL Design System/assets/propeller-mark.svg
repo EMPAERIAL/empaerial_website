@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  
+  <g fill="currentColor">
+    <path d="M 2 30 L 98 30 C 78 52, 26 52, 2 30 Z"></path>
+    <path d="M 198 30 L 102 30 C 122 8, 174 8, 198 30 Z"></path>
+    <circle cx="100" cy="30" r="9"></circle>
+  </g>
+  <text x="100" y="34" text-anchor="middle" font-family="Saira, Eurostile, sans-serif" font-weight="700" font-size="11" fill="#fff">Æ</text>
+</svg>

@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .lab { font-family:'Saira',sans-serif; font-weight:600; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:#707070; }
+  .stage { background:#fff; border:1px solid #D4D4D4; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style></head>
+<body>
+<!--
+  SHARP PROPELLER GEOMETRY
+  Each blade: dead-flat top edge, single sharp curve along the bottom,
+  and razor-pointed tips (path closes on a point, no rounding).
+  Right blade is the same path rotated 180° around the central hub.
+  No quadratic softening on the tips — only one bezier on the lower edge.
+-->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <symbol id="prop" viewBox="0 0 200 60">
+      <!-- Left blade: tip at (2,30), flat top to (98,30), then sharp curve back to (2,30) -->
+      <path d="M 2 30 L 98 30 C 78 52, 26 52, 2 30 Z" fill="currentColor"/>
+      <!-- Right blade: 180° rotated. Tip at (198,30), flat bottom to (102,30), curve up. -->
+      <path d="M 198 30 L 102 30 C 122 8, 174 8, 198 30 Z" fill="currentColor"/>
+      <!-- Hub -->
+      <circle cx="100" cy="30" r="9" fill="currentColor"/>
+      <text x="100" y="34" text-anchor="middle" font-family="Saira" font-weight="700" font-size="11" fill="#fff">Æ</text>
+    </symbol>
+    <symbol id="prop-noae" viewBox="0 0 200 60">
+      <path d="M 2 30 L 98 30 C 78 52, 26 52, 2 30 Z" fill="currentColor"/>
+      <path d="M 198 30 L 102 30 C 122 8, 174 8, 198 30 Z" fill="currentColor"/>
+      <circle cx="100" cy="30" r="9" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="card" style="padding:20px;display:flex;flex-direction:column;gap:14px;">
+
+  <!-- USE 1: Section divider -->
+  <div>
+    <div class="lab" style="margin-bottom:6px;">01 · Section divider — between long content blocks</div>
+    <div class="stage" style="height:42px;display:flex;align-items:center;justify-content:center;position:relative;">
+      <div style="position:absolute;left:24px;right:24px;height:1px;background:#D4D4D4;"></div>
+      <svg style="position:relative;background:#fff;padding:0 12px;color:#000;" width="120" height="32"><use href="#prop"/></svg>
+    </div>
+  </div>
+
+  <!-- USE 2: Loading -->
+  <div>
+    <div class="lab" style="margin-bottom:6px;">02 · Loading state — slow rotation, replaces spinners</div>
+    <div class="stage" style="height:54px;display:flex;align-items:center;gap:14px;padding:0 18px;">
+      <svg width="80" height="24" style="color:#000;animation:spin 2.4s linear infinite;transform-origin:center;"><use href="#prop-noae"/></svg>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#707070;">deploying telemetry-dashboard …</span>
+    </div>
+  </div>
+
+  <!-- USE 3: Footer -->
+  <div>
+    <div class="lab" style="margin-bottom:6px;">03 · Footer mark — anchors page bottoms, email signoffs</div>
+    <div class="stage" style="height:56px;background:#000;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-color:#000;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8E8E8E;">© 2026 EMPÆRIAL · KSC</span>
+      <svg width="74" height="22" style="color:#fff;"><use href="#prop"/></svg>
+      <span style="font-family:'Saira',sans-serif;font-weight:600;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#8E8E8E;">v 2.4.1</span>
+    </div>
+  </div>
+
+  <!-- USE 4: Watermark -->
+  <div>
+    <div class="lab" style="margin-bottom:6px;">04 · Watermark — large + faint, behind hero copy</div>
+    <div class="stage" style="height:84px;position:relative;overflow:hidden;padding:18px 24px;">
+      <svg width="380" height="114" style="position:absolute;right:-40px;top:-18px;color:#000;opacity:0.07;"><use href="#prop-noae"/></svg>
+      <div style="position:relative;">
+        <div style="font-family:'Saira',sans-serif;font-weight:600;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#707070;">FLIGHT 04</div>
+        <div style="font-family:'Saira',sans-serif;font-weight:700;font-size:24px;letter-spacing:0.04em;text-transform:uppercase;color:#000;line-height:1;margin-top:6px;">Pre-flight check</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body></html>
