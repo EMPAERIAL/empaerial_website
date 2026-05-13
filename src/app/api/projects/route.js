@@ -42,10 +42,18 @@ export async function POST(request) {
 export async function PATCH(request) {
   try {
     const body = await request.json();
-    const { id, ...updates } = body;
+    const { id } = body;
 
     if (!id)
       return NextResponse.json({ error: "Missing project ID" }, { status: 400 });
+
+    const updates = {
+      name: body.name,
+      summary: body.summary,
+      image_url: body.image_url,
+      slug: body.slug,
+      sections: body.sections,
+    };
 
     const { data, error } = await supabase
       .from("Projects")

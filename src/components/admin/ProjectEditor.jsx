@@ -180,7 +180,10 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error(await res.text());
+      if (!res.ok) {
+        const result = await res.json().catch(() => ({}));
+        throw new Error(result.error || "Failed to save project");
+      }
       const updated = await res.json();
       alert(form.id ? "Project updated" : "Project added");
       if (form.id)
@@ -197,7 +200,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
       setSections([]);
     } catch (err) {
       console.error("POST/PATCH error:", err);
-      alert("Failed to save project");
+      alert(err.message || "Failed to save project");
     }
   };
 

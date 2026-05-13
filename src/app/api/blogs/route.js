@@ -59,12 +59,21 @@ export async function POST(req) {
 export async function PATCH(req) {
   try {
     const body = await req.json();
-    const { id, ...updates } = body;
+    const { id } = body;
 
     if (!id)
       return NextResponse.json({ error: "Missing blog ID" }, { status: 400 });
 
-    if (!("gallery_images" in updates)) updates.gallery_images = [];
+    const updates = {
+      title: body.title,
+      slug: body.slug,
+      author: body.author,
+      image_url: body.image_url,
+      content: body.content,
+      video_url: body.video_url ?? null,
+      graph_data: body.graph_data ?? null,
+      gallery_images: body.gallery_images ?? [],
+    };
 
     const { data, error } = await supabase
       .from("Blogs")

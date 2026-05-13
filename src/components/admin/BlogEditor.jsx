@@ -63,7 +63,10 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(blogForm),
       });
-      if (!res.ok) throw new Error(await res.text());
+      if (!res.ok) {
+        const result = await res.json().catch(() => ({}));
+        throw new Error(result.error || "Failed to save blog");
+      }
       const updated = await res.json();
       alert(blogForm.id ? "Blog updated" : "Blog added");
       if (blogForm.id) {
@@ -74,7 +77,7 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
       setBlogForm(emptyForm);
     } catch (err) {
       console.error("POST error:", err);
-      alert("Failed to save blog");
+      alert(err.message || "Failed to save blog");
     }
   };
 
