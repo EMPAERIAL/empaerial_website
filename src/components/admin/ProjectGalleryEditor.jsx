@@ -1,7 +1,13 @@
 'use client'
 import { useState } from "react"
 import { moveItem } from "@/Lib/adminUtils"
-import { gridThumbs, thumbBox, thumbImg, thumbClose } from "@/app/admin/adminStyles"
+import {
+  gridThumbs,
+  thumbBox,
+  thumbImg,
+  thumbClose,
+  formLayout,
+} from "@/app/admin/adminStyles"
 import { FileDropMulti } from "@/components/admin/FileDroppers"
 
 export default function ProjectGalleryEditor({ images, onChange }) {
@@ -17,7 +23,7 @@ export default function ProjectGalleryEditor({ images, onChange }) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+    <div style={formLayout}>
       <FileDropMulti
         label="Upload Project Gallery Images"
         folder=""

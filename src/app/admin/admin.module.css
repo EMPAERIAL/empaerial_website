@@ -39,15 +39,15 @@
   gap: 0.7rem;
   padding: 0.5rem;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--admin-surface-soft);
+  border: 1px solid var(--admin-border-strong);
   margin: 1rem 0 1.2rem;
   overflow-x: auto;
 }
 
 .tabBtn {
-  border: 1px solid rgba(0, 180, 216, 0.22);
-  background: rgba(0, 180, 216, 0.06);
+  border: 1px solid var(--admin-info-border);
+  background: var(--admin-info-bg);
   color: var(--admin-muted);
   border-radius: 10px;
   padding: 0.62rem 1rem;
@@ -60,14 +60,14 @@
 
 .tabBtn:hover {
   color: var(--admin-fg);
-  border-color: rgba(0, 180, 216, 0.45);
-  background: rgba(0, 180, 216, 0.13);
+  border-color: var(--admin-info-fg);
+  background: var(--admin-info-bg);
 }
 
 .tabBtnActive {
   color: #fff;
   background: var(--admin-action-bg);
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: var(--admin-border-strong);
   box-shadow: 0 8px 24px rgba(0, 119, 182, 0.34);
 }
 

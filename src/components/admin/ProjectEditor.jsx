@@ -27,6 +27,9 @@ import {
   modeSwitchBar,
   modeSwitchButton,
   modeSwitchButtonActive,
+  rowMetaText,
+  actionRow,
+  sectionAccentTitle,
 } from "@/app/admin/adminStyles";
 import {
   toTitleCaseNoUnderscore,
@@ -298,7 +301,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
 
           <div style={builderBox}>
             <h3 style={miniHeader}>Page Builder</h3>
-            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            <div style={{ ...actionRow, flexWrap: "wrap" }}>
               {["specs", "materials", "gallery", "text"].map((type) => (
                 <button
                   key={type}
@@ -321,7 +324,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
             >
               {sections.map((s) => (
                 <div key={s.id} style={sectionEditorBox}>
-                  <h4 style={{ color: "#00B4D8" }}>{s.type.toUpperCase()}</h4>
+                  <h4 style={sectionAccentTitle}>{s.type.toUpperCase()}</h4>
 
                   {s.type === "specs" || s.type === "materials" ? (
                     <KVEditor
@@ -414,11 +417,11 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
               <div key={p.id} style={listItem}>
                 <div>
                   <strong>{p.name}</strong>
-                  <p style={{ margin: 0, fontSize: "0.85rem", opacity: 0.7 }}>
+                  <p style={rowMetaText}>
                     {p.summary}
                   </p>
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem" }}>
+                <div style={actionRow}>
                   <button style={editButton} onClick={() => handleEdit(p)}>
                     Edit
                   </button>

@@ -1,7 +1,13 @@
 'use client'
 import { useState } from "react"
 import { moveItem } from "@/Lib/adminUtils"
-import { inputField, addSectionBtn } from "@/app/admin/adminStyles"
+import {
+  inputField,
+  addSectionBtn,
+  kvRow,
+  deleteButton,
+  sectionAccentTitle,
+} from "@/app/admin/adminStyles"
 
 export default function KVEditor({ rows, onChange }) {
   const [dragIdx, setDragIdx] = useState(null);
@@ -36,21 +42,12 @@ export default function KVEditor({ rows, onChange }) {
           onDragOver={onDragOver}
           onDrop={() => onDrop(i)}
           title="Drag to reorder"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            gap: "0.5rem",
-            background: "rgba(15, 20, 25, 0.5)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-            borderRadius: "8px",
-            padding: "0.6rem 0.8rem",
-          }}
+          style={kvRow}
         >
           {}
           <div
             style={{
-              color: "#00B4D8",
+              ...sectionAccentTitle,
               fontSize: "1rem",
               cursor: "grab",
               userSelect: "none",
@@ -70,9 +67,6 @@ export default function KVEditor({ rows, onChange }) {
               ...inputField,
               flex: "1 1 42%",
               minWidth: "120px",
-              background: "rgba(20, 25, 30, 0.8)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#fff",
               fontSize: "0.9rem",
             }}
           />
@@ -87,9 +81,6 @@ export default function KVEditor({ rows, onChange }) {
               ...inputField,
               flex: "1 1 42%",
               minWidth: "120px",
-              background: "rgba(20, 25, 30, 0.8)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#fff",
               fontSize: "0.9rem",
             }}
           />
@@ -100,21 +91,10 @@ export default function KVEditor({ rows, onChange }) {
             onClick={() => removeRow(i)}
             title="Remove row"
             style={{
-              background: "rgba(255,60,60,0.15)",
-              border: "1px solid rgba(255,100,100,0.25)",
-              color: "#FF6B6B",
-              borderRadius: "6px",
+              ...deleteButton,
               padding: "0.4rem 0.7rem",
-              cursor: "pointer",
               flex: "0 0 auto",
-              transition: "0.2s",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "rgba(255,80,80,0.25)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "rgba(255,60,60,0.15)")
-            }
           >
             ✖
           </button>

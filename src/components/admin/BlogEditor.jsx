@@ -30,6 +30,8 @@ import {
   modeSwitchBar,
   modeSwitchButton,
   modeSwitchButtonActive,
+  rowMetaText,
+  actionRow,
 } from "@/app/admin/adminStyles";
 import { moveItem, generateSlug } from "@/Lib/adminUtils";
 
@@ -338,9 +340,8 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
               <div
                 key={i}
                 style={{
-                  display: "flex",
+                  ...actionRow,
                   flexWrap: "wrap",
-                  gap: "0.5rem",
                   marginBottom: "0.5rem",
                   alignItems: "center",
                 }}
@@ -435,11 +436,11 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
               <div key={b.id} style={listItem}>
                 <div>
                   <strong>{b.title}</strong>
-                  <p style={{ margin: 0, fontSize: "0.85rem", opacity: 0.7 }}>
+                  <p style={rowMetaText}>
                     by {b.author}
                   </p>
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem" }}>
+                <div style={actionRow}>
                   <button style={editButton} onClick={() => handleEdit(b)}>
                     Edit
                   </button>

@@ -2,6 +2,11 @@
 import { useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { uploadWithProgress } from "@/Lib/uploadService"
+import {
+  dropZoneBase,
+  dropZoneIdle,
+  dropZoneActive,
+} from "@/app/admin/adminStyles"
 
 export function FileDrop({ label, folder, onUploaded }) {
   const [progress, setProgress] = useState(0)
@@ -29,15 +34,9 @@ export function FileDrop({ label, folder, onUploaded }) {
     <div
       {...getRootProps()}
       style={{
-        border: "2px dashed rgba(0,180,216,0.4)",
-        borderRadius: "10px",
-        padding: "1rem",
-        textAlign: "center",
-        color: "#00B4D8",
-        background: isDragActive ? "rgba(0,180,216,0.1)" : "rgba(255,255,255,0.04)",
-        cursor: "pointer",
+        ...dropZoneBase,
+        ...(isDragActive ? dropZoneActive : dropZoneIdle),
         marginBottom: "0.5rem",
-        transition: "0.3s",
       }}
     >
       <input {...getInputProps()} />
@@ -85,14 +84,8 @@ export function FileDropMulti({ label, folder, onUploaded }) {
       <div
         {...getRootProps()}
         style={{
-          border: "2px dashed rgba(0,180,216,0.4)",
-          borderRadius: "10px",
-          padding: "1rem",
-          textAlign: "center",
-          color: "#00B4D8",
-          background: isDragActive ? "rgba(0,180,216,0.1)" : "rgba(255,255,255,0.04)",
-          cursor: "pointer",
-          transition: "0.3s",
+          ...dropZoneBase,
+          ...(isDragActive ? dropZoneActive : dropZoneIdle),
         }}
       >
         <input {...getInputProps()} />
@@ -141,14 +134,8 @@ export function FileDropMultiVideo({ label, folder, onUploaded }) {
       <div
         {...getRootProps()}
         style={{
-          border: "2px dashed rgba(0,180,216,0.4)",
-          borderRadius: "10px",
-          padding: "1rem",
-          textAlign: "center",
-          color: "#00B4D8",
-          background: isDragActive ? "rgba(0,180,216,0.1)" : "rgba(255,255,255,0.04)",
-          cursor: "pointer",
-          transition: "0.3s",
+          ...dropZoneBase,
+          ...(isDragActive ? dropZoneActive : dropZoneIdle),
         }}
       >
         <input {...getInputProps()} />

@@ -17,6 +17,10 @@ import {
   modeSwitchBar,
   modeSwitchButton,
   modeSwitchButtonActive,
+  actionRow,
+  formCard,
+  rowMetaText,
+  sectionAccentTitle,
 } from "@/app/admin/adminStyles";
 
 const emptyMember = {
@@ -140,7 +144,7 @@ export default function TeamManager({ teams, onTeamsChange }) {
             </button>
           </div>
 
-          <h3 style={{ marginTop: "0.5rem", color: "#00B4D8" }}>
+          <h3 style={{ marginTop: "0.5rem", ...sectionAccentTitle }}>
             Members of {selectedTeam?.title}
           </h3>
 
@@ -152,14 +156,12 @@ export default function TeamManager({ teams, onTeamsChange }) {
                   <div key={index} className="member-card" style={listItem}>
                     <div>
                       <strong>{member.name}</strong>
-                      <p
-                        style={{ margin: 0, opacity: 0.6, fontSize: "0.8rem" }}
-                      >
+                      <p style={{ ...rowMetaText, fontSize: "0.8rem", opacity: 0.6 }}>
                         {member.role}
                       </p>
                     </div>
 
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <div style={actionRow}>
                       <button
                         className="team-button"
                         style={editButton}
@@ -208,18 +210,9 @@ export default function TeamManager({ teams, onTeamsChange }) {
 
               {newMember && (
                 <div
-                  style={{
-                    marginTop: "1.5rem",
-                    padding: "1rem",
-                    borderRadius: "12px",
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.8rem",
-                  }}
+                  style={formCard}
                 >
-                  <h3 style={{ color: "#00B4D8" }}>
+                  <h3 style={sectionAccentTitle}>
                     {editingMemberIndex === null ? "Add Member" : "Edit Member"}
                   </h3>
 

@@ -41,7 +41,7 @@ export const sectionCard = {
   background: "var(--admin-card)",
   borderRadius: "18px",
   padding: "1.5rem",
-  border: "1px solid rgba(255,255,255,0.08)",
+  border: "1px solid var(--admin-border-soft)",
   boxShadow: "0 0 15px rgba(0, 180, 216, 0.1)",
 };
 export const sectionTitle = {
@@ -85,10 +85,10 @@ export const submitButton = {
 };
 export const builderBox = {
   marginTop: "1.5rem",
-  background: "rgba(255,255,255,0.03)",
+  background: "var(--admin-surface-soft)",
   borderRadius: "12px",
   padding: "1rem",
-  border: "1px solid rgba(255,255,255,0.08)",
+  border: "1px solid var(--admin-border-soft)",
 };
 export const addSectionBtn = {
   background: "rgba(0,180,216,0.1)",
@@ -111,16 +111,16 @@ export const builderTextarea = {
 };
 
 export const sectionEditorBox = {
-  background: "rgba(0,0,0,0.3)",
+  background: "var(--admin-overlay)",
   padding: "1rem",
   borderRadius: "10px",
-  border: "1px solid rgba(255,255,255,0.1)",
+  border: "1px solid var(--admin-border-strong)",
 };
 export const listContainer = {
   marginTop: "1.8rem",
-  borderTop: "1px solid rgba(255,255,255,0.1)",
+  borderTop: "1px solid var(--admin-border-strong)",
   paddingTop: "1rem",
-  background: "rgba(255,255,255,0.03)",
+  background: "var(--admin-surface-soft)",
   borderRadius: "12px",
   padding: "1rem",
   boxShadow: "inset 0 0 10px rgba(0,0,0,0.2)",
@@ -143,10 +143,10 @@ export const listItem = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  background: "rgba(255,255,255,0.06)",
+  background: "var(--admin-surface-strong)",
   padding: "0.9rem 1rem",
   borderRadius: "10px",
-  border: "1px solid rgba(255,255,255,0.1)",
+  border: "1px solid var(--admin-border-strong)",
   boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
   marginBottom: "0.8rem",
 };
@@ -202,8 +202,8 @@ export const thumbBox = {
   paddingTop: "100%",
   borderRadius: "10px",
   overflow: "hidden",
-  border: "1px solid rgba(255,255,255,0.1)",
-  background: "rgba(255,255,255,0.04)",
+  border: "1px solid var(--admin-border-strong)",
+  background: "var(--admin-surface-soft)",
   transition: "transform 350ms ease, box-shadow 350ms ease",
 };
 export const thumbImg = {
@@ -224,4 +224,59 @@ export const thumbClose = {
   fontSize: "12px",
   padding: "2px 6px",
   cursor: "pointer",
+};
+
+export const rowMetaText = {
+  margin: 0,
+  fontSize: "0.85rem",
+  opacity: 0.7,
+};
+
+export const actionRow = {
+  display: "flex",
+  gap: "0.5rem",
+};
+
+export const formCard = {
+  marginTop: "1.5rem",
+  padding: "1rem",
+  borderRadius: "12px",
+  background: "var(--admin-surface-soft)",
+  border: "1px solid var(--admin-border-strong)",
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.8rem",
+};
+
+export const sectionAccentTitle = {
+  color: "var(--admin-info-fg)",
+};
+
+export const dropZoneBase = {
+  border: "2px dashed rgba(0,180,216,0.4)",
+  borderRadius: "10px",
+  padding: "1rem",
+  textAlign: "center",
+  color: "var(--admin-info-fg)",
+  cursor: "pointer",
+  transition: "0.3s",
+};
+
+export const dropZoneIdle = {
+  background: "var(--admin-surface-soft)",
+};
+
+export const dropZoneActive = {
+  background: "var(--admin-info-bg)",
+};
+
+export const kvRow = {
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: "0.5rem",
+  background: "var(--admin-overlay)",
+  border: "1px solid var(--admin-border-soft)",
+  borderRadius: "8px",
+  padding: "0.6rem 0.8rem",
 };

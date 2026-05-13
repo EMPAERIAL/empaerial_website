@@ -61,6 +61,11 @@
   --admin-info-bg: rgba(0, 180, 216, 0.15);
   --admin-info-border: rgba(0, 180, 216, 0.25);
   --admin-info-fg: #00b4d8;
+  --admin-surface-soft: rgba(255, 255, 255, 0.04);
+  --admin-surface-strong: rgba(255, 255, 255, 0.06);
+  --admin-border-soft: rgba(255, 255, 255, 0.08);
+  --admin-border-strong: rgba(255, 255, 255, 0.1);
+  --admin-overlay: rgba(0, 0, 0, 0.35);
 }
 
 /* ── RESET ──────────────────────────────────────────── */
