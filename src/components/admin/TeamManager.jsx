@@ -1,4 +1,8 @@
 ﻿"use client";
+import { useState } from "react";
+import CustomSelect from "@/components/CustomSelect";
+import { FileDrop } from "@/components/admin/FileDroppers";
+import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
 import styles from "@/app/admin/adminTheme.module.css";
 
 const emptyMember = {
@@ -82,7 +86,7 @@ export default function TeamManager({ teams, onTeamsChange }) {
   };
 
   return (
-    <div className="team-section" className={styles.sectionCard}>
+    <div className={styles.sectionCard}>
       <h2 className={styles.sectionTitle}>Team Management</h2>
 
       <CustomSelect
@@ -137,7 +141,6 @@ export default function TeamManager({ teams, onTeamsChange }) {
 
                     <div className={styles.actionRow}>
                       <button
-                        className="team-button"
                         className={styles.editButton}
                         onClick={() => {
                           setMode("create");
@@ -152,7 +155,6 @@ export default function TeamManager({ teams, onTeamsChange }) {
                       </button>
 
                       <button
-                        className="team-button"
                         className={styles.deleteButton}
                         onClick={() => {
                           setDeleteTargetMember(member);
@@ -171,9 +173,7 @@ export default function TeamManager({ teams, onTeamsChange }) {
           {mode === "create" && (
             <>
               <button
-                className="team-button"
-                type="button"
-                className={styles.submitButton}
+                type="button" className={styles.submitButton}
                 style={{ marginBottom: "1rem" }}
                 onClick={() => {
                   setEditingMemberIndex(null);
@@ -210,7 +210,6 @@ export default function TeamManager({ teams, onTeamsChange }) {
                         setNewMember({ ...newMember, [field]: e.target.value })
                       }
                       className={styles.inputField}
-                      className="team-input"
                     />
                   ))}
 
@@ -232,18 +231,14 @@ export default function TeamManager({ teams, onTeamsChange }) {
                   )}
 
                   <button
-                    className="team-button"
-                    type="button"
-                    className={styles.submitButton}
+                    type="button" className={styles.submitButton}
                     onClick={handleSaveMember}
                   >
                     Save
                   </button>
 
                   <button
-                    className="team-button"
-                    type="button"
-                    className={styles.submitButton}
+                    type="button" className={styles.submitButton}
                     style={{ background: "rgba(255,255,255,0.12)", color: "#fff" }}
                     onClick={() => {
                       setNewMember(null);
@@ -280,5 +275,8 @@ export default function TeamManager({ teams, onTeamsChange }) {
     </div>
   );
 }
+
+
+
 
 
