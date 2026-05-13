@@ -60,7 +60,9 @@ export default function BlogPost() {
       }
       if (blog?.videos) {
         videos =
-          typeof blog.videos === "string" ? JSON.parse(blog.videos) : blog.videos;
+          typeof blog.videos === "string"
+            ? JSON.parse(blog.videos)
+            : blog.videos;
       }
     } catch {
       graphData = null;
@@ -100,19 +102,28 @@ export default function BlogPost() {
         <section className={styles.articleSection}>
           <div className={styles.inner}>
             <div className={styles.backRow}>
-              <button onClick={() => router.push("/blogs")} className={styles.backBtn}>
+              <button
+                onClick={() => router.push("/blogs")}
+                className={styles.backBtn}
+              >
                 Back to Blogs
               </button>
             </div>
 
             <header className={styles.header}>
               <h1 className={styles.title}>{blog.title}</h1>
-              <p className={styles.author}>By {blog.author || "EMPAERIAL Team"}</p>
+              <p className={styles.author}>
+                By {blog.author || "EMPAERIAL Team"}
+              </p>
             </header>
 
             {blog.image_url && (
               <div className={styles.coverWrap}>
-                <img src={blog.image_url} alt={blog.title} className={styles.cover} />
+                <img
+                  src={blog.image_url}
+                  alt={blog.title}
+                  className={styles.cover}
+                />
               </div>
             )}
 
