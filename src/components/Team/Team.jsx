@@ -11,6 +11,14 @@ const TAB_MAP = {
   coordinators: { label: 'COORDINATORS', descKey: 'team_coord_desc' },
 };
 
+function formatMemberName(key = "") {
+  return key
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .trim();
+}
+
 function getKey(title = '') {
   const s = title.toLowerCase();
   if (s.includes('software'))   return 'software';
@@ -24,7 +32,36 @@ export default function Team({ t }) {
   const { teams, loading } = useTeams();
   const [activeKey, setActiveKey] = useState('software');
 
-  const activeGroup = teams.find((g) => getKey(g.title) === activeKey);
+  const fallbackTeams = Object.entries(t?.members || {}).reduce(
+    (acc, [key, member]) => {
+      const role = member?.role || "";
+      let groupKey = "software";
+      const roleLower = role.toLowerCase();
+      if (roleLower.includes("electron") || roleLower.includes("elektron")) groupKey = "electronics";
+      else if (roleLower.includes("mechanic") || roleLower.includes("mekanik")) groupKey = "mechanical";
+      else if (roleLower.includes("coord") || roleLower.includes("koordin")) groupKey = "coordinators";
+
+      acc[groupKey].members.push({
+        name: formatMemberName(key),
+        role: member?.role || "",
+        skills: member?.skills || "",
+        funFact: member?.funfact || "",
+        photo: "",
+      });
+      return acc;
+    },
+    {
+      software: { title: "Software", members: [] },
+      electronics: { title: "Electronics", members: [] },
+      mechanical: { title: "Mechanical", members: [] },
+      coordinators: { title: "Coordinators", members: [] },
+    }
+  );
+
+  const effectiveTeams = Array.isArray(teams) && teams.length > 0
+    ? teams
+    : Object.values(fallbackTeams);
+  const activeGroup = effectiveTeams.find((g) => getKey(g.title) === activeKey);
 
   return (
     <section className="sec sec-light" id="team" aria-labelledby="team-title">

@@ -78,7 +78,16 @@ export default function Projects({ t }) {
     );
   }
 
-  const featuredProject = Array.isArray(projects) && projects.length > 0 ? projects[0] : null;
+  const fallbackProject = {
+    name: "Vespasian",
+    summary:
+      t.projects.vespasian?.summary ||
+      "Lightweight quadcopter prototype for stable flight and durability.",
+    slug: "vespasian",
+    image_url: FALLBACK_IMAGES[0],
+    sections: [],
+  };
+  const featuredProject = Array.isArray(projects) && projects.length > 0 ? projects[0] : fallbackProject;
   const galleryImages = getGalleryImages(featuredProject);
   const specs = getProjectSpecs(featuredProject, t);
   const comingSoon = t.projects.comingSoon || "Coming Soon";
