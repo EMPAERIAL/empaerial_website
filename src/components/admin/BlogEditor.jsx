@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react"
 import { FileDrop, FileDropMulti, FileDropMultiVideo } from "@/components/admin/FileDroppers"
+import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal"
 import {
   sectionCard, sectionTitle, formLayout, inputField, readonlyInput,
   submitButton, builderBox, addSectionBtn, builderTextarea,
@@ -26,6 +27,9 @@ const emptyForm = {
 export default function BlogEditor({ blogs, onBlogsChange }) {
   const [blogForm, setBlogForm] = useState(emptyForm)
   const [dragBlogIdx, setDragBlogIdx] = useState(null)
+  const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [deleteSubmitting, setDeleteSubmitting] = useState(false)
+  const [deleteError, setDeleteError] = useState("")
 
   const handleBlogSubmit = async (e) => {
     e.preventDefault()
@@ -67,9 +71,10 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const handleDelete = async (id) => {
-    const password = prompt("Enter admin password to confirm deletion:")
+  const handleDelete = async (id, password) => {
     if (!password) return
+    setDeleteSubmitting(true)
+    setDeleteError("")
     try {
       const res = await fetch("/api/blogs", {
         method: "DELETE",
@@ -78,17 +83,19 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
       })
       const result = await res.json()
       if (!res.ok) {
-        alert(result.error || "Failed to delete")
+        setDeleteError(result.error || "Failed to delete")
         return
       }
       alert("✅ Deleted successfully!")
       onBlogsChange(blogs.filter(b => b?.id !== id))
+      setDeleteTargetId(null)
     } catch (err) {
       console.error("Delete error:", err)
-      alert("❌ Deletion failed.")
+      setDeleteError("❌ Deletion failed.")
+    } finally {
+      setDeleteSubmitting(false)
     }
   }
-
   const onBlogThumbDragStart = (i) => setDragBlogIdx(i)
   const onBlogThumbDragOver = (e) => e.preventDefault()
   const onBlogThumbDrop = (i) => {
@@ -306,13 +313,28 @@ export default function BlogEditor({ blogs, onBlogsChange }) {
                 </div>
                 <div style={{ display: "flex", gap: "0.5rem" }}>
                   <button style={editButton} onClick={() => handleEdit(b)}>✏️ Edit</button>
-                  <button style={deleteButton} onClick={() => handleDelete(b.id)}>🗑 Delete</button>
+                  <button style={deleteButton} onClick={() => { setDeleteTargetId(b.id); setDeleteError("") }}>🗑 Delete</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
+      <ConfirmDeleteModal
+        open={Boolean(deleteTargetId)}
+        itemLabel="this blog post"
+        submitting={deleteSubmitting}
+        error={deleteError}
+        onCancel={() => {
+          if (deleteSubmitting) return
+          setDeleteTargetId(null)
+          setDeleteError("")
+        }}
+        onConfirm={(password) => handleDelete(deleteTargetId, password)}
+      />
     </div>
   )
 }
+
+
+

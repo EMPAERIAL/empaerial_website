@@ -1,0 +1,109 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1400;
+}
+
+.dialog {
+  width: min(100%, 440px);
+  background: var(--ui-surface-1);
+  border: 1px solid var(--ui-border-soft);
+  color: var(--ui-page-fg);
+  padding: 20px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+
+.description {
+  margin: 0 0 14px;
+  color: var(--ui-muted-fg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ui-subtle-fg);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--ui-border-soft);
+  background: var(--ui-surface-1);
+  color: var(--ui-page-fg);
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--ui-border-strong);
+  box-shadow: 0 0 0 3px var(--ink-10);
+}
+
+.error {
+  margin-top: 10px;
+  border: 1px solid var(--admin-danger-border);
+  background: var(--admin-danger-bg);
+  color: var(--admin-danger-fg);
+  padding: 8px 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cancel,
+.confirm {
+  border: 1px solid;
+  padding: 9px 14px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cancel {
+  border-color: var(--ui-border-soft);
+  color: var(--ui-page-fg);
+  background: var(--ui-surface-1);
+}
+
+.confirm {
+  border-color: #000;
+  color: #fff;
+  background: #000;
+}
+
+.confirm:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

@@ -3,6 +3,7 @@ import { useState } from "react"
 import KVEditor from "@/components/admin/KVEditor"
 import ProjectGalleryEditor from "@/components/admin/ProjectGalleryEditor"
 import { FileDrop } from "@/components/admin/FileDroppers"
+import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal"
 import {
   sectionCard, sectionTitle, formLayout, inputField, readonlyInput,
   submitButton, builderBox, addSectionBtn, builderTextarea,
@@ -36,6 +37,9 @@ const createContactSection = (projectName = "this project") => ({
 export default function ProjectEditor({ projects, onProjectsChange }) {
   const [form, setForm] = useState({ name: "", summary: "", image_url: "", slug: "", id: null, gallery_images: [] })
   const [sections, setSections] = useState([])
+  const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [deleteSubmitting, setDeleteSubmitting] = useState(false)
+  const [deleteError, setDeleteError] = useState("")
 
   const addSection = (type) => setSections(prev => [...prev, { id: Date.now(), type, data: sectionTemplates[type] || {} }])
   const updateSection = (id, newData) => setSections(prev => prev.map(s => s.id === id ? { ...s, data: newData } : s))
@@ -76,9 +80,10 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const handleDelete = async (id) => {
-    const password = prompt("Enter admin password to confirm deletion:")
+  const handleDelete = async (id, password) => {
     if (!password) return
+    setDeleteSubmitting(true)
+    setDeleteError("")
     try {
       const res = await fetch("/api/projects", {
         method: "DELETE",
@@ -87,17 +92,19 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
       })
       const result = await res.json()
       if (!res.ok) {
-        alert(result.error || "Failed to delete")
+        setDeleteError(result.error || "Failed to delete")
         return
       }
       alert("✅ Deleted successfully!")
       onProjectsChange(projects.filter(p => p?.id !== id))
+      setDeleteTargetId(null)
     } catch (err) {
       console.error("Delete error:", err)
-      alert("❌ Deletion failed.")
+      setDeleteError("❌ Deletion failed.")
+    } finally {
+      setDeleteSubmitting(false)
     }
   }
-
   const handleProjectSubmit = async (e) => {
     e.preventDefault()
 
@@ -261,13 +268,27 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                 </div>
                 <div style={{ display: "flex", gap: "0.5rem" }}>
                   <button style={editButton} onClick={() => handleEdit(p)}>✏️ Edit</button>
-                  <button style={deleteButton} onClick={() => handleDelete(p.id)}>🗑 Delete</button>
+                  <button style={deleteButton} onClick={() => { setDeleteTargetId(p.id); setDeleteError("") }}>🗑 Delete</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
+      <ConfirmDeleteModal
+        open={Boolean(deleteTargetId)}
+        itemLabel="this project"
+        submitting={deleteSubmitting}
+        error={deleteError}
+        onCancel={() => {
+          if (deleteSubmitting) return
+          setDeleteTargetId(null)
+          setDeleteError("")
+        }}
+        onConfirm={(password) => handleDelete(deleteTargetId, password)}
+      />
     </div>
   )
 }
+
+

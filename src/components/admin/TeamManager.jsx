@@ -2,6 +2,7 @@
 import { useState } from "react"
 import CustomSelect from "@/components/CustomSelect"
 import { FileDrop } from "@/components/admin/FileDroppers"
+import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal"
 import {
   sectionCard, sectionTitle, inputField,
   submitButton, listItem, deleteButton, editButton,
@@ -22,29 +23,43 @@ export default function TeamManager({ teams, onTeamsChange }) {
   const [selectedTeamId, setSelectedTeamId] = useState("")
   const [newMember, setNewMember] = useState(null)
   const [editingMemberIndex, setEditingMemberIndex] = useState(null)
+  const [deleteTargetMember, setDeleteTargetMember] = useState(null)
+  const [deleteSubmitting, setDeleteSubmitting] = useState(false)
+  const [deleteError, setDeleteError] = useState("")
 
   const selectedTeam = teams.find((t) => t.id === Number(selectedTeamId))
 
-  const handleDeleteMember = async (member) => {
-    const password = prompt("Enter admin password to delete:")
+  const handleDeleteMember = async (member, password) => {
     if (!password) return
+    setDeleteSubmitting(true)
+    setDeleteError("")
 
-    const res = await fetch("/api/teams", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        teamId: selectedTeam.id,
-        deleteName: member.name,
-        password,
-      }),
-    })
+    try {
+      const res = await fetch("/api/teams", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          teamId: selectedTeam.id,
+          deleteName: member.name,
+          password,
+        }),
+      })
 
-    const result = await res.json()
-    if (!res.ok) return alert(result.error)
+      const result = await res.json()
+      if (!res.ok) {
+        setDeleteError(result.error || "Failed to delete")
+        return
+      }
 
-    onTeamsChange(teams.map((t) => (t.id === selectedTeam.id ? result : t)))
+      onTeamsChange(teams.map((t) => (t.id === selectedTeam.id ? result : t)))
+      setDeleteTargetMember(null)
+    } catch (err) {
+      console.error("Delete error:", err)
+      setDeleteError("Deletion failed.")
+    } finally {
+      setDeleteSubmitting(false)
+    }
   }
-
   const handleSaveMember = async () => {
     const team = teams.find((t) => t.id === Number(selectedTeamId))
     const updated = [...team.members]
@@ -134,7 +149,7 @@ export default function TeamManager({ teams, onTeamsChange }) {
                 <button
                   className="team-button"
                   style={deleteButton}
-                  onClick={() => handleDeleteMember(member)}
+                  onClick={() => { setDeleteTargetMember(member); setDeleteError("") }}
                 >
                   Delete
                 </button>
@@ -211,6 +226,20 @@ export default function TeamManager({ teams, onTeamsChange }) {
           )}
         </>
       )}
+      <ConfirmDeleteModal
+        open={Boolean(deleteTargetMember)}
+        itemLabel={deleteTargetMember ? `member ${deleteTargetMember.name}` : "this member"}
+        submitting={deleteSubmitting}
+        error={deleteError}
+        onCancel={() => {
+          if (deleteSubmitting) return
+          setDeleteTargetMember(null)
+          setDeleteError("")
+        }}
+        onConfirm={(password) => handleDeleteMember(deleteTargetMember, password)}
+      />
     </div>
   )
 }
+
+
