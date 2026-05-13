@@ -17,6 +17,50 @@
   --dur-micro: 140ms;
   --dur-state: 320ms;
   --ease-prop: cubic-bezier(0.25, 0, 0, 1);
+
+  /*
+   * Semantic UI tokens for blogs/admin surfaces.
+   * Keep these aliases stable while components migrate from hardcoded values.
+   */
+  --ui-page-bg: #fff;
+  --ui-page-fg: #000;
+  --ui-muted-fg: var(--ink-60);
+  --ui-subtle-fg: var(--ink-40);
+  --ui-border-soft: var(--ink-10);
+  --ui-border-strong: var(--ink-80);
+  --ui-surface-1: #fff;
+  --ui-surface-2: var(--paper-warm);
+  --ui-focus-ring: #000;
+
+  --blog-bg: radial-gradient(circle at top, #051727, #000);
+  --blog-fg: #eaeaea;
+  --blog-heading: #00b4d8;
+  --blog-muted: #aaa;
+  --blog-surface: rgba(255, 255, 255, 0.04);
+  --blog-surface-border: rgba(255, 255, 255, 0.08);
+  --blog-surface-hover-shadow: 0 16px 40px rgba(0, 200, 255, 0.18);
+  --blog-card-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --blog-accent-soft: rgba(102, 217, 239, 0.15);
+  --blog-accent-strong: #00b4d8;
+  --blog-accent-contrast: #0b1622;
+  --blog-overlay: rgba(0, 0, 0, 0.8);
+
+  --admin-bg: radial-gradient(circle at top, #001933 0%, #000814 70%);
+  --admin-fg: #fff;
+  --admin-title: #00e0ff;
+  --admin-muted: #a0aec0;
+  --admin-panel: rgba(255, 255, 255, 0.05);
+  --admin-panel-border: rgba(255, 255, 255, 0.1);
+  --admin-card: rgba(0, 0, 0, 0.35);
+  --admin-input: rgba(255, 255, 255, 0.06);
+  --admin-input-border: rgba(255, 255, 255, 0.1);
+  --admin-action-bg: linear-gradient(90deg, #00b4d8, #0077b6);
+  --admin-danger-bg: rgba(255, 60, 60, 0.15);
+  --admin-danger-border: rgba(255, 100, 100, 0.25);
+  --admin-danger-fg: #ff6b6b;
+  --admin-info-bg: rgba(0, 180, 216, 0.15);
+  --admin-info-border: rgba(0, 180, 216, 0.25);
+  --admin-info-fg: #00b4d8;
 }
 
 /* ── RESET ──────────────────────────────────────────── */
@@ -182,7 +226,7 @@ button {
 
 /* ── FOCUS ───────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #000;
+  outline: 2px solid var(--ui-focus-ring);
   outline-offset: 3px;
   border-radius: 3px;
 }
