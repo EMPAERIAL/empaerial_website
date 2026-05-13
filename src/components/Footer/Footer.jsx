@@ -43,10 +43,10 @@ export default function Footer({ t }) {
         <Link
           href="/admin-login"
           className={styles.adminLink}
-          aria-label="Admin login"
+          aria-label="Return to admin login"
           tabIndex={-1}
         >
-          Admin
+          Return
         </Link>{" "}
         <span>{t.footer_copyright}</span>
       </div>
