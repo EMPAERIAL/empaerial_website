@@ -17,8 +17,37 @@ const sectionTemplates = {
   specs: { rows: DEFAULT_SPECS_ROWS.map((r) => ({ ...r })) },
   materials: { rows: DEFAULT_MATERIALS_ROWS.map((r) => ({ ...r })) },
   gallery: { images: [] },
+  callouts: { items: [{ label: "", detail: "", x: 50, y: 50 }] },
+  videos: { videos: [{ title: "", url: "" }] },
   text: { heading: "ABOUT THIS PROJECT", content: "" },
 };
+
+function normalizeCalloutSection(sec) {
+  const items = Array.isArray(sec?.data?.items) ? sec.data.items : [];
+
+  return {
+    items: items.map((item) => ({
+      label: item?.label || "",
+      detail: item?.detail || "",
+      x: Number.isFinite(Number(item?.x)) ? Number(item.x) : 50,
+      y: Number.isFinite(Number(item?.y)) ? Number(item.y) : 50,
+    })),
+  };
+}
+
+function normalizeVideoSection(sec) {
+  const videos = Array.isArray(sec?.data?.videos) ? sec.data.videos : [];
+
+  return {
+    videos: videos
+      .map((item) =>
+        typeof item === "string"
+          ? { title: "", url: item }
+          : { title: item?.title || "", url: item?.url || "" }
+      )
+      .filter((item) => item.title || item.url),
+  };
+}
 
 const createContactSection = (projectName = "this project") => ({
   id: "contact-fixed",
@@ -90,6 +119,12 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
               if (sec.type === "specs" || sec.type === "materials") {
                 return { ...sec, data: normalizeKeyValueSection(sec) };
               }
+              if (sec.type === "callouts") {
+                return { ...sec, data: normalizeCalloutSection(sec) };
+              }
+              if (sec.type === "videos") {
+                return { ...sec, data: normalizeVideoSection(sec) };
+              }
               return sec;
             })
         );
@@ -143,6 +178,12 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
       if (sec.type === "gallery") {
         const images = Array.isArray(sec.data?.images) ? sec.data.images : [];
         return { ...sec, data: { images } };
+      }
+      if (sec.type === "callouts") {
+        return { ...sec, data: normalizeCalloutSection(sec) };
+      }
+      if (sec.type === "videos") {
+        return { ...sec, data: normalizeVideoSection(sec) };
       }
       return sec;
     });
@@ -238,9 +279,16 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
               }
             />
             {form.image_url && (
-              <div className={styles.gridThumbs} style={{ gridTemplateColumns: "90px" }}>
+              <div
+                className={styles.gridThumbs}
+                style={{ gridTemplateColumns: "90px" }}
+              >
                 <div className={styles.thumbBox}>
-                  <img src={form.image_url} alt="project-cover" className={styles.thumbImg} />
+                  <img
+                    src={form.image_url}
+                    alt="project-cover"
+                    className={styles.thumbImg}
+                  />
                   <button
                     type="button"
                     onClick={() =>
@@ -266,7 +314,14 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
           <div className={styles.builderBox}>
             <h3 className={styles.miniHeader}>Page Builder</h3>
             <div className={styles.actionRow}>
-              {["specs", "materials", "gallery", "text"].map((type) => (
+              {[
+                "specs",
+                "materials",
+                "gallery",
+                "callouts",
+                "videos",
+                "text",
+              ].map((type) => (
                 <button
                   key={type}
                   type="button"
@@ -281,7 +336,9 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
             <div className={styles.formLayout} style={{ marginTop: "1rem" }}>
               {sections.map((s) => (
                 <div key={s.id} className={styles.sectionEditorBox}>
-                  <h4 className={styles.sectionAccentTitle}>{s.type.toUpperCase()}</h4>
+                  <h4 className={styles.sectionAccentTitle}>
+                    {s.type.toUpperCase()}
+                  </h4>
 
                   {s.type === "specs" || s.type === "materials" ? (
                     <KVEditor
@@ -320,6 +377,178 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                         className={styles.builderTextarea}
                         style={{ minHeight: "120px" }}
                       />
+                    </div>
+                  ) : s.type === "callouts" ? (
+                    <div className={styles.formLayout}>
+                      {(Array.isArray(s.data?.items) ? s.data.items : []).map(
+                        (item, index) => (
+                          <div
+                            key={`${s.id}-callout-${index}`}
+                            className={styles.sectionEditorBox}
+                          >
+                            <input
+                              type="text"
+                              placeholder="Label"
+                              value={item.label}
+                              onChange={(e) => {
+                                const nextItems = [...s.data.items];
+                                nextItems[index] = {
+                                  ...nextItems[index],
+                                  label: e.target.value,
+                                };
+                                updateSection(s.id, { items: nextItems });
+                              }}
+                              className={styles.inputField}
+                            />
+                            <input
+                              type="text"
+                              placeholder="Short detail"
+                              value={item.detail}
+                              onChange={(e) => {
+                                const nextItems = [...s.data.items];
+                                nextItems[index] = {
+                                  ...nextItems[index],
+                                  detail: e.target.value,
+                                };
+                                updateSection(s.id, { items: nextItems });
+                              }}
+                              className={styles.inputField}
+                            />
+                            <div className={styles.actionRow}>
+                              <input
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="X %"
+                                value={item.x}
+                                onChange={(e) => {
+                                  const nextItems = [...s.data.items];
+                                  nextItems[index] = {
+                                    ...nextItems[index],
+                                    x: e.target.value,
+                                  };
+                                  updateSection(s.id, { items: nextItems });
+                                }}
+                                className={styles.inputField}
+                              />
+                              <input
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="Y %"
+                                value={item.y}
+                                onChange={(e) => {
+                                  const nextItems = [...s.data.items];
+                                  nextItems[index] = {
+                                    ...nextItems[index],
+                                    y: e.target.value,
+                                  };
+                                  updateSection(s.id, { items: nextItems });
+                                }}
+                                className={styles.inputField}
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateSection(s.id, {
+                                  items: s.data.items.filter(
+                                    (_, itemIndex) => itemIndex !== index
+                                  ),
+                                })
+                              }
+                              className={styles.deleteButton}
+                            >
+                              Remove Callout
+                            </button>
+                          </div>
+                        )
+                      )}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateSection(s.id, {
+                            items: [
+                              ...(Array.isArray(s.data?.items)
+                                ? s.data.items
+                                : []),
+                              { label: "", detail: "", x: 50, y: 50 },
+                            ],
+                          })
+                        }
+                        className={styles.addSectionBtn}
+                      >
+                        + Add Callout
+                      </button>
+                    </div>
+                  ) : s.type === "videos" ? (
+                    <div className={styles.formLayout}>
+                      {(Array.isArray(s.data?.videos) ? s.data.videos : []).map(
+                        (item, index) => (
+                          <div
+                            key={`${s.id}-video-${index}`}
+                            className={styles.sectionEditorBox}
+                          >
+                            <input
+                              type="text"
+                              placeholder="Video title"
+                              value={item.title}
+                              onChange={(e) => {
+                                const nextVideos = [...s.data.videos];
+                                nextVideos[index] = {
+                                  ...nextVideos[index],
+                                  title: e.target.value,
+                                };
+                                updateSection(s.id, { videos: nextVideos });
+                              }}
+                              className={styles.inputField}
+                            />
+                            <input
+                              type="text"
+                              placeholder="Video URL"
+                              value={item.url}
+                              onChange={(e) => {
+                                const nextVideos = [...s.data.videos];
+                                nextVideos[index] = {
+                                  ...nextVideos[index],
+                                  url: e.target.value,
+                                };
+                                updateSection(s.id, { videos: nextVideos });
+                              }}
+                              className={styles.inputField}
+                            />
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateSection(s.id, {
+                                  videos: s.data.videos.filter(
+                                    (_, videoIndex) => videoIndex !== index
+                                  ),
+                                })
+                              }
+                              className={styles.deleteButton}
+                            >
+                              Remove Video
+                            </button>
+                          </div>
+                        )
+                      )}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateSection(s.id, {
+                            videos: [
+                              ...(Array.isArray(s.data?.videos)
+                                ? s.data.videos
+                                : []),
+                              { title: "", url: "" },
+                            ],
+                          })
+                        }
+                        className={styles.addSectionBtn}
+                      >
+                        + Add Video
+                      </button>
                     </div>
                   ) : s.type === "gallery" ? (
                     <ProjectGalleryEditor
@@ -369,12 +598,13 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
               <div key={p.id} className={styles.listItem}>
                 <div>
                   <strong>{p.name}</strong>
-                  <p className={styles.rowMetaText}>
-                    {p.summary}
-                  </p>
+                  <p className={styles.rowMetaText}>{p.summary}</p>
                 </div>
                 <div className={styles.actionRow}>
-                  <button className={styles.editButton} onClick={() => handleEdit(p)}>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => handleEdit(p)}
+                  >
                     Edit
                   </button>
                   <button
@@ -408,5 +638,3 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
     </div>
   );
 }
-
-
