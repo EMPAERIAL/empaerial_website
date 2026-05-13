@@ -1,7 +1,7 @@
 export const pageContainer = {
   minHeight: "100vh",
   background: "var(--admin-bg)",
-  padding: "2rem 1rem",
+  padding: "2.5rem 1rem",
   color: "var(--admin-fg)",
   fontFamily: "var(--font-body)",
   display: "flex",
@@ -10,13 +10,13 @@ export const pageContainer = {
 
 export const panelContainer = {
   background: "var(--admin-panel)",
-  backdropFilter: "blur(12px)",
-  borderRadius: "20px",
+  backdropFilter: "blur(16px)",
+  borderRadius: "24px",
   border: "1px solid var(--admin-panel-border)",
-  padding: "2rem",
+  padding: "2.2rem",
   width: "100%",
   maxWidth: "1400px",
-  boxShadow: "0 0 30px rgba(0, 255, 255, 0.1)",
+  boxShadow: "0 20px 60px rgba(2, 8, 24, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
 };
 export const title = {
   textAlign: "center",
@@ -39,10 +39,10 @@ export const gridContainer = {
 
 export const sectionCard = {
   background: "var(--admin-card)",
-  borderRadius: "18px",
-  padding: "1.5rem",
+  borderRadius: "20px",
+  padding: "1.6rem",
   border: "1px solid var(--admin-border-soft)",
-  boxShadow: "0 0 15px rgba(0, 180, 216, 0.1)",
+  boxShadow: "0 14px 34px rgba(4, 10, 26, 0.35)",
 };
 export const sectionTitle = {
   color: "var(--admin-info-fg)",
@@ -60,7 +60,7 @@ export const inputField = {
   background: "var(--admin-input)",
   border: "1px solid var(--admin-input-border)",
   borderRadius: "10px",
-  padding: "0.7rem 1rem",
+  padding: "0.78rem 1rem",
   color: "var(--blog-fg)",
   fontSize: "0.95rem",
   outline: "none",
@@ -73,15 +73,16 @@ export const readonlyInput = {
 
 export const submitButton = {
   background: "var(--admin-action-bg)",
-  border: "none",
+  border: "1px solid rgba(255, 255, 255, 0.35)",
   borderRadius: "10px",
   padding: "0.8rem",
-  color: "white",
-  fontWeight: "600",
+  color: "#1a1304",
+  fontWeight: "700",
   cursor: "pointer",
   marginTop: "0.3rem",
   fontSize: "1rem",
-  letterSpacing: "0.3px",
+  letterSpacing: "0.5px",
+  boxShadow: "0 10px 22px rgba(252, 163, 17, 0.28)",
 };
 export const builderBox = {
   marginTop: "1.5rem",
@@ -91,8 +92,8 @@ export const builderBox = {
   border: "1px solid var(--admin-border-soft)",
 };
 export const addSectionBtn = {
-  background: "rgba(0,180,216,0.1)",
-  border: "1px solid rgba(0,180,216,0.3)",
+  background: "var(--admin-info-bg)",
+  border: "1px solid var(--admin-info-border)",
   color: "var(--admin-info-fg)",
   padding: "6px 10px",
   borderRadius: "8px",
@@ -147,7 +148,7 @@ export const listItem = {
   padding: "0.9rem 1rem",
   borderRadius: "10px",
   border: "1px solid var(--admin-border-strong)",
-  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+  boxShadow: "0 8px 20px rgba(3, 8, 22, 0.25)",
   marginBottom: "0.8rem",
 };
 export const deleteButton = {
@@ -186,8 +187,9 @@ export const modeSwitchBar = {
 export const modeSwitchButton = { ...addSectionBtn, padding: "8px 14px" };
 export const modeSwitchButtonActive = {
   ...modeSwitchButton,
-  background: "var(--admin-info-bg)",
-  border: "1px solid var(--admin-info-border)",
+  background: "var(--admin-action-bg)",
+  border: "1px solid rgba(255, 255, 255, 0.35)",
+  color: "#1a1304",
 };
 
 export const gridThumbs = {
@@ -253,7 +255,7 @@ export const sectionAccentTitle = {
 };
 
 export const dropZoneBase = {
-  border: "2px dashed rgba(0,180,216,0.4)",
+  border: "2px dashed var(--admin-info-border)",
   borderRadius: "10px",
   padding: "1rem",
   textAlign: "center",

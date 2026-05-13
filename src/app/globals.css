@@ -45,27 +45,27 @@
   --blog-accent-contrast: #0b1622;
   --blog-overlay: rgba(0, 0, 0, 0.8);
 
-  --admin-bg: radial-gradient(circle at top, #001933 0%, #000814 70%);
-  --admin-fg: #fff;
-  --admin-title: #00e0ff;
-  --admin-muted: #a0aec0;
-  --admin-panel: rgba(255, 255, 255, 0.05);
-  --admin-panel-border: rgba(255, 255, 255, 0.1);
-  --admin-card: rgba(0, 0, 0, 0.35);
-  --admin-input: rgba(255, 255, 255, 0.06);
-  --admin-input-border: rgba(255, 255, 255, 0.1);
-  --admin-action-bg: linear-gradient(90deg, #00b4d8, #0077b6);
-  --admin-danger-bg: rgba(255, 60, 60, 0.15);
-  --admin-danger-border: rgba(255, 100, 100, 0.25);
-  --admin-danger-fg: #ff6b6b;
-  --admin-info-bg: rgba(0, 180, 216, 0.15);
-  --admin-info-border: rgba(0, 180, 216, 0.25);
-  --admin-info-fg: #00b4d8;
-  --admin-surface-soft: rgba(255, 255, 255, 0.04);
-  --admin-surface-strong: rgba(255, 255, 255, 0.06);
-  --admin-border-soft: rgba(255, 255, 255, 0.08);
-  --admin-border-strong: rgba(255, 255, 255, 0.1);
-  --admin-overlay: rgba(0, 0, 0, 0.35);
+  --admin-bg: radial-gradient(circle at 15% -10%, #2c0f4a 0%, #111a46 40%, #081126 100%);
+  --admin-fg: #f8fbff;
+  --admin-title: #ffd166;
+  --admin-muted: #b7c2de;
+  --admin-panel: rgba(10, 18, 42, 0.78);
+  --admin-panel-border: rgba(255, 209, 102, 0.28);
+  --admin-card: linear-gradient(160deg, rgba(16, 28, 61, 0.92) 0%, rgba(10, 20, 47, 0.92) 100%);
+  --admin-input: rgba(5, 13, 34, 0.88);
+  --admin-input-border: rgba(112, 187, 255, 0.3);
+  --admin-action-bg: linear-gradient(100deg, #ffd166 0%, #fca311 45%, #ff8c42 100%);
+  --admin-danger-bg: rgba(255, 85, 85, 0.2);
+  --admin-danger-border: rgba(255, 112, 112, 0.5);
+  --admin-danger-fg: #ff9f9f;
+  --admin-info-bg: rgba(112, 187, 255, 0.2);
+  --admin-info-border: rgba(112, 187, 255, 0.45);
+  --admin-info-fg: #8ed0ff;
+  --admin-surface-soft: rgba(20, 33, 71, 0.6);
+  --admin-surface-strong: rgba(29, 45, 91, 0.78);
+  --admin-border-soft: rgba(142, 208, 255, 0.18);
+  --admin-border-strong: rgba(142, 208, 255, 0.34);
+  --admin-overlay: rgba(8, 14, 33, 0.72);
 }
 
 /* ── RESET ──────────────────────────────────────────── */

@@ -7,25 +7,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .overline {
   margin: 0;
   color: var(--admin-info-fg);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
   font-weight: 700;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .title {
   margin: 0.35rem 0 0;
   color: var(--admin-title);
-  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
   line-height: 1.1;
   font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 10px 22px rgba(255, 209, 102, 0.22);
 }
 
 .subtitle {
@@ -36,39 +38,42 @@
 
 .tabNav {
   display: flex;
-  gap: 0.7rem;
-  padding: 0.5rem;
-  border-radius: 14px;
+  gap: 0.75rem;
+  padding: 0.58rem;
+  border-radius: 16px;
   background: var(--admin-surface-soft);
   border: 1px solid var(--admin-border-strong);
   margin: 1rem 0 1.2rem;
   overflow-x: auto;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .tabBtn {
   border: 1px solid var(--admin-info-border);
   background: var(--admin-info-bg);
-  color: var(--admin-muted);
-  border-radius: 10px;
-  padding: 0.62rem 1rem;
+  color: var(--admin-fg);
+  border-radius: 11px;
+  padding: 0.62rem 1.04rem;
   font-size: 0.93rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
 .tabBtn:hover {
   color: var(--admin-fg);
   border-color: var(--admin-info-fg);
   background: var(--admin-info-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(8, 21, 52, 0.45);
 }
 
 .tabBtnActive {
-  color: #fff;
+  color: #1a1304;
   background: var(--admin-action-bg);
-  border-color: var(--admin-border-strong);
-  box-shadow: 0 8px 24px rgba(0, 119, 182, 0.34);
+  border-color: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 10px 24px rgba(252, 163, 17, 0.34);
 }
 
 .activePanel {
