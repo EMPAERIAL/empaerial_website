@@ -392,7 +392,8 @@ export default function ProjectDetails() {
     const element = document.getElementById(id);
     if (!element) return;
 
-    const top = element.getBoundingClientRect().top + window.scrollY - 112;
+    const offset = window.innerWidth <= 768 ? 148 : 112;
+    const top = element.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: "smooth" });
   };
 
@@ -723,6 +724,7 @@ export default function ProjectDetails() {
                       key={item.id}
                       type="button"
                       onClick={() => scrollToSection(item.id)}
+                      aria-current={activeSection === item.id ? "true" : undefined}
                       className={`${styles.railLink} ${
                         activeSection === item.id ? styles.railLinkActive : ""
                       }`}

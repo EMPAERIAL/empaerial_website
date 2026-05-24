@@ -298,6 +298,7 @@
 .sectionFrame {
   position: relative;
   overflow: hidden;
+  scroll-margin-top: 132px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 28px;
   background:
@@ -693,11 +694,31 @@
 
   .heroOverlay {
     grid-template-columns: 1fr;
+    gap: 20px;
     padding: 22px 20px 28px;
   }
 
   .title {
     font-size: clamp(42px, 14vw, 76px);
+  }
+
+  .dossierPanel {
+    gap: 0;
+    padding: 18px;
+    border-radius: 20px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.03)
+      ),
+      rgba(5, 11, 18, 0.84);
+  }
+
+  .dossierRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding: 12px 0;
   }
 
   .summary,
@@ -708,9 +729,82 @@
 
   .galleryGrid,
   .dataGrid,
-  .videoGrid,
-  .railNav {
+  .videoGrid {
     grid-template-columns: 1fr;
+  }
+
+  .contentGrid {
+    gap: 18px;
+  }
+
+  .rail {
+    position: sticky;
+    top: 74px;
+    z-index: 4;
+  }
+
+  .railInner {
+    gap: 12px;
+    padding: 14px;
+    border-radius: 20px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(8, 16, 25, 0.96),
+        rgba(6, 12, 19, 0.92)
+      ),
+      rgba(4, 10, 16, 0.92);
+    backdrop-filter: blur(18px);
+  }
+
+  .railEyebrow {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+  }
+
+  .railNav {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .railNav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .railLink {
+    position: relative;
+    flex: 0 0 auto;
+    min-width: 132px;
+    max-width: 182px;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px 14px 12px 12px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .railLink::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    border-radius: 999px;
+    background: rgba(119, 219, 255, 0.2);
+  }
+
+  .railLinkActive::before {
+    background: #77dbff;
+    box-shadow: 0 0 18px rgba(119, 219, 255, 0.32);
+  }
+
+  .railLabel {
+    font-size: 13px;
+    line-height: 1.35;
   }
 
   .galleryCardFeatured {
@@ -723,23 +817,74 @@
     padding: 20px;
   }
 
+  .sectionFrame {
+    scroll-margin-top: 168px;
+    border-radius: 24px;
+  }
+
+  .sectionHeader {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .sectionTitle {
+    margin-bottom: 18px;
+    font-size: clamp(26px, 8vw, 38px);
+  }
+
   .calloutStage {
-    min-height: 360px;
+    order: 2;
+    min-height: 280px;
   }
 
   .calloutPin {
     display: none;
   }
 
+  .calloutStageScrim {
+    display: none;
+  }
+
+  .calloutList {
+    order: 1;
+  }
+
+  .calloutListItem {
+    gap: 12px;
+    padding: 14px;
+    border-radius: 16px;
+  }
+
   .intervalFrame,
   .intervalMedia {
-    min-height: 42vh;
+    min-height: auto;
+  }
+
+  .intervalSection {
+    min-height: auto;
+  }
+
+  .intervalMedia {
+    aspect-ratio: 4 / 5;
+    object-position: center;
   }
 
   .intervalOverlay {
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
+    position: static;
+    max-width: none;
+    margin: 0;
+    padding: 16px 16px 18px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(8, 14, 21, 0.96),
+        rgba(5, 10, 16, 0.98)
+      ),
+      rgba(5, 11, 18, 0.96);
+    backdrop-filter: none;
   }
 
   .videoFrame {
