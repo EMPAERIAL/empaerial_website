@@ -92,6 +92,14 @@ function getYouTubeEmbedUrl(url) {
   return url;
 }
 
+function slugifyAnchor(value) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function getProjectDetailCopy(lang, projectName) {
   const statusLabels = STATUS_TRANSLATIONS[lang] || STATUS_TRANSLATIONS.en;
 
@@ -107,10 +115,21 @@ function getProjectDetailCopy(lang, projectName) {
         : "Curated hero media will be added soon.",
     gallery: lang === "tr" ? "Galeri" : "Gallery",
     videos: lang === "tr" ? "Videolar" : "Videos",
+    materials: lang === "tr" ? "Materyaller" : "Materials",
+    textSection: lang === "tr" ? "Proje Hakkinda" : "About the Project",
+    sectionFallback: lang === "tr" ? "Detay Bolumu" : "Detail Section",
     specEmpty:
       lang === "tr"
         ? "Teknik ozellikler yakinda eklenecek."
         : "Specifications will be added soon.",
+    materialsEmpty:
+      lang === "tr"
+        ? "Materyal bilgileri yakinda eklenecek."
+        : "Material details will be added soon.",
+    videosEmpty:
+      lang === "tr"
+        ? "Video icerigi yakinda eklenecek."
+        : "Video content will be added soon.",
     detailFallback:
       lang === "tr" ? "Detaylar yakinda eklenecek." : "Details coming soon.",
     contactTitle:
@@ -124,6 +143,7 @@ function getProjectDetailCopy(lang, projectName) {
     reachOut: lang === "tr" ? "Iletisime Gec" : "Reach Out",
     emailUs: lang === "tr" ? "E-Posta Gonder" : "Email Us",
     contactSection: lang === "tr" ? "Iletisim Bolumu ->" : "Contact Section ->",
+    contactNav: lang === "tr" ? "Iletisim" : "Contact",
     metaLabels: {
       status: lang === "tr" ? "Durum" : "Status",
       year: lang === "tr" ? "Yil" : "Year",
@@ -137,6 +157,7 @@ export default function ProjectDetails() {
   const { slug } = useParams();
   const router = useRouter();
   const [lang, setLang] = useState("en");
+  const [activeSectionId, setActiveSectionId] = useState("");
   const t = lang === "tr" ? tr : en;
   const { projects, loading } = useProjects();
 
@@ -156,37 +177,12 @@ export default function ProjectDetails() {
   );
 
   const galleryImages = useMemo(() => {
-    const sectionImages = sections
-      .filter((section) => section.type === "gallery")
-      .flatMap((section) =>
-        Array.isArray(section?.data?.images) ? section.data.images : []
-      );
+    const sectionImages = sections.flatMap((section) =>
+      Array.isArray(section?.data?.images) ? section.data.images : []
+    );
 
     return [...new Set([project?.image_url, ...sectionImages].filter(Boolean))];
   }, [project?.image_url, sections]);
-
-  const specs = useMemo(() => {
-    const specSection = sections.find((section) => section.type === "specs");
-    return normalizeRows(specSection);
-  }, [sections]);
-
-  const materials = useMemo(() => {
-    const materialSection = sections.find(
-      (section) => section.type === "materials"
-    );
-    return normalizeRows(materialSection);
-  }, [sections]);
-
-  const textSections = useMemo(
-    () => sections.filter((section) => section.type === "text"),
-    [sections]
-  );
-
-  const videos = useMemo(
-    () =>
-      normalizeVideos(sections.filter((section) => section.type === "videos")),
-    [sections]
-  );
 
   const contactSection = useMemo(
     () => sections.find((section) => section.type === "contact"),
@@ -232,6 +228,153 @@ export default function ProjectDetails() {
   const hasHeroVideo = heroMedia?.type === "video" && Boolean(heroMedia?.url);
   const hasHeroImage = heroMedia?.type !== "video" && Boolean(heroImage);
 
+  const renderedSections = useMemo(() => {
+    const visualGalleryImages = [...new Set(galleryImages.filter(Boolean))];
+
+    return sections
+      .filter((section) => section.type !== "contact")
+      .map((section, index) => {
+        const fallbackLabelMap = {
+          specs: t.vespasian?.specifications || "Specifications",
+          materials: t.vespasian?.materials || copy.materials,
+          gallery: copy.gallery,
+          videos: copy.videos,
+          text: section?.data?.heading || copy.textSection,
+        };
+
+        const fallbackLabel =
+          fallbackLabelMap[section.type] || copy.sectionFallback;
+        const label = section.navLabel || fallbackLabel;
+        const anchorBase = slugifyAnchor(
+          section.navLabel ||
+            section?.data?.heading ||
+            `${section.type}-${index + 1}`
+        );
+        const anchor =
+          anchorBase || `${section.type || "section"}-${index + 1}`;
+
+        if (section.type === "gallery") {
+          return {
+            id: section.id,
+            anchor,
+            label,
+            type: "gallery",
+            title: section?.data?.heading || copy.gallery,
+            images: visualGalleryImages,
+          };
+        }
+
+        if (section.type === "specs") {
+          return {
+            id: section.id,
+            anchor,
+            label,
+            type: "specs",
+            title: section?.data?.heading || fallbackLabel,
+            rows: normalizeRows(section),
+          };
+        }
+
+        if (section.type === "materials") {
+          return {
+            id: section.id,
+            anchor,
+            label,
+            type: "materials",
+            title: section?.data?.heading || fallbackLabel,
+            rows: normalizeRows(section),
+          };
+        }
+
+        if (section.type === "videos") {
+          return {
+            id: section.id,
+            anchor,
+            label,
+            type: "videos",
+            title: section?.data?.heading || copy.videos,
+            videos: normalizeVideos([section]),
+          };
+        }
+
+        if (section.type === "text") {
+          return {
+            id: section.id,
+            anchor,
+            label,
+            type: "text",
+            title: section?.data?.heading || copy.textSection,
+            content: section?.data?.content || copy.detailFallback,
+          };
+        }
+
+        return null;
+      })
+      .filter(Boolean);
+  }, [copy, galleryImages, sections, t.vespasian]);
+
+  const railItems = useMemo(
+    () => [
+      ...renderedSections.map((section) => ({
+        id: section.anchor,
+        label: section.label,
+      })),
+      {
+        id: "project-contact",
+        label: contactSection?.navLabel || copy.contactNav,
+      },
+    ],
+    [contactSection?.navLabel, copy.contactNav, renderedSections]
+  );
+
+  useEffect(() => {
+    if (railItems.length === 0) {
+      setActiveSectionId("");
+      return;
+    }
+
+    const sectionElements = railItems
+      .map(({ id }) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (sectionElements.length === 0) {
+      setActiveSectionId(railItems[0].id);
+      return;
+    }
+
+    setActiveSectionId(railItems[0].id);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visibleEntries.length > 0) {
+          setActiveSectionId(visibleEntries[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-20% 0px -55% 0px",
+        threshold: [0.2, 0.35, 0.5, 0.7],
+      }
+    );
+
+    sectionElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, [railItems]);
+
+  function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (!element) return;
+
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+
   if (loading) {
     return (
       <>
@@ -270,228 +413,254 @@ export default function ProjectDetails() {
       <Header t={t} lang={lang} setLang={setLang} />
       <main className={styles.pageMain}>
         <section className={styles.pageSection}>
-          <div className={styles.inner}>
-            <section className={styles.heroCard}>
-              <div className={styles.heroMediaShell}>
-                {hasHeroVideo ? (
-                  <video
-                    className={styles.heroMedia}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    poster={heroPoster || undefined}
-                  >
-                    <source src={heroMedia.url} type="video/mp4" />
-                  </video>
-                ) : hasHeroImage ? (
-                  <img
-                    src={heroImage}
-                    alt={heroAlt}
-                    className={styles.heroMedia}
-                  />
-                ) : heroPoster ? (
-                  <img
-                    src={heroPoster}
-                    alt={heroAlt}
-                    className={styles.heroMedia}
-                  />
-                ) : (
-                  <div className={styles.heroPlaceholder}>
-                    {copy.heroPlaceholder}
-                  </div>
-                )}
-
-                <div className={styles.heroScrim} />
-
-                <div className={styles.heroTopbar}>
-                  <button
-                    type="button"
-                    onClick={() => router.push("/projects")}
-                    className={styles.heroBackBtn}
-                  >
-                    {copy.back}
-                  </button>
-                  <div className={styles.heroEyebrow}>{copy.heroEyebrow}</div>
-                </div>
-
-                <div className={styles.heroOverlay}>
-                  <div className={styles.heroIntro}>
-                    <div className={styles.dossierTag}>{copy.dossier}</div>
-                    <h1 className={styles.title}>{project.name}</h1>
-                    <p className={styles.summary}>
-                      {project.summary ||
-                        t.vespasian?.subtitle ||
-                        "A modular UAV platform built for testing, iteration, and field performance."}
-                    </p>
-                  </div>
-
-                  <div className={styles.dossierPanel}>
-                    {dossierRows.map((row) => (
-                      <div key={row.label} className={styles.dossierRow}>
-                        <span className={styles.dossierLabel}>{row.label}</span>
-                        <strong className={styles.dossierValue}>
-                          {row.value}
-                        </strong>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.heroActions}>
-                <a
-                  href={`mailto:${contactSection?.data?.email || "empaerial.uav@gmail.com"}`}
-                  className={styles.primaryBtn}
-                >
-                  {copy.emailUs}
-                </a>
-                <a
-                  href={contactSection?.data?.link || "#project-contact"}
-                  className={styles.secondaryBtn}
-                >
-                  {copy.reachOut}
-                </a>
-              </div>
-            </section>
-
-            {galleryImages.length > 1 && (
-              <section className={styles.blockCard}>
-                <div className={styles.blockHeader}>
-                  <h2 className={styles.blockTitle}>{copy.gallery}</h2>
-                </div>
-                <div className={styles.galleryGrid}>
-                  {galleryImages.map((src, index) => (
-                    <img
-                      key={`${src}-${index}`}
-                      src={src}
-                      alt={`${project.name} view ${index + 1}`}
-                      className={styles.galleryImage}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            <section className={styles.dualGrid}>
-              <div className={styles.blockCard}>
-                <div className={styles.blockHeader}>
-                  <h2 className={styles.blockTitle}>
-                    {t.vespasian?.specifications || "Specifications"}
-                  </h2>
-                </div>
-                {specs.length > 0 ? (
-                  <div className={styles.dataGrid}>
-                    {specs.map((spec, index) => (
-                      <div
-                        key={`${spec.key}-${index}-full`}
-                        className={styles.dataRow}
-                      >
-                        <span className={styles.dataKey}>{spec.key}</span>
-                        <span className={styles.dataValue}>{spec.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className={styles.emptyText}>{copy.specEmpty}</p>
-                )}
-              </div>
-
-              {materials.length > 0 && (
-                <div className={styles.blockCard}>
-                  <div className={styles.blockHeader}>
-                    <h2 className={styles.blockTitle}>
-                      {t.vespasian?.materials || "Materials"}
-                    </h2>
-                  </div>
-                  <div className={styles.dataGrid}>
-                    {materials.map((item, index) => (
-                      <div
-                        key={`${item.key}-${index}-material`}
-                        className={styles.dataRow}
-                      >
-                        <span className={styles.dataKey}>{item.key}</span>
-                        <span className={styles.dataValue}>{item.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </section>
-
-            {textSections.map((section, index) => (
-              <section key={`text-${index}`} className={styles.blockCard}>
-                <div className={styles.blockHeader}>
-                  <h2 className={styles.blockTitle}>
-                    {section?.data?.heading || "About the Project"}
-                  </h2>
-                </div>
-                <p className={styles.bodyText}>
-                  {section?.data?.content || copy.detailFallback}
-                </p>
-              </section>
-            ))}
-
-            {videos.length > 0 && (
-              <section className={styles.blockCard}>
-                <div className={styles.blockHeader}>
-                  <h2 className={styles.blockTitle}>{copy.videos}</h2>
-                </div>
-                <div className={styles.videoGrid}>
-                  {videos.map((video) => {
-                    const isYouTube =
-                      video.url.includes("youtube") ||
-                      video.url.includes("youtu.be");
+          <div className={styles.layout}>
+            <aside className={styles.railColumn} aria-label={copy.dossier}>
+              <div className={styles.railCard}>
+                <div className={styles.railEyebrow}>{copy.dossier}</div>
+                <nav className={styles.railNav}>
+                  {railItems.map((item, index) => {
+                    const isActive = item.id === activeSectionId;
 
                     return (
-                      <div key={video.id} className={styles.videoCard}>
-                        {isYouTube ? (
-                          <iframe
-                            className={styles.videoFrame}
-                            src={getYouTubeEmbedUrl(video.url)}
-                            title={video.title || project.name}
-                            allowFullScreen
-                          />
-                        ) : (
-                          <video className={styles.videoFrame} controls>
-                            <source src={video.url} type="video/mp4" />
-                          </video>
-                        )}
-                        {video.title ? (
-                          <div className={styles.videoCaption}>
-                            {video.title}
-                          </div>
-                        ) : null}
-                      </div>
+                      <button
+                        key={item.id}
+                        type="button"
+                        className={`${styles.railLink} ${isActive ? styles.railLinkActive : ""}`}
+                        onClick={() => scrollToSection(item.id)}
+                        aria-current={isActive ? "true" : undefined}
+                      >
+                        <span className={styles.railIndex}>
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span>{item.label}</span>
+                      </button>
                     );
                   })}
+                </nav>
+              </div>
+            </aside>
+
+            <div className={styles.inner}>
+              <section className={styles.heroCard}>
+                <div className={styles.heroMediaShell}>
+                  {hasHeroVideo ? (
+                    <video
+                      className={styles.heroMedia}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      poster={heroPoster || undefined}
+                    >
+                      <source src={heroMedia.url} type="video/mp4" />
+                    </video>
+                  ) : hasHeroImage ? (
+                    <img
+                      src={heroImage}
+                      alt={heroAlt}
+                      className={styles.heroMedia}
+                    />
+                  ) : heroPoster ? (
+                    <img
+                      src={heroPoster}
+                      alt={heroAlt}
+                      className={styles.heroMedia}
+                    />
+                  ) : (
+                    <div className={styles.heroPlaceholder}>
+                      {copy.heroPlaceholder}
+                    </div>
+                  )}
+
+                  <div className={styles.heroScrim} />
+
+                  <div className={styles.heroTopbar}>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/projects")}
+                      className={styles.heroBackBtn}
+                    >
+                      {copy.back}
+                    </button>
+                    <div className={styles.heroEyebrow}>{copy.heroEyebrow}</div>
+                  </div>
+
+                  <div className={styles.heroOverlay}>
+                    <div className={styles.heroIntro}>
+                      <div className={styles.dossierTag}>{copy.dossier}</div>
+                      <h1 className={styles.title}>{project.name}</h1>
+                      <p className={styles.summary}>
+                        {project.summary ||
+                          t.vespasian?.subtitle ||
+                          "A modular UAV platform built for testing, iteration, and field performance."}
+                      </p>
+                    </div>
+
+                    <div className={styles.dossierPanel}>
+                      {dossierRows.map((row) => (
+                        <div key={row.label} className={styles.dossierRow}>
+                          <span className={styles.dossierLabel}>
+                            {row.label}
+                          </span>
+                          <strong className={styles.dossierValue}>
+                            {row.value}
+                          </strong>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.heroActions}>
+                  <a
+                    href={`mailto:${contactSection?.data?.email || "empaerial.uav@gmail.com"}`}
+                    className={styles.primaryBtn}
+                  >
+                    {copy.emailUs}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection("project-contact")}
+                    className={styles.secondaryBtn}
+                  >
+                    {copy.reachOut}
+                  </button>
                 </div>
               </section>
-            )}
 
-            <section
-              id="project-contact"
-              className={`${styles.blockCard} ${styles.contactCard}`}
-            >
-              <div className={styles.blockHeader}>
-                <h2 className={styles.blockTitle}>{contactTitle}</h2>
-              </div>
-              <p className={styles.bodyText}>{copy.contactText}</p>
-              <div className={styles.contactActions}>
-                <a
-                  href={`mailto:${contactSection?.data?.email || "empaerial.uav@gmail.com"}`}
-                  className={styles.primaryBtn}
+              {renderedSections.map((section) => (
+                <section
+                  key={section.id}
+                  id={section.anchor}
+                  className={styles.blockCard}
                 >
-                  {copy.emailUs}
-                </a>
-                <a
-                  href={contactSection?.data?.link || "/#contact"}
-                  className={styles.secondaryBtn}
-                >
-                  {copy.contactSection}
-                </a>
-              </div>
-            </section>
+                  <div className={styles.blockHeader}>
+                    <h2 className={styles.blockTitle}>{section.title}</h2>
+                  </div>
+
+                  {section.type === "gallery" ? (
+                    section.images.length > 0 ? (
+                      <div className={styles.galleryGrid}>
+                        {section.images.map((src, index) => (
+                          <img
+                            key={`${src}-${index}`}
+                            src={src}
+                            alt={`${project.name} view ${index + 1}`}
+                            className={styles.galleryImage}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <p className={styles.emptyText}>{copy.detailFallback}</p>
+                    )
+                  ) : null}
+
+                  {section.type === "specs" ? (
+                    section.rows.length > 0 ? (
+                      <div className={styles.dataGrid}>
+                        {section.rows.map((row, index) => (
+                          <div
+                            key={`${row.key}-${index}-spec`}
+                            className={styles.dataRow}
+                          >
+                            <span className={styles.dataKey}>{row.key}</span>
+                            <span className={styles.dataValue}>
+                              {row.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className={styles.emptyText}>{copy.specEmpty}</p>
+                    )
+                  ) : null}
+
+                  {section.type === "materials" ? (
+                    section.rows.length > 0 ? (
+                      <div className={styles.dataGrid}>
+                        {section.rows.map((row, index) => (
+                          <div
+                            key={`${row.key}-${index}-material`}
+                            className={styles.dataRow}
+                          >
+                            <span className={styles.dataKey}>{row.key}</span>
+                            <span className={styles.dataValue}>
+                              {row.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className={styles.emptyText}>{copy.materialsEmpty}</p>
+                    )
+                  ) : null}
+
+                  {section.type === "text" ? (
+                    <p className={styles.bodyText}>{section.content}</p>
+                  ) : null}
+
+                  {section.type === "videos" ? (
+                    section.videos.length > 0 ? (
+                      <div className={styles.videoGrid}>
+                        {section.videos.map((video) => {
+                          const isYouTube =
+                            video.url.includes("youtube") ||
+                            video.url.includes("youtu.be");
+
+                          return (
+                            <div key={video.id} className={styles.videoCard}>
+                              {isYouTube ? (
+                                <iframe
+                                  className={styles.videoFrame}
+                                  src={getYouTubeEmbedUrl(video.url)}
+                                  title={video.title || project.name}
+                                  allowFullScreen
+                                />
+                              ) : (
+                                <video className={styles.videoFrame} controls>
+                                  <source src={video.url} type="video/mp4" />
+                                </video>
+                              )}
+                              {video.title ? (
+                                <div className={styles.videoCaption}>
+                                  {video.title}
+                                </div>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className={styles.emptyText}>{copy.videosEmpty}</p>
+                    )
+                  ) : null}
+                </section>
+              ))}
+
+              <section
+                id="project-contact"
+                className={`${styles.blockCard} ${styles.contactCard}`}
+              >
+                <div className={styles.blockHeader}>
+                  <h2 className={styles.blockTitle}>{contactTitle}</h2>
+                </div>
+                <p className={styles.bodyText}>{copy.contactText}</p>
+                <div className={styles.contactActions}>
+                  <a
+                    href={`mailto:${contactSection?.data?.email || "empaerial.uav@gmail.com"}`}
+                    className={styles.primaryBtn}
+                  >
+                    {copy.emailUs}
+                  </a>
+                  <a
+                    href={contactSection?.data?.link || "/#contact"}
+                    className={styles.secondaryBtn}
+                  >
+                    {copy.contactSection}
+                  </a>
+                </div>
+              </section>
+            </div>
           </div>
         </section>
       </main>
