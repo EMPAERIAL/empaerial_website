@@ -14,7 +14,7 @@ export default function Sponsors({ t }) {
       link: "https://batuelektroteknik.com.tr/",
     },
     {
-      src: "/images/kilavuz.jpg",
+      src: "/images/kilavuz.png",
       name: "KILAVUZ TEKNOLOJİ MERKEZİ",
       link: "https://kilavuzgenclik.kocaeli.bel.tr/TeknolojiMerkezi",
     },

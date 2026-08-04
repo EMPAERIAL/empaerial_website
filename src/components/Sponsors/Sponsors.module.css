@@ -71,10 +71,7 @@
 
 .goldLink img {
   width: auto;
-  height: auto;
-  max-height: 92px;
-  max-width: 190px;
-  object-fit: contain;
+  height: 52px;
   filter: grayscale(100%);
   transition: filter var(--dur-state);
 }
