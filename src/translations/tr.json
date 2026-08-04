@@ -225,5 +225,53 @@
       "media-interval": "Geçiş",
       "contact": "İletişim"
     }
+  },
+
+  "blogs_page": {
+    "eyebrow": "İçgörüler",
+    "posts_word": "Yazı",
+    "title": "Bloglarımız",
+    "subtitle": "EMPAERIAL atölyesinden saha notları, üretim günlükleri ve uçuş testi değerlendirmeleri.",
+    "loading": "Günlük yükleniyor...",
+    "error": "Günlüğü şu anda yükleyemedik. Lütfen kısa süre sonra tekrar deneyin.",
+    "empty": "Henüz kayıtlı yazı yok. Yakında tekrar bakın.",
+    "post_tag": "Yazı",
+    "read_more": "Yazıyı Oku",
+    "by": "Yazan",
+    "author_fallback": "EMPAERIAL Ekibi",
+    "cover_pending": "Kapak medyası bekleniyor."
+  },
+
+  "blog_detail": {
+    "back": "Bloglara Dön",
+    "blogs_crumb": "Bloglar",
+    "post_tag": "Yazı",
+    "read_cta": "Yazıyı Oku",
+    "entry_tag": "Günlük Kaydı",
+    "journal_tag": "EMPAERIAL Günlüğü",
+    "loading": "Yazı yükleniyor...",
+    "not_found": "Yazı bulunamadı.",
+    "hero_placeholder": "Kapak medyası bekleniyor.",
+    "article_empty": "Saha notları yakında eklenecek.",
+    "gallery_empty": "Görsel günlük yakında eklenecek.",
+    "author_fallback": "EMPAERIAL Ekibi",
+    "read_unit": "dk",
+    "more_heading": "Günlüğü okumaya devam edin.",
+    "more_text": "EMPAERIAL atölyesinden saha notları, üretim günlükleri ve uçuş testi değerlendirmeleri.",
+    "all_posts": "Tüm Yazılar",
+    "contact_section": "İletişim Bölümü",
+    "meta_labels": {
+      "author": "Yazan",
+      "date": "Tarih",
+      "read": "Okuma"
+    },
+    "section_labels": {
+      "article": "Yazı",
+      "gallery": "Galeri",
+      "data": "Veri",
+      "feature": "Öne Çıkan Video",
+      "videos": "Videolar",
+      "more": "Devam"
+    }
   }
 }

@@ -1,88 +1,217 @@
+/*
+ * Blogs index — atmospheric journal treatment.
+ * Mirrors the projects presentation language: black blueprint ground, one
+ * featured entry, then a flat grid of the remaining entries.
+ */
+
 .pageMain {
-  background: var(--ui-page-bg);
-  color: var(--ui-page-fg);
+  position: relative;
+  background: var(--blog-bg);
+  color: var(--blog-fg);
+  overflow: hidden;
+}
+
+.gridOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#fff 1px, transparent 1px),
+    linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 54px 54px;
+  opacity: 0.032;
+}
+
+/* The global focus ring is black; lift it to white on the dark journal ground. */
+.pageMain :focus-visible {
+  outline-color: var(--blog-focus-ring);
 }
 
 .blogsSection {
+  position: relative;
+  z-index: 1;
   min-height: calc(100vh - 64px);
   width: 100%;
   padding: 128px 0 96px;
 }
 
 .inner {
-  max-width: 1200px;
+  width: min(1280px, 100%);
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 24px;
 }
 
 .header {
   margin-bottom: 44px;
 }
 
-.eyebrow,
-.meta {
-  font-family: var(--font-display);
+.eyebrow {
+  margin-bottom: 12px;
+  color: var(--blog-faint);
+  font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
-.eyebrow {
-  color: var(--ui-subtle-fg);
-  margin-bottom: 10px;
-}
-
 .title {
+  margin-bottom: 14px;
+  color: var(--blog-fg-strong);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(30px, 4.5vw, 52px);
-  line-height: 1;
-  letter-spacing: 0.04em;
+  font-size: clamp(38px, 5.4vw, 72px);
+  line-height: 0.94;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--ui-page-fg);
-  margin-bottom: 14px;
 }
 
 .subtitle {
   max-width: 620px;
-  color: var(--ui-muted-fg);
+  color: var(--blog-subtle);
   font-family: var(--font-body);
   font-size: 15px;
-  line-height: 1.65;
+  line-height: 1.72;
 }
 
 .status {
-  color: var(--ui-muted-fg);
-  font-family: var(--font-body);
+  padding: 48px 24px;
+  border: 1px solid var(--blog-line);
+  background: var(--blog-surface);
+  color: var(--blog-subtle);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-align: center;
-  border: 1px solid var(--ui-border-soft);
-  background: var(--ui-surface-2);
-  padding: 24px;
 }
+
+/* ---------- featured entry ---------- */
+
+.featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border: 1px solid var(--blog-line);
+  background: var(--blog-surface);
+}
+
+.featuredMedia {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid var(--blog-line);
+  background: var(--blog-surface-raised);
+}
+
+.featuredImage {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: transform var(--dur-state) var(--ease-prop);
+}
+
+.featured:hover .featuredImage {
+  transform: scale(1.02);
+}
+
+.mediaPlaceholder {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 340px;
+  padding: 32px;
+  background: var(--blog-surface-raised);
+  color: var(--blog-subtle);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.mediaPlaceholderCard {
+  min-height: 0;
+  aspect-ratio: 16 / 10;
+  font-size: 10.5px;
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12),
+    transparent
+  );
+  animation: scanMove 3.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanMove {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.featuredBody {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 36px;
+}
+
+.featuredTitle {
+  margin-bottom: 12px;
+  color: var(--blog-fg-strong);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3.2vw, 40px);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.featuredCta {
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+/* ---------- grid entries ---------- */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 3px;
+  margin-top: 3px;
 }
 
 .card {
-  border: 1px solid var(--ui-border-soft);
-  background: var(--ui-surface-1);
   display: flex;
   flex-direction: column;
-  transition: transform var(--dur-state), border-color var(--dur-micro);
+  border: 1px solid var(--blog-line);
+  background: var(--blog-surface);
+  transition:
+    border-color var(--dur-micro),
+    background var(--dur-micro),
+    transform var(--dur-micro);
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  border-color: var(--ui-border-strong);
+  border-color: var(--blog-line-strong);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
 }
 
 .mediaWrap {
-  border-bottom: 1px solid var(--ui-border-soft);
   overflow: hidden;
+  border-bottom: 1px solid var(--blog-line);
+  background: var(--blog-surface-raised);
 }
 
 .media {
@@ -90,72 +219,98 @@
   aspect-ratio: 16 / 10;
   object-fit: cover;
   filter: grayscale(100%);
-  transition: transform var(--dur-state);
+  transition:
+    transform var(--dur-state) var(--ease-prop),
+    filter var(--dur-state) var(--ease-prop);
 }
 
 .card:hover .media {
   transform: scale(1.04);
+  filter: grayscale(0%);
 }
 
 .body {
-  padding: 24px;
   display: flex;
   flex-direction: column;
-  min-height: 260px;
+  flex: 1;
+  padding: 28px 24px;
 }
 
+/* ---------- shared entry typography ---------- */
+
 .meta {
-  color: var(--ui-subtle-fg);
-  font-family: var(--font-mono);
   margin-bottom: 12px;
+  color: var(--blog-faint);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .cardTitle {
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.9);
   font-family: var(--font-display);
-  font-size: clamp(22px, 2.2vw, 28px);
   font-weight: 700;
-  line-height: 1.1;
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.12;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  margin-bottom: 10px;
 }
 
 .author {
-  color: var(--ui-muted-fg);
+  margin-bottom: 16px;
+  color: var(--blog-faint);
   font-family: var(--font-mono);
-  font-size: 12px;
-  margin-bottom: 14px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
 }
 
 .snippet {
-  color: var(--ui-page-fg);
+  margin-bottom: 24px;
+  color: var(--blog-muted);
   font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 24px;
+  line-height: 1.75;
 }
 
 .cta {
-  margin-top: auto;
   display: inline-block;
   align-self: flex-start;
-  background: var(--ui-surface-1);
-  color: var(--ui-page-fg);
+  padding: 13px 28px;
+  border-radius: 999px;
+  background: var(--blog-fg-strong);
+  color: #000;
   font-family: var(--font-display);
-  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  border: 1px solid var(--ui-border-strong);
-  border-radius: 9999px;
-  padding: 12px 22px;
-  transition: background var(--dur-micro), color var(--dur-micro);
+  transition:
+    transform var(--dur-micro),
+    background var(--dur-micro);
 }
 
 .cta:hover {
-  background: #000;
-  color: #fff;
+  transform: translateY(-1px);
 }
+
+.cardCta {
+  margin-top: auto;
+  color: var(--blog-subtle);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color var(--dur-micro);
+}
+
+.card:hover .cardCta {
+  color: var(--blog-fg-strong);
+}
+
+/* ---------- responsive ---------- */
 
 @media (max-width: 1024px) {
   .grid {
@@ -163,20 +318,37 @@
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
+  .featured {
+    grid-template-columns: 1fr;
+  }
+
+  .featuredMedia {
+    border-right: none;
+    border-bottom: 1px solid var(--blog-line);
+  }
+
+  .featuredImage,
+  .mediaPlaceholder {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
   .blogsSection {
-    padding-top: 112px;
+    padding: 104px 0 80px;
   }
 
   .inner {
-    padding: 0 24px;
+    padding: 0 16px;
   }
 
   .grid {
     grid-template-columns: 1fr;
   }
 
-  .body {
-    min-height: auto;
+  .featuredBody {
+    padding: 28px 24px;
   }
 }

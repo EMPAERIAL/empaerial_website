@@ -1,17 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Saira:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Saira:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
 /* ── DESIGN TOKENS ──────────────────────────────────── */
 :root {
-  --font-display: 'Saira', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: "Saira", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
   --ink-05: rgba(0, 0, 0, 0.05);
-  --ink-10: rgba(0, 0, 0, 0.10);
-  --ink-20: rgba(0, 0, 0, 0.20);
-  --ink-40: rgba(0, 0, 0, 0.40);
-  --ink-60: rgba(0, 0, 0, 0.60);
-  --ink-80: rgba(0, 0, 0, 0.80);
+  --ink-10: rgba(0, 0, 0, 0.1);
+  --ink-20: rgba(0, 0, 0, 0.2);
+  --ink-40: rgba(0, 0, 0, 0.4);
+  --ink-60: rgba(0, 0, 0, 0.6);
+  --ink-80: rgba(0, 0, 0, 0.8);
   --paper-warm: #fafaf8;
 
   --dur-micro: 140ms;
@@ -32,29 +32,55 @@
   --ui-surface-2: var(--paper-warm);
   --ui-focus-ring: #000;
 
-  --blog-bg: radial-gradient(circle at top, #051727, #000);
-  --blog-fg: #eaeaea;
-  --blog-heading: #00b4d8;
-  --blog-muted: #aaa;
-  --blog-surface: rgba(255, 255, 255, 0.04);
-  --blog-surface-border: rgba(255, 255, 255, 0.08);
-  --blog-surface-hover-shadow: 0 16px 40px rgba(0, 200, 255, 0.18);
-  --blog-card-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  --blog-accent-soft: rgba(102, 217, 239, 0.15);
-  --blog-accent-strong: #00b4d8;
-  --blog-accent-contrast: #0b1622;
-  --blog-overlay: rgba(0, 0, 0, 0.8);
+  /*
+   * Blog surface — the atmospheric (black blueprint) journal language shared by
+   * the /blogs index and /blogs/[slug] entry pages. Values are aligned with the
+   * project detail template so both dossiers read as one system.
+   */
+  --blog-bg: #000;
+  --blog-fg: #f3f6fa;
+  --blog-fg-strong: #fff;
+  --blog-body-fg: rgba(255, 255, 255, 0.62);
+  --blog-muted: rgba(255, 255, 255, 0.5);
+  --blog-subtle: rgba(255, 255, 255, 0.35);
+  --blog-faint: rgba(255, 255, 255, 0.22);
+  --blog-ghost: rgba(255, 255, 255, 0.15);
+  --blog-line: rgba(255, 255, 255, 0.06);
+  --blog-line-mid: rgba(255, 255, 255, 0.1);
+  --blog-line-strong: rgba(255, 255, 255, 0.16);
+  --blog-bracket: rgba(255, 255, 255, 0.45);
+  --blog-surface: rgba(255, 255, 255, 0.02);
+  --blog-surface-raised: #0d0d0d;
+  --blog-overlay: rgba(0, 0, 0, 0.88);
+  --blog-focus-ring: #fff;
+  --blog-chart-line: #fff;
+  --blog-chart-grid: rgba(255, 255, 255, 0.08);
+  --blog-chart-axis: rgba(255, 255, 255, 0.35);
 
-  --admin-bg: radial-gradient(circle at 15% -10%, #2c0f4a 0%, #111a46 40%, #081126 100%);
+  --admin-bg: radial-gradient(
+    circle at 15% -10%,
+    #2c0f4a 0%,
+    #111a46 40%,
+    #081126 100%
+  );
   --admin-fg: #f8fbff;
   --admin-title: #ffd166;
   --admin-muted: #b7c2de;
   --admin-panel: rgba(10, 18, 42, 0.78);
   --admin-panel-border: rgba(255, 209, 102, 0.28);
-  --admin-card: linear-gradient(160deg, rgba(16, 28, 61, 0.92) 0%, rgba(10, 20, 47, 0.92) 100%);
+  --admin-card: linear-gradient(
+    160deg,
+    rgba(16, 28, 61, 0.92) 0%,
+    rgba(10, 20, 47, 0.92) 100%
+  );
   --admin-input: rgba(5, 13, 34, 0.88);
   --admin-input-border: rgba(112, 187, 255, 0.3);
-  --admin-action-bg: linear-gradient(100deg, #ffd166 0%, #fca311 45%, #ff8c42 100%);
+  --admin-action-bg: linear-gradient(
+    100deg,
+    #ffd166 0%,
+    #fca311 45%,
+    #ff8c42 100%
+  );
   --admin-danger-bg: rgba(255, 85, 85, 0.2);
   --admin-danger-border: rgba(255, 112, 112, 0.5);
   --admin-danger-fg: #ff9f9f;
@@ -200,7 +226,9 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 13px 26px;
   border-radius: 9999px;
-  transition: border-color var(--dur-micro), color var(--dur-micro);
+  transition:
+    border-color var(--dur-micro),
+    color var(--dur-micro);
 }
 
 .btn-ghost:hover {
@@ -221,7 +249,9 @@ button {
 .reveal {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.7s var(--ease-prop), transform 0.7s var(--ease-prop);
+  transition:
+    opacity 0.7s var(--ease-prop),
+    transform 0.7s var(--ease-prop);
 }
 
 .reveal.on {
@@ -242,4 +272,3 @@ button {
     padding: 0 24px;
   }
 }
-

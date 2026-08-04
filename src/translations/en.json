@@ -227,5 +227,53 @@
       "media-interval": "Transition",
       "contact": "Contact"
     }
+  },
+
+  "blogs_page": {
+    "eyebrow": "Insights",
+    "posts_word": "Posts",
+    "title": "Our Blogs",
+    "subtitle": "Field notes, build logs, and flight-test debriefs from the EMPAERIAL workshop.",
+    "loading": "Loading journal...",
+    "error": "We could not load the journal right now. Please try again shortly.",
+    "empty": "No entries logged yet. Check back soon.",
+    "post_tag": "Post",
+    "read_more": "Read Entry",
+    "by": "By",
+    "author_fallback": "EMPAERIAL Team",
+    "cover_pending": "Cover media pending."
+  },
+
+  "blog_detail": {
+    "back": "Back to Blogs",
+    "blogs_crumb": "Blogs",
+    "post_tag": "Post",
+    "read_cta": "Read Entry",
+    "entry_tag": "Journal Entry",
+    "journal_tag": "EMPAERIAL Journal",
+    "loading": "Loading entry...",
+    "not_found": "Entry not found.",
+    "hero_placeholder": "Cover media pending.",
+    "article_empty": "Field notes pending.",
+    "gallery_empty": "Visual log pending.",
+    "author_fallback": "EMPAERIAL Team",
+    "read_unit": "min",
+    "more_heading": "Keep reading the journal.",
+    "more_text": "Field notes, build logs, and flight-test debriefs from the EMPAERIAL workshop.",
+    "all_posts": "All Entries",
+    "contact_section": "Contact Section",
+    "meta_labels": {
+      "author": "Author",
+      "date": "Date",
+      "read": "Read"
+    },
+    "section_labels": {
+      "article": "Article",
+      "gallery": "Gallery",
+      "data": "Data",
+      "feature": "Feature Video",
+      "videos": "Videos",
+      "more": "Continue"
+    }
   }
 }
