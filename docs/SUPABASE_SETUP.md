@@ -77,12 +77,24 @@ Row Level Security stays on with no public policies: writes and reads go through
 server route, which uses `SUPABASE_SERVICE_ROLE_KEY`. `GET /api/applications` requires
 `?password=<ADMIN_PASSWORD>` and returns 401 when `ADMIN_PASSWORD` is unset.
 
-For the atmospheric project-detail authoring fields, `Projects` should include:
+For the atmospheric project-detail authoring fields, `Projects` **must** include:
 
 - `status` as `text`
 - `year` as `text`
 - `purpose` as `text`
 - `hero_media` as `jsonb`
+
+These are not optional. `normalizeProjectPayload` in `src/Lib/projectData.js` writes
+all four on every create and edit, so if any is missing PostgREST rejects the whole
+statement with `PGRST204` — "Could not find the 'status' column of 'Projects' in the
+schema cache". In the admin panel that surfaces as a generic database error when
+saving a new or existing project, which is exactly how this shipped: the code landed
+without the migration ever being applied.
+
+Apply `supabase/migrations/20260805_add_project_dossier_fields.sql` to fix it. After
+any change to the columns an API route writes, reload PostgREST's schema cache
+(Supabase does this automatically within a few seconds, or run `notify pgrst,
+'reload schema';`).
 
 ## `updated_at` Trigger Compatibility
 
