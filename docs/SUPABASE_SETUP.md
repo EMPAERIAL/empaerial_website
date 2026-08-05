@@ -38,7 +38,7 @@ Expected tables:
 - `Projects`
 - `Blogs`
 - `Teams` (or `teams`; code currently probes both in teams route)
-- `Applications` (or `applications`; code probes both in the applications route)
+- `Applications` (or `applications`) — **optional**, see below
 
 The API update routes expect standard columns such as:
 
@@ -47,8 +47,13 @@ The API update routes expect standard columns such as:
 - `Teams`: `id`, `name`, `description`, `members`
 - `Applications`: `id`, `full_name`, `email`, `phone`, `country`, `university`, `department`, `skills`, `portfolio_url`, `motivation`, `created_at`
 
-The public `/apply` form posts to `/api/applications` (server-side insert with the
-service-role key). Create the table with:
+### Applications (optional archive)
+
+The public `/apply` form posts to `/api/applications`, which **emails** each
+submission to the team inbox (see `docs/APPLICATION_EMAIL.md`). This table is an
+optional archive on top of that: create it and submissions are also stored, skip
+it and the route just logs `Application archive skipped` and carries on. Create
+it with:
 
 ```sql
 create table if not exists public."Applications" (

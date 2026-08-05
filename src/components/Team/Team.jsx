@@ -30,19 +30,15 @@ export default function Team({ t }) {
     <section className="sec sec-light" id="team" aria-labelledby="team-title">
       <div className="sec-inner">
         {/* Section header */}
-        <div className={`sec-head reveal ${styles.head}`}>
-          <div className={styles.headText}>
-            <p className="sec-eyebrow">TEAM</p>
-            <h2 id="team-title" className="sec-h2">{t.team_title}</h2>
-            <p className="sec-sub">{t.team_subtitle}</p>
-          </div>
-
-          <div className={styles.headCta}>
-            <p className={styles.applyNote}>{t.apply_cta_note}</p>
-            <a href="/apply" className={styles.apply}>
+        <div className="sec-head reveal">
+          <p className="sec-eyebrow">TEAM</p>
+          <div className={styles.titleRow}>
+            <h2 id="team-title" className={`sec-h2 ${styles.headTitle}`}>{t.team_title}</h2>
+            <a href="/apply" className={styles.apply} title={t.apply_cta_note}>
               {t.apply_cta || 'APPLY'} →
             </a>
           </div>
+          <p className="sec-sub">{t.team_subtitle}</p>
         </div>
 
         {/* Tabs */}

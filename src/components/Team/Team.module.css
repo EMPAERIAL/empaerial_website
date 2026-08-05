@@ -1,22 +1,14 @@
 /* ── SECTION HEAD + APPLY CTA ────────────────────────── */
-.head {
+.titleRow {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
+  align-items: center;
+  gap: 22px;
   flex-wrap: wrap;
+  margin-bottom: 14px;
 }
 
-.headText {
-  min-width: 0;
-}
-
-.headCta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  flex-shrink: 0;
+.headTitle {
+  margin-bottom: 0;
 }
 
 .apply {
@@ -35,15 +27,6 @@
 
 .apply:hover {
   background: var(--ink-80);
-}
-
-.applyNote {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  text-align: right;
 }
 
 /* ── TABS ────────────────────────────────────────────── */
@@ -215,16 +198,8 @@
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 720px) {
-  .head {
-    align-items: flex-start;
-  }
-
-  .headCta {
-    align-items: flex-start;
-  }
-
-  .applyNote {
-    text-align: left;
+  .titleRow {
+    gap: 16px;
   }
 
   .grid {

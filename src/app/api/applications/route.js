@@ -1,6 +1,10 @@
 // app/api/applications/route.js
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { sendApplicationEmail } from "@/Lib/applicationMailer";
+
+// nodemailer needs the Node runtime, not the edge runtime.
+export const runtime = "nodejs";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_KEY =
@@ -84,33 +88,66 @@ async function withTable(actionFn) {
 
 /* ============================================================
    POST /api/applications — public application submission
+
+   The application is emailed to the team inbox and, when a Supabase
+   Applications table exists, also archived there. Either sink alone counts
+   as delivered; only losing both is a failure the applicant should retry.
 ============================================================ */
 export async function POST(req) {
+  let body;
+
   try {
-    const body = await req.json();
-    const { row, errors } = inRow(body);
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid request body." },
+      { status: 400 }
+    );
+  }
 
-    if (errors.length) {
-      return NextResponse.json(
-        { error: `Invalid or missing fields: ${errors.join(", ")}.` },
-        { status: 400 }
-      );
-    }
+  const { row, errors } = inRow(body);
 
-    await withTable(async (supabase, table) => {
+  if (errors.length) {
+    return NextResponse.json(
+      { error: `Invalid or missing fields: ${errors.join(", ")}.` },
+      { status: 400 }
+    );
+  }
+
+  const [emailResult, archiveResult] = await Promise.allSettled([
+    sendApplicationEmail(row),
+    withTable(async (supabase, table) => {
       const { error } = await supabase.from(table).insert(row);
       if (error) return { error };
       return { ok: true };
-    });
+    }),
+  ]);
 
-    return NextResponse.json({ ok: true }, { status: 201 });
-  } catch (e) {
-    console.error("Application submit error:", e?.message || e);
+  const emailed = emailResult.status === "fulfilled";
+  const archived = archiveResult.status === "fulfilled";
+
+  if (!emailed) {
+    console.error(
+      "Application email failed:",
+      emailResult.reason?.message || emailResult.reason
+    );
+  }
+
+  if (!archived) {
+    console.warn(
+      "Application archive skipped:",
+      archiveResult.reason?.message || archiveResult.reason
+    );
+  }
+
+  if (!emailed && !archived) {
     return NextResponse.json(
       { error: "We could not record your application. Please try again." },
       { status: 500 }
     );
   }
+
+  return NextResponse.json({ ok: true, emailed, archived }, { status: 201 });
 }
 
 /* ============================================================
