@@ -7,7 +7,9 @@
 A single typed content block inside a project's `sections` array; the atomic authoring unit of the Project Detail Template's body.
 
 Notes:
-- Canonical types: `specs`, `materials`, `gallery`, `callouts`, `videos`, `text`, `media-interval`, `contact`.
+- Canonical types: `specs`, `materials`, `gallery`, `callouts`, `videos`, `text`, `links`, `media-interval`, `contact`.
+- `links` renders a grid of outbound resource links (label, url, optional description) as real anchors. It exists because no other section type can produce a clickable link: `text` renders its content as escaped body copy, so a pasted URL is inert.
+- In `specs` and `materials`, the large/compact value type size is decided once per section from its longest value, not per row. A single long value therefore shrinks every tile in that grid rather than only its own, which keeps tiles in one grid visually consistent.
 - `contact` is not an ordinary orderable section — it always renders as the fixed final block (see Atmospheric Prototype Implementation notes).
 - Each section carries an admin-editable `navLabel`, independent of its rendered body heading.
 - No section type currently models a team roster or a structured bill-of-materials table; requests to reproduce those from design references need a new section type, not just a style change.

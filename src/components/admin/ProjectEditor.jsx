@@ -25,6 +25,7 @@ const sectionTemplates = {
   callouts: { items: [{ label: "", detail: "", x: 50, y: 50 }] },
   videos: { videos: [{ title: "", url: "" }] },
   text: { heading: "ABOUT THIS PROJECT", content: "" },
+  links: { links: [{ label: "", url: "", description: "" }] },
   "media-interval": {
     mediaType: "video",
     mediaUrl: "",
@@ -41,6 +42,7 @@ const sectionTypeLabels = {
   callouts: "Callouts",
   videos: "Videos",
   text: "Text",
+  links: "Links",
   "media-interval": "Media Interval",
   contact: "Contact",
 };
@@ -106,6 +108,24 @@ function normalizeVideoSection(section) {
   };
 }
 
+function normalizeLinkSection(section) {
+  const links = Array.isArray(section?.data?.links) ? section.data.links : [];
+
+  return {
+    links: links
+      .map((item) =>
+        typeof item === "string"
+          ? { label: "", url: item, description: "" }
+          : {
+              label: item?.label || "",
+              url: item?.url || "",
+              description: item?.description || "",
+            }
+      )
+      .filter((item) => item.label || item.url),
+  };
+}
+
 function normalizeMediaIntervalSection(section) {
   return {
     mediaType: section?.data?.mediaType === "image" ? "image" : "video",
@@ -136,6 +156,10 @@ function normalizeEditorSection(section) {
 
   if (section.type === "videos") {
     return { ...section, data: normalizeVideoSection(section) };
+  }
+
+  if (section.type === "links") {
+    return { ...section, data: normalizeLinkSection(section) };
   }
 
   if (section.type === "media-interval") {
@@ -348,6 +372,14 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
           ...section,
           navLabel,
           data: normalizeVideoSection(section),
+        };
+      }
+
+      if (section.type === "links") {
+        return {
+          ...section,
+          navLabel,
+          data: normalizeLinkSection(section),
         };
       }
 
@@ -710,6 +742,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                 "callouts",
                 "videos",
                 "text",
+                "links",
                 "media-interval",
               ].map((type) => (
                 <button
@@ -1039,6 +1072,108 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                     </div>
                   ) : null}
 
+                  {section.type === "links" ? (
+                    <div className={styles.formLayout}>
+                      {(Array.isArray(section?.data?.links)
+                        ? section.data.links
+                        : []
+                      ).map((item, index) => (
+                        <div
+                          key={`${section.id}-link-${index}`}
+                          className={styles.sectionEditorBox}
+                        >
+                          <input
+                            type="text"
+                            placeholder="Link label"
+                            value={item.label}
+                            onChange={(event) => {
+                              const nextLinks = updateListItem(
+                                section.data.links,
+                                index,
+                                {
+                                  ...item,
+                                  label: event.target.value,
+                                }
+                              );
+                              updateSectionData(section.id, {
+                                links: nextLinks,
+                              });
+                            }}
+                            className={styles.inputField}
+                          />
+                          <input
+                            type="text"
+                            placeholder="https://example.com"
+                            value={item.url}
+                            onChange={(event) => {
+                              const nextLinks = updateListItem(
+                                section.data.links,
+                                index,
+                                {
+                                  ...item,
+                                  url: event.target.value,
+                                }
+                              );
+                              updateSectionData(section.id, {
+                                links: nextLinks,
+                              });
+                            }}
+                            className={styles.inputField}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Short description (optional)"
+                            value={item.description}
+                            onChange={(event) => {
+                              const nextLinks = updateListItem(
+                                section.data.links,
+                                index,
+                                {
+                                  ...item,
+                                  description: event.target.value,
+                                }
+                              );
+                              updateSectionData(section.id, {
+                                links: nextLinks,
+                              });
+                            }}
+                            className={styles.inputField}
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateSectionData(section.id, {
+                                links: removeListItem(
+                                  section.data.links,
+                                  index
+                                ),
+                              })
+                            }
+                            className={styles.deleteButton}
+                          >
+                            Remove Link
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateSectionData(section.id, {
+                            links: [
+                              ...(Array.isArray(section?.data?.links)
+                                ? section.data.links
+                                : []),
+                              { label: "", url: "", description: "" },
+                            ],
+                          })
+                        }
+                        className={styles.addSectionBtn}
+                      >
+                        + Add Link
+                      </button>
+                    </div>
+                  ) : null}
+
                   {section.type === "gallery" ? (
                     <ProjectGalleryEditor
                       images={
@@ -1186,6 +1321,7 @@ export default function ProjectEditor({ projects, onProjectsChange }) {
                     "callouts",
                     "videos",
                     "gallery",
+                    "links",
                     "media-interval",
                   ].includes(section.type) ? (
                     <textarea

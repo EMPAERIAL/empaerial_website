@@ -73,6 +73,38 @@ function normalizeVideoItems(rawVideos) {
     .filter((item) => item.url);
 }
 
+function normalizeLinkItems(rawLinks) {
+  return (Array.isArray(rawLinks) ? rawLinks : [])
+    .map((item, index) => {
+      if (typeof item === "string") {
+        return {
+          id: `link-${index}`,
+          label: item,
+          url: item,
+          description: "",
+        };
+      }
+
+      const url = getMeaningfulText(item?.url);
+
+      return {
+        id: item?.id || `${url || "link"}-${index}`,
+        label: getMeaningfulText(item?.label) || url,
+        url,
+        description: getMeaningfulText(item?.description),
+      };
+    })
+    .filter((item) => item.url);
+}
+
+function getLinkHost(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
 function getYouTubeEmbedUrl(url) {
   if (!url) return "";
   if (url.includes("youtube.com/embed/")) return url;
@@ -130,6 +162,7 @@ function getProjectDetailCopy(detailT) {
     textEmpty: detailT?.text_empty || "Narrative notes pending.",
     videosEmpty: detailT?.videos_empty || "Video dossier pending.",
     calloutsEmpty: detailT?.callouts_empty || "Annotation pass pending.",
+    linksEmpty: detailT?.links_empty || "Reference links pending.",
     intervalEmpty: detailT?.interval_empty || "Transition media pending.",
     contactTitleTemplate:
       detailT?.contact_title_template || "Interested in {{project}}?",
@@ -441,6 +474,11 @@ export default function ProjectDetails() {
         );
       }
 
+      // Value sizing is decided per section, not per row: a single long value
+      // used to shrink only its own tile, leaving neighbouring tiles in the
+      // same grid at a visibly different size.
+      const useCompactValues = rows.some((row) => row.value.length > 10);
+
       return (
         <div className={styles.dataGrid}>
           {rows.map((row, index) => (
@@ -451,7 +489,7 @@ export default function ProjectDetails() {
               <span className={styles.dataKey}>{row.key}</span>
               <span
                 className={`${styles.dataValue} ${
-                  row.value.length > 10 ? styles.dataValueCompact : ""
+                  useCompactValues ? styles.dataValueCompact : ""
                 }`}
               >
                 {row.value}
@@ -467,6 +505,41 @@ export default function ProjectDetails() {
         <p className={styles.bodyText}>
           {section?.data?.content?.trim() || copy.textEmpty}
         </p>
+      );
+    }
+
+    if (section.type === "links") {
+      const links = normalizeLinkItems(section?.data?.links);
+
+      if (!links.length) {
+        return <p className={styles.emptyText}>{copy.linksEmpty}</p>;
+      }
+
+      return (
+        <div className={styles.linkGrid}>
+          {links.map((link, index) => (
+            <a
+              key={`${item.id}-${link.id}`}
+              href={link.url}
+              className={styles.linkCard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className={styles.linkIndex}>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className={styles.linkLabel}>{link.label}</span>
+              {link.description ? (
+                <span className={styles.linkDescription}>
+                  {link.description}
+                </span>
+              ) : null}
+              <span className={styles.linkHost} aria-hidden="true">
+                {getLinkHost(link.url)} ↗
+              </span>
+            </a>
+          ))}
+        </div>
       );
     }
 
@@ -684,9 +757,7 @@ export default function ProjectDetails() {
               <div className={styles.dossierPanel}>
                 {dossierRows.map((row) => (
                   <div key={row.label} className={styles.dossierRow}>
-                    <strong className={styles.dossierValue}>
-                      {row.value}
-                    </strong>
+                    <strong className={styles.dossierValue}>{row.value}</strong>
                     <span className={styles.dossierLabel}>{row.label}</span>
                   </div>
                 ))}
@@ -756,9 +827,7 @@ export default function ProjectDetails() {
                       <span className={styles.sectionIndex}>
                         {String(item.index + 1).padStart(2, "0")}
                       </span>
-                      <span className={styles.sectionLabel}>
-                        {item.label}
-                      </span>
+                      <span className={styles.sectionLabel}>{item.label}</span>
                       <span className={styles.sectionLine} />
                     </header>
                     {showHeading ? (
@@ -786,7 +855,10 @@ export default function ProjectDetails() {
               <h2 className={styles.sectionTitle}>{contactHeading}</h2>
               <p className={styles.bodyText}>{contactBody}</p>
               <div className={styles.contactActions}>
-                <a href={`mailto:${contactEmail}`} className={styles.primaryBtn}>
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className={styles.primaryBtn}
+                >
                   {copy.emailUs}
                 </a>
                 <a href={contactLink} className={styles.secondaryBtn}>

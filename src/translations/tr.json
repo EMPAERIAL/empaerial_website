@@ -199,6 +199,7 @@
     "text_empty": "Anlatım notları yakında eklenecek.",
     "videos_empty": "Video belgeleri yakında eklenecek.",
     "callouts_empty": "Açıklama noktalarının işlenmesi sürüyor.",
+    "links_empty": "Referans bağlantıları bekleniyor.",
     "interval_empty": "Geçiş medyası bekleniyor.",
     "contact_title_template": "{{project}} ile ilgileniyor musunuz?",
     "contact_fallback_project": "Bu proje",
@@ -224,6 +225,7 @@
       "callouts": "Açıklamalar",
       "videos": "Videolar",
       "text": "Genel Bakış",
+      "links": "Dokümantasyon",
       "media-interval": "Geçiş",
       "contact": "İletişim"
     }

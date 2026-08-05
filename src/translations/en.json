@@ -201,6 +201,7 @@
     "text_empty": "Narrative notes pending.",
     "videos_empty": "Video dossier pending.",
     "callouts_empty": "Annotation pass pending.",
+    "links_empty": "Reference links pending.",
     "interval_empty": "Transition media pending.",
     "contact_title_template": "Interested in {{project}}?",
     "contact_fallback_project": "this project",
@@ -226,6 +227,7 @@
       "callouts": "Callouts",
       "videos": "Videos",
       "text": "Overview",
+      "links": "Documentation",
       "media-interval": "Transition",
       "contact": "Contact"
     }

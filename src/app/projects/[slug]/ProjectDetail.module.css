@@ -514,6 +514,76 @@
   margin-bottom: 48px;
 }
 
+/* ---------- links ---------- */
+
+.linkGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  margin-bottom: 48px;
+}
+
+.linkCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  text-decoration: none;
+  transition:
+    border-color var(--dur-micro),
+    background var(--dur-micro);
+}
+
+.linkCard:hover,
+.linkCard:focus-visible {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.linkCard:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.linkIndex {
+  color: rgba(255, 255, 255, 0.22);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.linkLabel {
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.linkDescription {
+  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.linkHost {
+  margin-top: auto;
+  padding-top: 8px;
+  color: rgba(255, 255, 255, 0.28);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.linkCard:hover .linkHost,
+.linkCard:focus-visible .linkHost {
+  color: rgba(255, 255, 255, 0.55);
+}
+
 /* ---------- videos ---------- */
 
 .videoGrid {
@@ -584,11 +654,7 @@
 .calloutStageScrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.7)
-  );
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
 }
 
 .calloutPin {
@@ -788,6 +854,7 @@
   }
 
   .dataGrid,
+  .linkGrid,
   .galleryGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -842,11 +909,13 @@
 
   .galleryGrid,
   .dataGrid,
+  .linkGrid,
   .videoGrid {
     grid-template-columns: 1fr;
   }
 
-  .dataRow {
+  .dataRow,
+  .linkCard {
     padding: 22px 18px;
   }
 

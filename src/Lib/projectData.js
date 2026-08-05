@@ -14,6 +14,7 @@ export const PROJECT_SECTION_TYPES = [
   "callouts",
   "videos",
   "text",
+  "links",
   "media-interval",
   "contact",
 ];
