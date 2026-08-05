@@ -27,12 +27,19 @@ alter table public."Projects"
   );
 
 -- Backfill hero_media for rows created before the column existed so the detail
--- page has a curated hero to fall back on instead of an empty object.
+-- page has a curated hero instead of an empty one.
+--
+-- Note the condition: `add column ... default` fills existing rows with the
+-- default, so they are never null here. Matching on a null hero_media would be
+-- a silent no-op and leave every existing project with an empty hero url —
+-- normalizeHeroMedia only falls back to image_url when hero_media is not an
+-- object, so an empty-but-present object never recovers.
 update public."Projects"
 set hero_media = jsonb_build_object(
   'type', 'image',
-  'url', coalesce(image_url, ''),
+  'url', image_url,
   'poster_url', '',
   'alt', ''
 )
-where hero_media is null;
+where coalesce(hero_media->>'url', '') = ''
+  and coalesce(image_url, '') <> '';
