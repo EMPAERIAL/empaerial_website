@@ -9,6 +9,8 @@
 
   "team_title": "Ekibimizle Tanışın",
   "team_subtitle": "Dünyanın dört bir yanından gelen tutkulu öğrenciler — yaratıcılığı, mühendisliği ve iş birliğini birleştirerek İHA’ların geleceğini inşa ediyoruz.",
+  "apply_cta": "BAŞVUR",
+  "apply_cta_note": "Ekibe katıl",
   "projects_title": "Projelerimiz",
   "sponsors_eyebrow": "SPONSORLAR",
   "sponsors_note_prefix": "EMPÆRIAL'ı desteklemek ister misiniz?",
@@ -224,6 +226,61 @@
       "text": "Genel Bakış",
       "media-interval": "Geçiş",
       "contact": "İletişim"
+    }
+  },
+
+  "apply_page": {
+    "eyebrow": "EKİBE KATIL",
+    "title": "EMPÆRIAL'A BAŞVUR",
+    "subtitle": "Kim olduğunu, neler ürettiğini ve hangi departmanda uçmak istediğini anlat. Önceden İHA deneyimi gerekmiyor — merak ve kararlılık daha önemli.",
+    "back": "Ekibe dön",
+    "form_eyebrow": "BAŞVURU",
+    "form_title": "EKİP BAŞVURU FORMU",
+    "form_note": "* işaretli alanlar zorunludur.",
+    "aside_title": "SONRAKİ ADIMLAR",
+    "steps": [
+      "Her başvuruyu ekipçe okuyoruz.",
+      "Ön elemeyi geçen adaylarla iki hafta içinde tanışma görüşmesi yapıyoruz.",
+      "Bir departmana katılıp aktif bir projede çalışmaya başlıyorsun."
+    ],
+    "aside_contact_label": "SORUN MU VAR?",
+    "submit": "BAŞVURUYU GÖNDER",
+    "submitting": "GÖNDERİLİYOR…",
+    "success_title": "BAŞVURUN ALINDI",
+    "success_text": "Başvurduğun için teşekkürler. Başvurunu kaydettik; ekip incelemesini tamamladığında e-posta ile sana ulaşacağız.",
+    "success_action": "ANA SAYFAYA DÖN",
+    "success_again": "Yeni bir başvuru gönder",
+    "error_generic": "Başvurun gönderilemedi. Lütfen birazdan tekrar dene.",
+    "error_required": "Lütfen zorunlu alanların tümünü doldur.",
+    "error_email": "Lütfen geçerli bir e-posta adresi gir.",
+    "optional": "İsteğe bağlı",
+    "labels": {
+      "full_name": "Ad soyad",
+      "email": "E-posta",
+      "phone": "Telefon / WhatsApp",
+      "country": "Ülke",
+      "university": "Üniversite ve bölüm",
+      "department": "Tercih ettiğin departman",
+      "skills": "Yetenekler ve araçlar",
+      "portfolio": "Portfolyo / GitHub / LinkedIn",
+      "motivation": "Neden katılmak istiyorsun?"
+    },
+    "placeholders": {
+      "full_name": "Ada Lovelace",
+      "email": "seninadresin@ornek.com",
+      "phone": "+90 5xx xxx xx xx",
+      "country": "Türkiye",
+      "university": "İstanbul Aydın Üniversitesi — Bilgisayar Mühendisliği",
+      "department": "Bir departman seç",
+      "skills": "Python, KiCad, Fusion 360, ROS…",
+      "portfolio": "https://github.com/kullaniciadin",
+      "motivation": "İHA’lara ilgini neyin çektiğini ve bizimle neler üretmek istediğini anlat."
+    },
+    "departments": {
+      "software": "Yazılım",
+      "electronics": "Elektronik",
+      "mechanical": "Mekanik",
+      "coordination": "Koordinasyon"
     }
   },
 

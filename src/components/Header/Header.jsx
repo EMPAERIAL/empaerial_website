@@ -66,7 +66,6 @@ export default function Header({ t, lang, setLang }) {
               aria-label="Switch to Turkish"
             >TR</button>
           </div>
-          <a href="/#contact" className={styles.apply}>APPLY →</a>
         </div>
 
         {/* Hamburger */}
@@ -95,7 +94,6 @@ export default function Header({ t, lang, setLang }) {
             <span className={styles.langSep} aria-hidden="true">|</span>
             <button className={lang === 'tr' ? styles.langActive : styles.langBtn} onClick={() => setLang('tr')}>TR</button>
           </div>
-          <a href="/#contact" className={`${styles.apply} ${styles.drawerApply}`} onClick={close}>APPLY →</a>
         </div>
       )}
     </nav>

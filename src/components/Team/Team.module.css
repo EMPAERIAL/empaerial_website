@@ -1,3 +1,51 @@
+/* ── SECTION HEAD + APPLY CTA ────────────────────────── */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.headText {
+  min-width: 0;
+}
+
+.headCta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.apply {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: #000;
+  color: #fff;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  transition: background var(--dur-micro);
+}
+
+.apply:hover {
+  background: var(--ink-80);
+}
+
+.applyNote {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  text-align: right;
+}
+
 /* ── TABS ────────────────────────────────────────────── */
 .tabs {
   display: flex;
@@ -167,6 +215,18 @@
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 720px) {
+  .head {
+    align-items: flex-start;
+  }
+
+  .headCta {
+    align-items: flex-start;
+  }
+
+  .applyNote {
+    text-align: left;
+  }
+
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 16px;

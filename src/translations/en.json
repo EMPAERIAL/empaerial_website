@@ -9,6 +9,8 @@
 
   "team_title": "Meet Our Team",
   "team_subtitle": "A passionate group of students from around the world — combining creativity, engineering, and collaboration to build the future of UAVs.",
+  "apply_cta": "APPLY",
+  "apply_cta_note": "Join the crew",
   "projects_title": "Our Projects",
   "sponsors_eyebrow": "SPONSORS",
   "sponsors_title": "Our Sponsors",
@@ -226,6 +228,61 @@
       "text": "Overview",
       "media-interval": "Transition",
       "contact": "Contact"
+    }
+  },
+
+  "apply_page": {
+    "eyebrow": "JOIN THE CREW",
+    "title": "APPLY TO EMPÆRIAL",
+    "subtitle": "Tell us who you are, what you build, and which department you want to fly with. No prior UAV experience required — curiosity and commitment count more.",
+    "back": "Back to team",
+    "form_eyebrow": "APPLICATION",
+    "form_title": "CREW INTAKE FORM",
+    "form_note": "Fields marked * are required.",
+    "aside_title": "WHAT HAPPENS NEXT",
+    "steps": [
+      "We read every application as a team.",
+      "Shortlisted candidates get an intro call within two weeks.",
+      "You join a department and start on a live build."
+    ],
+    "aside_contact_label": "QUESTIONS?",
+    "submit": "SUBMIT APPLICATION",
+    "submitting": "SENDING…",
+    "success_title": "APPLICATION RECEIVED",
+    "success_text": "Thanks for applying. We have logged your application and will reach out by email once the team has reviewed it.",
+    "success_action": "BACK TO HOME",
+    "success_again": "Submit another application",
+    "error_generic": "We could not send your application. Please try again in a moment.",
+    "error_required": "Please fill in all required fields.",
+    "error_email": "Please enter a valid email address.",
+    "optional": "Optional",
+    "labels": {
+      "full_name": "Full name",
+      "email": "Email",
+      "phone": "Phone / WhatsApp",
+      "country": "Country",
+      "university": "University & programme",
+      "department": "Preferred department",
+      "skills": "Skills & tools",
+      "portfolio": "Portfolio / GitHub / LinkedIn",
+      "motivation": "Why do you want to join?"
+    },
+    "placeholders": {
+      "full_name": "Ada Lovelace",
+      "email": "you@example.com",
+      "phone": "+90 5xx xxx xx xx",
+      "country": "Türkiye",
+      "university": "Istanbul Aydın University — Computer Engineering",
+      "department": "Select a department",
+      "skills": "Python, KiCad, Fusion 360, ROS…",
+      "portfolio": "https://github.com/yourname",
+      "motivation": "Tell us what draws you to UAVs and what you would like to build with us."
+    },
+    "departments": {
+      "software": "Software",
+      "electronics": "Electronics",
+      "mechanical": "Mechanical",
+      "coordination": "Coordination"
     }
   },
 

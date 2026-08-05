@@ -176,34 +176,6 @@
   color: var(--ink-20);
 }
 
-.apply {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  background: #fff;
-  color: #000;
-  padding: 9px 20px;
-  border-radius: 9999px;
-  text-decoration: none;
-  transition: background var(--dur-micro);
-  white-space: nowrap;
-}
-
-.apply:hover {
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.nav.light .apply {
-  background: #000;
-  color: #fff;
-}
-
-.nav.light .apply:hover {
-  background: var(--ink-80);
-}
-
 /* ── HAMBURGER ───────────────────────────────────────── */
 .hamburger {
   display: none;
@@ -274,11 +246,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.drawerApply {
-  font-size: 13px;
-  padding: 12px 32px;
 }
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
