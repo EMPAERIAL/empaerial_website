@@ -4,23 +4,16 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header/Header";
 import Hero from "../components/Hero/Hero";
 import Footer from "../components/Footer/Footer";
+import SearchHighlight from "@/components/Search/SearchHighlight";
 import Team from "../components/Team/Team";
 import Projects from "./projects/page";
 import Sponsors from "../components/Sponsors/Sponsors";
 import styles from "./page.module.css";
 
-import en from "@/translations/en.json";
-import tr from "@/translations/tr.json";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Page() {
-  const [lang, setLang] = useState<"en" | "tr">("en");
-
-  useEffect(() => {
-    const userLang = navigator.language.startsWith("tr") ? "tr" : "en";
-    setLang(userLang);
-  }, []);
-
-  const t = lang === "tr" ? tr : en;
+  const { lang, setLang, t } = useLanguage();
 
   useEffect(() => {
     const observed = new Set<Element>();
@@ -68,6 +61,8 @@ export default function Page() {
       </header>
 
       <main role="main">
+        <SearchHighlight />
+
         <Hero t={t} />
 
         <Team t={t} />

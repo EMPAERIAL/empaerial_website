@@ -81,14 +81,17 @@ export default function Projects({ t }) {
   const secondaryProjects = Array.isArray(projects) ? projects.slice(1, 4) : [];
   const galleryImages = getGalleryImages(featuredProject);
   const specs = getProjectSpecs(featuredProject, t);
-  const comingSoon = t.projects.comingSoon || "Coming Soon";
-  const totalBuilds = Math.max(Array.isArray(projects) ? projects.length : 0, 4);
+  // Report what actually exists. This used to floor at 4, so a catalogue of
+  // three real builds still announced "4 BUILDS".
+  const totalBuilds = Array.isArray(projects) ? projects.length : 0;
 
   return (
     <section className={styles.projectSection} id="projects" aria-labelledby="projects-title">
       <div className={styles.inner}>
         <div className={styles.header}>
-          <div className={styles.eyebrow}>{`PROJECTS - ${totalBuilds} BUILDS`}</div>
+          <div className={styles.eyebrow}>
+            {`PROJECTS - ${totalBuilds} ${totalBuilds === 1 ? "BUILD" : "BUILDS"}`}
+          </div>
           <h2 id="projects-title" className={styles.title}>
             {t.projects.title}
           </h2>
@@ -150,6 +153,9 @@ export default function Projects({ t }) {
               </div>
             </div>
 
+            {/* Only real builds. The grid stays a 3-up track so the tiles keep
+                their width and rhythm however few of them there are. */}
+            {secondaryProjects.length > 0 && (
             <div className={`${styles.projPlaceholders} reveal`}>
               {secondaryProjects.map((project, index) => (
                 <Link
@@ -163,25 +169,13 @@ export default function Projects({ t }) {
                   <div className={styles.placeholderLabel}>
                     {project.name || `Project ${index + 2}`}
                   </div>
-                  <p className={styles.placeholderSummary}>
-                    {project.summary || comingSoon}
-                  </p>
+                  {project.summary && (
+                    <p className={styles.placeholderSummary}>{project.summary}</p>
+                  )}
                 </Link>
               ))}
-
-              {Array.from({ length: Math.max(0, 3 - secondaryProjects.length) }).map((_, index) => {
-                const projectNumber = secondaryProjects.length + index + 2;
-
-                return (
-                  <div className={styles.projPlaceholder} key={`placeholder-${projectNumber}`}>
-                    <div className={styles.placeholderNumber}>
-                      {`PROJECT - ${String(projectNumber).padStart(2, "0")}`}
-                    </div>
-                    <div className={styles.placeholderLabel}>{comingSoon}</div>
-                  </div>
-                );
-              })}
             </div>
+            )}
           </>
         )}
       </div>

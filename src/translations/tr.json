@@ -3,10 +3,24 @@
   "nav_blogs": "BLOGLAR",
   "nav_projects": "PROJELER",
   "nav_contact": "İLETİŞİM",
-
+  "search": {
+    "label": "Ara",
+    "page_title": "Arama",
+    "placeholder": "Sitede ara…",
+    "submit": "Ara",
+    "hint": "Projelerde, teknik özelliklerde, günlük yazılarında ve ekipte arayın.",
+    "loading": "Dizin hazırlanıyor…",
+    "error": "Arama şu anda kullanılamıyor. Lütfen kısa süre sonra tekrar deneyin.",
+    "empty_for": "Şunun için sonuç yok:",
+    "result_count": "sonuç",
+    "results_count": "sonuç",
+    "close": "Aramayı kapat",
+    "navigate": "gezinmek için",
+    "select": "açmak için",
+    "dismiss": "kapatmak için"
+  },
   "hero_title": "EMPAERIAL",
   "hero_subtitle": "Empaerial, İHA’lar üzerine çalışan, bilgi paylaşan ve yenilik üreten uluslararası öğrencilerden oluşan bir topluluktur.",
-
   "team_title": "Ekibimizle Tanışın",
   "team_subtitle": "Dünyanın dört bir yanından gelen tutkulu öğrenciler — yaratıcılığı, mühendisliği ve iş birliğini birleştirerek İHA’ların geleceğini inşa ediyoruz.",
   "apply_cta": "BAŞVUR",
@@ -21,41 +35,35 @@
   "contact_email_short_label": "E-POSTA",
   "contact_number_short_label": "WHATSAPP",
   "sponsors_title": "Sponsorlarımız",
-
   "contact_title": "İletişim() {",
   "contact_text": "Bize şu adresten e-posta gönderin: empaerial.uav@gmail.com veya +90 531 496 69 47 numaradan bizimle iletişime geçebilirsiniz.",
   "contact_end": "}",
-
   "contact_email_label": "Bize şu adresten e-posta gönderebilirsiniz:",
   "contact_email": "empaerial.uav@gmail.com",
   "contact_number_label": "veya şu numaradan bizimle iletişime geçebilirsiniz:",
   "contact_number": "+90 531 496 69 47",
-
   "footer_follow": "Bizi sosyal medyada takip edin",
   "footer_instagram": "Instagram()",
   "footer_linkedin": "LinkedIn()",
   "footer_youtube": "YouTube()",
   "footer_copyright": "© 2026 EMPÆRIAL. Tüm hakları saklıdır.",
-
   "team_members": "Takım Üyeleri",
   "team_age": "Yaş:",
   "team_country": "Ülke:",
   "team_role": "Görev:",
   "team_skills": "Yetenekler:",
   "team_funfact": "Eğlenceli Bilgi:",
-
   "team_software_title": "Yazılım Ekibi",
   "team_software_desc": "İHA’larımızın beyni olan yazılımı geliştiren frontend ve backend geliştiriciler.",
-
   "team_electronics_title": "Elektronik Ekibi",
   "team_electronics_desc": "Devre tasarımcıları ve elektronik uzmanları, droneları uçuruyorlar.",
-
   "team_mechanical_title": "Mekanik Ekip",
   "team_mechanical_desc": "Droneları dengede ve çevik tutan çerçeve ve aerodinamik uzmanları.",
-
   "team_coord_title": "Koordinatörler",
   "team_coord_desc": "Takımı organize eden ve projeleri planlı şekilde ilerleten ekip.",
-
+  "team_loading": "Ekip yükleniyor…",
+  "team_empty": "Bu departman için henüz üye eklenmedi.",
+  "team_error": "Ekip listesi şu anda yüklenemedi. Lütfen kısa süre sonra tekrar deneyin.",
   "members": {
     "abdullah": {
       "role": "Yazılım Ekibi (Görüntü İşleme ve Drone Görüşü)",
@@ -128,7 +136,6 @@
       "funfact": "Kod yazmam, insanları birbirine bağlarım 🙂‍↔️"
     }
   },
-
   "projects": {
     "title": "Projelerimiz",
     "subtitle": "Yapmakta olduğumuz ve tamamladığımız insansız hava araçlarını görselleri, özellikleri ve malzeme listeleriyle birlikte burada sergiliyoruz.",
@@ -158,9 +165,15 @@
         "firmware": "Yazılım"
       }
     },
-    "drone2": { "summary": "Yakında geliyor" },
-    "drone3": { "summary": "Yakında geliyor" },
-    "drone4": { "summary": "Yakında geliyor" }
+    "drone2": {
+      "summary": "Yakında geliyor"
+    },
+    "drone3": {
+      "summary": "Yakında geliyor"
+    },
+    "drone4": {
+      "summary": "Yakında geliyor"
+    }
   },
   "vespasian": {
     "subtitle": "Hassasiyet ve dayanıklılık için tasarlanmış modüler, hafif bir dört pervaneli hava aracı.",
@@ -230,7 +243,6 @@
       "contact": "İletişim"
     }
   },
-
   "apply_page": {
     "eyebrow": "EKİBE KATIL",
     "title": "EMPÆRIAL'A BAŞVUR",
@@ -285,7 +297,6 @@
       "coordination": "Koordinasyon"
     }
   },
-
   "blogs_page": {
     "eyebrow": "İçgörüler",
     "posts_word": "Yazı",
@@ -300,7 +311,6 @@
     "author_fallback": "EMPAERIAL Ekibi",
     "cover_pending": "Kapak medyası bekleniyor."
   },
-
   "blog_detail": {
     "back": "Bloglara Dön",
     "blogs_crumb": "Bloglar",

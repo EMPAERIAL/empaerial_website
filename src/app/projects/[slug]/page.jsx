@@ -4,10 +4,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import SearchHighlight from "@/components/Search/SearchHighlight";
 import useProjects from "@/hooks/useProjects";
 import { normalizeProjectRecord } from "@/Lib/projectData";
-import en from "@/translations/en.json";
-import tr from "@/translations/tr.json";
+import { useLanguage } from "@/components/LanguageProvider";
 import styles from "./ProjectDetail.module.css";
 
 const PROJECT_CONTACT_FALLBACK = {
@@ -265,15 +265,9 @@ function AtmosphericMedia({
 export default function ProjectDetails() {
   const { slug } = useParams();
   const router = useRouter();
-  const [lang, setLang] = useState("en");
-  const t = lang === "tr" ? tr : en;
+  const { lang, setLang, t } = useLanguage();
   const detailT = useMemo(() => getProjectDetailDictionary(t), [t]);
   const { projects, loading } = useProjects();
-
-  useEffect(() => {
-    const userLang = navigator.language.startsWith("tr") ? "tr" : "en";
-    setLang(userLang);
-  }, []);
 
   const project = useMemo(() => {
     const matched = projects.find((item) => item.slug === slug);
@@ -708,6 +702,8 @@ export default function ProjectDetails() {
     <>
       <Header t={t} lang={lang} setLang={setLang} />
       <main className={styles.pageMain}>
+        <SearchHighlight />
+
         <div className={styles.gridOverlay} aria-hidden="true" />
 
         <div className={styles.crumbBar}>

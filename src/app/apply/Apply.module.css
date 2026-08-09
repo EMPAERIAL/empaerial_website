@@ -1,5 +1,7 @@
 /* ── DARK INTRO BAND ─────────────────────────────────── */
 .intro {
+  /* Dark ground — keep the focus ring visible (see globals.css). */
+  --ui-focus-ring: #fff;
   position: relative;
   background: #000;
   padding: 148px 0 0;

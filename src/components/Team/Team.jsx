@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from './Team.module.css';
 import useTeams from '@/hooks/useTeams';
 
@@ -20,10 +20,26 @@ function getKey(title = '') {
 }
 
 export default function Team({ t }) {
-  const { teams, loading } = useTeams();
+  const { teams, loading, error } = useTeams();
   const [activeKey, setActiveKey] = useState('software');
+  // Cards in the first grid row have no room for a tooltip above them, so it
+  // would sit on top of the tabs and the section copy. Flip those below.
+  const [flippedCard, setFlippedCard] = useState(null);
 
   const activeGroup = teams.find((g) => getKey(g.title) === activeKey);
+  const members = activeGroup?.members ?? [];
+
+  const positionTooltip = useCallback((index) => (event) => {
+    const card = event.currentTarget;
+    const tooltip = card.querySelector(`.${styles.tooltip}`);
+    const grid = card.parentElement;
+    if (!tooltip || !grid) return;
+
+    // Flip when the tooltip would rise past the top of the grid — that is the
+    // first row, where it would otherwise cover the tabs and the section copy.
+    const projectedTop = card.getBoundingClientRect().top - 12 - tooltip.offsetHeight;
+    setFlippedCard(projectedTop < grid.getBoundingClientRect().top ? index : null);
+  }, []);
 
   return (
     <section className="sec sec-light" id="team" aria-labelledby="team-title">
@@ -63,11 +79,24 @@ export default function Team({ t }) {
 
         {/* Member grid */}
         {loading ? (
-          <p className={styles.loading}>Loading…</p>
+          <p className={styles.loading}>{t.team_loading || 'Loading…'}</p>
+        ) : error ? (
+          <p className={styles.status} role="status">
+            {t.team_error || 'We could not load the roster right now. Please try again shortly.'}
+          </p>
+        ) : members.length === 0 ? (
+          <p className={styles.status} role="status">
+            {t.team_empty || 'No members listed for this department yet.'}
+          </p>
         ) : (
           <div className={`${styles.grid} reveal`} role="tabpanel" aria-live="polite">
-            {(activeGroup?.members ?? []).map((member, i) => (
-              <div key={i} className={styles.card}>
+            {members.map((member, i) => (
+              <div
+                key={i}
+                className={`${styles.card} ${flippedCard === i ? styles.cardFlipped : ''}`}
+                onMouseEnter={positionTooltip(i)}
+                onFocus={positionTooltip(i)}
+              >
                 <div className={styles.photoWrap}>
                   {member.photo ? (
                     <img

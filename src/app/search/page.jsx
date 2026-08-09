@@ -1,157 +1,204 @@
-'use client';
+"use client";
 
-import { useMemo, useState, useRef, useEffect } from 'react';
-import styles from '@/components/Search/SearchBar.module.css';
+import { Suspense, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import { useLanguage } from "@/components/LanguageProvider";
+import {
+  buildSearchIndex,
+  groupResults,
+  searchDocuments,
+} from "@/Lib/searchIndex";
+import styles from "./SearchPage.module.css";
 
-export default function SearchBar({ data = [] }) {
-  const [query, setQuery] = useState('');
-  const [open, setOpen] = useState(false);
-  const wrapRef = useRef(null);
-  const inputRef = useRef(null);
-  const isMac = typeof window !== 'undefined' && navigator.platform.toUpperCase().includes('MAC');
+/*
+ * Standalone results page. The overlay in the header is the primary way in;
+ * this exists so a search is a shareable URL (/search?q=…) and so the route
+ * listed in the sitemap resolves to a real page.
+ */
 
+function Highlighted({ snippet }) {
+  if (!snippet) return null;
+  if (!snippet.match) return <>{snippet.before}</>;
 
-  const teamMembers = [
-    { title: 'Rabeeah Chishti', link: 'https://www.linkedin.com/in/rabeeah-chishti/', type: 'linkedin' },
-     { title: 'Abdullah Amin', link: 'https://www.linkedin.com/in/abdullah-milad', type: 'linkedin' },
-    { title: 'Najibullah Muhammadi', link: 'https://www.linkedin.com/in/najib-muhammadi-/', type: 'linkedin' },
-    { title: 'John Ricky', link: 'https://www.linkedin.com/in/john-ricky-433367335?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', type: 'linkedin' },
-    { title: 'Ahmed Mulki', link: 'https://www.linkedin.com/in/ahmed-mulki-393a3b389/', type: 'linkedin' },
-    { title: 'Azra Dika', link: 'https://www.linkedin.com/in/f-azra-dika-2786011b4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', type: 'linkedin' },
-    { title: 'Aine-Mukama Katureebe', link: 'https://www.linkedin.com/in/aine-mukama-rwankurukumbi-katureebe-083939264?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', type: 'linkedin' },
-    { title: 'William Amani', link: 'https://linkedin.com/in/william-amani-363ba12a5', type: 'linkedin' },
-    { title: 'Zawadi Wafula', link: 'https://www.linkedin.com/in/zawadi-wafula-956493265/', type: 'linkedin' },
-    { title: 'Ahmed Osman Mahamoud', link: 'https://www.linkedin.com/in/aom99/', type: 'linkedin' },
-    { title: 'Henry Christophe', link: 'https://www.linkedin.com/in/henry-christophe-ndahirwa-b80015288?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', type: 'linkedin' },
-    { title: 'Hilmi Kabir', link: 'https://www.linkedin.com/in/hilmikabir', type: 'linkedin' },
-    { title: 'Lujain Nofal', link: 'https://www.linkedin.com/in/lujain-nofal-33a708387?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', type: 'linkedin' },
-    { title: 'Aboubacar Sow', link: 'https://www.linkedin.com/in/aboubacar-sow-853a7b25b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', type: 'linkedin' },
-  ];
+  return (
+    <>
+      {snippet.before}
+      <mark className={styles.mark}>{snippet.match}</mark>
+      {snippet.after}
+    </>
+  );
+}
 
-  const fullData = [...teamMembers, ...data];
+function SearchPageBody() {
+  const { lang, setLang, t } = useLanguage();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initial = searchParams.get("q") || "";
 
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return fullData.filter((item) => item.title.toLowerCase().includes(q));
-  }, [query, fullData]);
+  const [query, setQuery] = useState(initial);
+  const [docs, setDocs] = useState(null);
+  const [state, setState] = useState("loading");
 
-
-  useEffect(() => {
-    const onDocClick = (e) => {
-      if (!wrapRef.current) return;
-      if (!wrapRef.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('click', onDocClick);
-    return () => document.removeEventListener('click', onDocClick);
-  }, []);
+  const copy = t?.search || {};
 
   useEffect(() => {
-    const handleShortcut = (e) => {
-      if (
-        (isMac && e.metaKey && e.key.toLowerCase() === 'k') ||
-        (!isMac && e.ctrlKey && e.key.toLowerCase() === 'k')
-      ) {
-        e.preventDefault();
-        inputRef.current?.focus();
-        return;
-      }
+    setQuery(initial);
+  }, [initial]);
 
-      if (e.key === '/' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        inputRef.current?.focus();
-        return;
-      }
+  useEffect(() => {
+    let cancelled = false;
+    setState("loading");
 
-      if (e.key === 'Escape') {
-        inputRef.current?.blur();
-        setOpen(false);
+    (async () => {
+      try {
+        const [projects, blogs, teams] = await Promise.all(
+          ["projects", "blogs", "teams"].map(async (resource) => {
+            const res = await fetch(`/api/${resource}`, { cache: "no-store" });
+            if (!res.ok) throw new Error(`${resource}: ${res.status}`);
+            const data = await res.json();
+            return Array.isArray(data) ? data : (data?.[resource] ?? []);
+          })
+        );
+
+        if (cancelled) return;
+        setDocs(buildSearchIndex({ projects, blogs, teams, t }));
+        setState("ready");
+      } catch {
+        if (cancelled) return;
+        setDocs(buildSearchIndex({ projects: [], blogs: [], teams: [], t }));
+        setState("error");
       }
+    })();
+
+    return () => {
+      cancelled = true;
     };
+  }, [t]);
 
-    window.addEventListener('keydown', handleShortcut);
-    return () => window.removeEventListener('keydown', handleShortcut);
-  }, [isMac]);
+  const results = useMemo(
+    () => (docs ? searchDocuments(docs, query, 80) : []),
+    [docs, query]
+  );
+  const groups = useMemo(() => groupResults(results), [results]);
 
-  const goTo = (link, type) => {
-    if (!link) return;
-    if (type === 'linkedin') {
-    
-      window.location.href = link;
-    } else {
-  
-      const id = link.startsWith('#') ? link.slice(1) : link;
-      if (window.location.pathname !== '/') {
-        window.location.href = `/${link}`;
-      } else {
-        const el = document.getElementById(id);
-        if (el) {
-          history.pushState(null, '', link);
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    }
+  const onSubmit = (event) => {
+    event.preventDefault();
+    router.replace(
+      query.trim() ? `/search?q=${encodeURIComponent(query.trim())}` : "/search"
+    );
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && results.length > 0) {
-      e.preventDefault();
-      const item = results[0];
-      goTo(item.link, item.type);
-      setQuery('');
-      setOpen(false);
-      inputRef.current?.blur();
-    }
-  };
-
-  const handleSelect = (e, item) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setTimeout(() => {
-      goTo(item.link, item.type);
-      setQuery('');
-      setOpen(false);
-      inputRef.current?.blur();
-    }, 80);
+  const hitUrl = (hit) => {
+    const [path, hash] = hit.url.split("#");
+    return `${path}?q=${encodeURIComponent(query.trim())}${hash ? `#${hash}` : ""}`;
   };
 
   return (
-    <div className={styles.searchWrap} ref={wrapRef}>
-      <input
-        ref={inputRef}
-        className={styles.input}
-        type="search"
-        placeholder="Search"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setOpen(true);
-        }}
-        onFocus={() => query && setOpen(true)}
-        onKeyDown={handleKeyDown}
-        aria-label="Search site"
-      />
+    <>
+      <header role="banner">
+        <Header t={t} lang={lang} setLang={setLang} />
+      </header>
 
-      {open && results.length > 0 && (
-        <ul className={styles.dropdown} role="listbox">
-          {results.map((item, idx) => (
-            <li key={idx}>
-              <button
-                type="button"
-                className={styles.item}
-                onClick={(e) => handleSelect(e, item)}
-              >
-                {item.title}
-                {item.type === 'linkedin' && (
-                  <span style={{ opacity: 0.7, fontSize: '0.8rem', marginLeft: '6px' }}>
-                    (LinkedIn)
-                  </span>
-                )}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <main role="main" className={styles.pageMain}>
+        <div className={styles.inner}>
+          <p className={styles.eyebrow}>{copy.label || "Search"}</p>
+          <h1 className={styles.title}>{copy.page_title || "Search"}</h1>
+
+          <form className={styles.form} onSubmit={onSubmit} role="search">
+            <input
+              className={styles.input}
+              type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={copy.placeholder || "Search the site…"}
+              aria-label={copy.label || "Search"}
+              autoComplete="off"
+            />
+            <button type="submit" className={styles.submit}>
+              {copy.submit || "Search"} →
+            </button>
+          </form>
+
+          {state === "loading" && (
+            <p className={styles.note}>{copy.loading || "Building index…"}</p>
+          )}
+
+          {state === "error" && (
+            <p className={styles.note}>
+              {copy.error ||
+                "Search is unavailable right now. Please try again shortly."}
+            </p>
+          )}
+
+          {state !== "loading" && query.trim().length >= 2 && (
+            <p className={styles.count}>
+              {results.length}{" "}
+              {results.length === 1
+                ? copy.result_count || "result"
+                : copy.results_count || "results"}
+            </p>
+          )}
+
+          {state !== "loading" &&
+            query.trim().length >= 2 &&
+            results.length === 0 && (
+              <p className={styles.note}>
+                {copy.empty_for || "No matches for"}{" "}
+                <span className={styles.noteTerm}>“{query.trim()}”</span>
+              </p>
+            )}
+
+          {query.trim().length < 2 && state !== "loading" && (
+            <p className={styles.note}>
+              {copy.hint ||
+                "Search projects, specs, journal entries and the team."}
+            </p>
+          )}
+
+          <div className={styles.groups}>
+            {groups.map((group) => (
+              <section key={group.pageUrl} className={styles.group}>
+                <header className={styles.groupHead}>
+                  <span className={styles.groupKind}>{group.kind}</span>
+                  <span className={styles.groupPage}>{group.page}</span>
+                </header>
+
+                {group.hits.map((hit) => (
+                  <Link key={hit.id} href={hitUrl(hit)} className={styles.hit}>
+                    <span className={styles.hitMeta}>
+                      {hit.section && (
+                        <span className={styles.hitSection}>{hit.section}</span>
+                      )}
+                      {hit.label && (
+                        <span className={styles.hitLabel}>
+                          <Highlighted snippet={hit.labelSnippet} />
+                        </span>
+                      )}
+                    </span>
+                    <span className={styles.hitBody}>
+                      <Highlighted snippet={hit.snippet} />
+                    </span>
+                  </Link>
+                ))}
+              </section>
+            ))}
+          </div>
+        </div>
+      </main>
+
+      <Footer t={t} />
+    </>
+  );
+}
+
+export default function SearchPage() {
+  // useSearchParams needs a Suspense boundary to keep the route prerenderable.
+  return (
+    <Suspense fallback={null}>
+      <SearchPageBody />
+    </Suspense>
   );
 }

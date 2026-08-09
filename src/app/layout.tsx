@@ -1,4 +1,5 @@
 import "./globals.css";
+import { LanguageProvider } from "@/components/LanguageProvider";
 
 export const metadata = {
   title: "Empaerial | We Don’t Fly. We Redefine Air.",
@@ -62,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </symbol>
           </defs>
         </svg>
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

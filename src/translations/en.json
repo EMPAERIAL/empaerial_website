@@ -3,10 +3,24 @@
   "nav_blogs": "BLOGS",
   "nav_projects": "PROJECTS",
   "nav_contact": "CONTACT",
-
+  "search": {
+    "label": "Search",
+    "page_title": "Search",
+    "placeholder": "Search the site…",
+    "submit": "Search",
+    "hint": "Search projects, specifications, journal entries and the team.",
+    "loading": "Building index…",
+    "error": "Search is unavailable right now. Please try again shortly.",
+    "empty_for": "No matches for",
+    "result_count": "result",
+    "results_count": "results",
+    "close": "Close search",
+    "navigate": "to navigate",
+    "select": "to open",
+    "dismiss": "to dismiss"
+  },
   "hero_title": "EMPAERIAL",
   "hero_subtitle": "Empaerial is a community of international students working on UAVs, sharing knowledge and building innovation together.",
-
   "team_title": "Meet Our Team",
   "team_subtitle": "A passionate group of students from around the world — combining creativity, engineering, and collaboration to build the future of UAVs.",
   "apply_cta": "APPLY",
@@ -16,46 +30,40 @@
   "sponsors_title": "Our Sponsors",
   "sponsors_note_prefix": "Interested in supporting EMPÆRIAL?",
   "sponsors_note_link": "Contact us →",
-
   "contact_eyebrow": "CONTACT",
   "contact_heading": "GET IN TOUCH",
   "contact_title": "GET IN TOUCH",
   "contact_sub": "Reach out for collaborations, sponsorships, or to join the team.",
   "contact_text": "Send us an email at empaerial.uav@gmail.com or reach us at +90 531 496 69 47.",
   "contact_end": "}",
-
   "contact_email_label": "EMAIL",
   "contact_email_short_label": "EMAIL",
   "contact_email": "empaerial.uav@gmail.com",
   "contact_number_label": "WHATSAPP",
   "contact_number_short_label": "WHATSAPP",
   "contact_number": "+90 531 496 69 47",
-
   "footer_follow": "Follow us on social media",
   "footer_instagram": "Instagram()",
   "footer_linkedin": "LinkedIn()",
   "footer_youtube": "YouTube()",
   "footer_copyright": "© 2026 EMPÆRIAL. All rights reserved.",
-
   "team_members": "Team Members",
   "team_age": "Age:",
   "team_country": "Country:",
   "team_role": "Role:",
   "team_skills": "Skills:",
   "team_funfact": "Fun Fact:",
-
   "team_software_title": "Software Team",
   "team_software_desc": "Frontend & Backend developers building the brains of our UAVs.",
-
   "team_electronics_title": "Electronics Team",
   "team_electronics_desc": "Circuit designers and electronics specialists making drones fly.",
-
   "team_mechanical_title": "Mechanical Team",
   "team_mechanical_desc": "Frames & aerodynamics experts keeping drones stable and agile.",
-
   "team_coord_title": "Coordinators",
   "team_coord_desc": "Keeping the team organized and projects on track.",
-
+  "team_loading": "Loading roster…",
+  "team_empty": "No members listed for this department yet.",
+  "team_error": "We could not load the roster right now. Please try again shortly.",
   "members": {
     "abdullah": {
       "role": "Software Team (Image Processing & Drone Vision).",
@@ -128,7 +136,6 @@
       "funfact": "I don’t code, I connect people 🙂‍↔️"
     }
   },
-
   "projects": {
     "title": "Our Projects",
     "subtitle": "Here we showcase the drones we are building and those completed, including images, specs, and BOM.",
@@ -160,9 +167,15 @@
         "firmware": "Firmware"
       }
     },
-    "drone2": { "summary": "Coming Soon" },
-    "drone3": { "summary": "Coming Soon" },
-    "drone4": { "summary": "Coming Soon" }
+    "drone2": {
+      "summary": "Coming Soon"
+    },
+    "drone3": {
+      "summary": "Coming Soon"
+    },
+    "drone4": {
+      "summary": "Coming Soon"
+    }
   },
   "vespasian": {
     "subtitle": "A modular, lightweight quadcopter engineered for precision and endurance.",
@@ -232,7 +245,6 @@
       "contact": "Contact"
     }
   },
-
   "apply_page": {
     "eyebrow": "JOIN THE CREW",
     "title": "APPLY TO EMPÆRIAL",
@@ -287,7 +299,6 @@
       "coordination": "Coordination"
     }
   },
-
   "blogs_page": {
     "eyebrow": "Insights",
     "posts_word": "Posts",
@@ -302,7 +313,6 @@
     "author_fallback": "EMPAERIAL Team",
     "cover_pending": "Cover media pending."
   },
-
   "blog_detail": {
     "back": "Back to Blogs",
     "blogs_crumb": "Blogs",

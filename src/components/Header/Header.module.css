@@ -114,6 +114,50 @@
   flex-shrink: 0;
 }
 
+/* ── SEARCH TRIGGER ──────────────────────────────────── */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  background: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition:
+    color var(--dur-micro),
+    border-color var(--dur-micro);
+}
+
+.search svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.searchKeys {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.search:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.nav.light .search {
+  color: var(--ink-40);
+  border-color: var(--ink-10);
+}
+
+.nav.light .search:hover {
+  color: #000;
+  border-color: var(--ink-40);
+}
+
 .lang {
   display: flex;
   align-items: center;
@@ -246,16 +290,37 @@
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 900px) {
-  .links,
-  .right {
+  .links {
     display: none;
+  }
+
+  /*
+   * The right group stays so search remains one tap away; the language switch
+   * moves into the drawer, and the shortcut hint is desktop-only guidance.
+   */
+  .right {
+    margin-left: auto;
+  }
+
+  .lang {
+    display: none;
+  }
+
+  .searchKeys {
+    display: none;
+  }
+
+  .search {
+    padding: 6px;
   }
 
   .hamburger {
     display: flex;
+    margin-left: 0;
   }
 
   .inner {
     padding: 0 24px;
+    gap: 14px;
   }
 }

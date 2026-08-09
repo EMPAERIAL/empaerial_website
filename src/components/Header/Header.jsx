@@ -1,11 +1,31 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import SearchOverlay from '@/components/Search/SearchOverlay';
 import styles from './Header.module.css';
 
 export default function Header({ t, lang, setLang }) {
   const [light, setLight] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isMac, setIsMac] = useState(false);
+
+  useEffect(() => {
+    setIsMac(/mac|iphone|ipad/i.test(navigator.platform || navigator.userAgent));
+  }, []);
+
+  // Ctrl/Cmd+K from anywhere on the page opens search.
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setOpen(false);
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -65,6 +85,26 @@ export default function Header({ t, lang, setLang }) {
 
         {/* Right controls */}
         <div className={styles.right}>
+          <button
+            type="button"
+            className={styles.search}
+            onClick={() => setSearchOpen(true)}
+            aria-label={t?.search?.label || 'Search'}
+          >
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" strokeWidth="1.7" />
+              <path
+                d="M13.5 13.5 L17.5 17.5"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span className={styles.searchKeys} aria-hidden="true">
+              {isMac ? '⌘' : 'Ctrl'} K
+            </span>
+          </button>
+
           <div className={styles.lang} role="group" aria-label="Language switch">
             <button
               className={lang === 'en' ? styles.langActive : styles.langBtn}
@@ -108,6 +148,13 @@ export default function Header({ t, lang, setLang }) {
           </div>
         </div>
       )}
+
+      <SearchOverlay
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        t={t}
+        lang={lang}
+      />
     </nav>
   );
 }

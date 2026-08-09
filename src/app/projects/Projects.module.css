@@ -1,4 +1,6 @@
 .projectSection {
+  /* Dark ground — keep the focus ring visible (see globals.css). */
+  --ui-focus-ring: #fff;
   width: 100%;
   background: #000;
   color: #fff;

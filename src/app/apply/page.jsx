@@ -4,8 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import WingCut from "@/components/WingCut/WingCut";
-import en from "@/translations/en.json";
-import tr from "@/translations/tr.json";
+import { useLanguage } from "@/components/LanguageProvider";
 import styles from "./Apply.module.css";
 
 const DEPARTMENTS = ["software", "electronics", "mechanical", "coordination"];
@@ -92,18 +91,12 @@ function getApplyCopy(pageT) {
 }
 
 export default function ApplyPage() {
-  const [lang, setLang] = useState("en");
+  const { lang, setLang, t } = useLanguage();
   const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [errorMsg, setErrorMsg] = useState("");
 
-  const t = lang === "tr" ? tr : en;
   const copy = useMemo(() => getApplyCopy(t.apply_page), [t]);
-
-  useEffect(() => {
-    const userLang = navigator.language.startsWith("tr") ? "tr" : "en";
-    setLang(userLang);
-  }, []);
 
   // Local reveal observer — the shared one lives on the home page only.
   useEffect(() => {

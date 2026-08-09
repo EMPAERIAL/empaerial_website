@@ -5,8 +5,8 @@ import Link from "next/link";
 import useBlogs from "@/hooks/useBlogs";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import en from "@/translations/en.json";
-import tr from "@/translations/tr.json";
+import SearchHighlight from "@/components/Search/SearchHighlight";
+import { useLanguage } from "@/components/LanguageProvider";
 import styles from "./Blogs.module.css";
 
 function getBlogsPageCopy(pageT) {
@@ -39,15 +39,9 @@ function buildSnippet(content, limit) {
 }
 
 export default function BlogsPage() {
-  const [lang, setLang] = useState("en");
+  const { lang, setLang, t } = useLanguage();
   const { blogs, loading, error } = useBlogs();
-  const t = lang === "tr" ? tr : en;
   const copy = useMemo(() => getBlogsPageCopy(t.blogs_page), [t]);
-
-  useEffect(() => {
-    const userLang = navigator.language.startsWith("tr") ? "tr" : "en";
-    setLang(userLang);
-  }, []);
 
   const featured = blogs[0] || null;
   const rest = blogs.slice(1);
@@ -151,6 +145,8 @@ export default function BlogsPage() {
     <>
       <Header t={t} lang={lang} setLang={setLang} />
       <main className={styles.pageMain}>
+        <SearchHighlight />
+
         <div className={styles.gridOverlay} aria-hidden="true" />
         <section
           className={styles.blogsSection}

@@ -5,9 +5,9 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import SearchHighlight from "@/components/Search/SearchHighlight";
 import useBlogs from "@/hooks/useBlogs";
-import en from "@/translations/en.json";
-import tr from "@/translations/tr.json";
+import { useLanguage } from "@/components/LanguageProvider";
 import {
   LineChart,
   Line,
@@ -153,16 +153,10 @@ function buildExcerpt(content, limit = 190) {
 export default function BlogPost() {
   const { slug } = useParams();
   const router = useRouter();
-  const [lang, setLang] = useState("en");
+  const { lang, setLang, t } = useLanguage();
   const [selectedImage, setSelectedImage] = useState(null);
   const { blogs, loading } = useBlogs();
-  const t = lang === "tr" ? tr : en;
   const copy = useMemo(() => getBlogDetailCopy(t.blog_detail), [t]);
-
-  useEffect(() => {
-    const userLang = navigator.language.startsWith("tr") ? "tr" : "en";
-    setLang(userLang);
-  }, []);
 
   useEffect(() => {
     if (!selectedImage) return undefined;
@@ -447,6 +441,8 @@ export default function BlogPost() {
     <>
       <Header t={t} lang={lang} setLang={setLang} />
       <main className={styles.pageMain}>
+        <SearchHighlight />
+
         <div className={styles.gridOverlay} aria-hidden="true" />
 
         <div className={styles.crumbBar}>

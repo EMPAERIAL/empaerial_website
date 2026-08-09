@@ -264,11 +264,57 @@ button {
   transform: none;
 }
 
+/* ── ANCHOR OFFSET ───────────────────────────────────── */
+/*
+ * The nav bar is fixed at 64px, so an untreated #anchor jump parks the section
+ * heading underneath it. Reserve the bar plus a little breathing room.
+ */
+section[id],
+.sec,
+[data-anchor-offset] {
+  scroll-margin-top: 88px;
+}
+
 /* ── FOCUS ───────────────────────────────────────────── */
+/*
+ * --ui-focus-ring is inherited, so any dark container can re-point it at white
+ * and every focusable descendant follows. The black default is invisible on
+ * the hero, the projects/contact bands, the footer and the blog/project pages.
+ */
 :focus-visible {
   outline: 2px solid var(--ui-focus-ring);
   outline-offset: 3px;
   border-radius: 3px;
+}
+
+.sec-dark,
+footer,
+[data-surface="dark"] {
+  --ui-focus-ring: #fff;
+}
+
+/* ── REDUCED MOTION ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Reveal blocks start hidden and are animated in; without motion they must
+     simply be present rather than waiting on a transition that never runs. */
+  .reveal,
+  .reveal.on {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
