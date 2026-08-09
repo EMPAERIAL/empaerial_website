@@ -23,19 +23,31 @@ export default function Header({ t, lang, setLang }) {
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open]);
+
   const close = () => setOpen(false);
 
   return (
     <nav
-      className={`${styles.nav} ${light ? styles.light : ''}`}
+      className={`${styles.nav} ${light ? styles.light : ''} ${open ? styles.navOpen : ''}`}
       role="navigation"
       aria-label="Main navigation"
     >
       <div className={styles.inner}>
         {/* Brand */}
         <a href="/" className={styles.brand} aria-label="EMPÆRIAL home">
-          <span className={styles.ae}>Æ</span>
-          <span className={styles.wordmark}>EMPÆRIAL</span>
+          <img
+            src="/images/empaerial-logo-white-transparent.png"
+            alt="EMPÆRIAL"
+            className={styles.logo}
+          />
         </a>
 
         {/* Desktop links */}

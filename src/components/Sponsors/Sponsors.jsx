@@ -1,7 +1,6 @@
 'use client';
 
 import React from "react";
-import WingCut from "@/components/WingCut/WingCut";
 import styles from "./Sponsors.module.css";
 
 export default function Sponsors({ t }) {
@@ -77,8 +76,6 @@ export default function Sponsors({ t }) {
           </a>
         </p>
       </div>
-
-      <WingCut fill="#000" style={{ marginTop: 80 }} />
     </section>
   );
 }

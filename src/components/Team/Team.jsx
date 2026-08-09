@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import styles from './Team.module.css';
 import useTeams from '@/hooks/useTeams';
-import WingCut from '../WingCut/WingCut';
 
 const TAB_MAP = {
   software:     { label: 'SOFTWARE',     descKey: 'team_software_desc' },
@@ -49,9 +48,10 @@ export default function Team({ t }) {
               role="tab"
               aria-selected={activeKey === key}
               className={`${styles.tab} ${activeKey === key ? styles.tabActive : ''}`}
+              data-label={label}
               onClick={() => setActiveKey(key)}
             >
-              {label}
+              <span>{label}</span>
             </button>
           ))}
         </div>
@@ -111,8 +111,6 @@ export default function Team({ t }) {
           </div>
         )}
       </div>
-
-      <WingCut fill="#fff" bgColor="#000" />
     </section>
   );
 }

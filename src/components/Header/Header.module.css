@@ -18,6 +18,14 @@
   box-shadow: 0 1px 0 var(--ink-10);
 }
 
+/* While the mobile drawer is open the bar always reads as dark, so the
+   hamburger and logo stay white against the black drawer behind them. */
+.nav.navOpen,
+.nav.light.navOpen {
+  background: #000;
+  box-shadow: none;
+}
+
 .inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -26,50 +34,33 @@
   display: flex;
   align-items: center;
   gap: 32px;
+  /* Sits above the drawer (z-index 99) so the bar stays usable while open. */
+  position: relative;
+  z-index: 101;
 }
 
 /* ── BRAND ───────────────────────────────────────────── */
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
 }
 
-.ae {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #fff;
-  color: #000;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background var(--dur-state), color var(--dur-state);
+/* The asset is a white-on-transparent lockup; invert it for the light bar. */
+.logo {
+  height: 30px;
+  width: auto;
+  transition: filter var(--dur-state);
 }
 
-.nav.light .ae {
-  background: #000;
-  color: #fff;
+.nav.light .logo {
+  filter: invert(1);
 }
 
-.wordmark {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #fff;
-  transition: color var(--dur-state);
-}
-
-.nav.light .wordmark {
-  color: #000;
+.nav.navOpen .logo,
+.nav.light.navOpen .logo {
+  filter: none;
 }
 
 /* ── DESKTOP LINKS ───────────────────────────────────── */
@@ -200,6 +191,11 @@
 
 .nav.light .hamburger span {
   background: #000;
+}
+
+.nav.navOpen .hamburger span,
+.nav.light.navOpen .hamburger span {
+  background: #fff;
 }
 
 .hamburger.open span:nth-child(1) {

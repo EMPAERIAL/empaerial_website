@@ -1,6 +1,5 @@
 'use client';
 
-import WingCut from '../WingCut/WingCut';
 import styles from './Hero.module.css';
 
 export default function Hero({ t }) {
@@ -47,8 +46,6 @@ export default function Hero({ t }) {
         <span>ALT 0m</span>
         <span>STATUS GROUNDED</span>
       </div>
-
-      <WingCut fill="#000" bgColor="#fff" />
     </section>
   );
 }

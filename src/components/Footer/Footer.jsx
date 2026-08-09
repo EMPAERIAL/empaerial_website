@@ -12,33 +12,6 @@ export default function Footer({ t }) {
         </svg>
       </div>
 
-      <div className={styles.footerSocial} aria-label="Social media links">
-        <a
-          href="https://www.instagram.com/_empaerial_"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Follow Empaerial on Instagram"
-        >
-          {t.footer_instagram}
-        </a>
-        <a
-          href="https://www.linkedin.com/company/emp%C3%A6rial/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Connect with Empaerial on LinkedIn"
-        >
-          {t.footer_linkedin}
-        </a>
-        <a
-          href="https://www.youtube.com/@Emp%C3%A6rial_UAV"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Visit Empaerial YouTube channel"
-        >
-          {t.footer_youtube}
-        </a>
-      </div>
-
       <div className={styles.footerCopy}>
         <Link
           href="/admin-login"

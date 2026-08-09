@@ -211,8 +211,13 @@ button {
   transition: background var(--dur-micro);
 }
 
+/*
+ * Emphasis on hover comes from weight, not colour. The old rule faded the fill
+ * to 10% black, which on the black hero left black text on a near-black pill.
+ */
 .btn-white:hover {
-  background: var(--ink-10);
+  background: #fff;
+  font-weight: 700;
 }
 
 .btn-ghost {

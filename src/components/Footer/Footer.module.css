@@ -16,33 +16,14 @@
   opacity: 0.25;
 }
 
-.footerSocial {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.footerSocial a {
-  color: rgba(255, 255, 255, 0.3);
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transition: color var(--dur-micro);
-}
-
-.footerSocial a:hover {
-  color: #fff;
-}
-
+/* Sits in the centre track of the 1fr / auto / 1fr grid, so it stays optically
+   centred in the footer with the propeller mark holding the left track. */
 .footerCopy {
   position: relative;
   color: rgba(255, 255, 255, 0.2);
   font-family: var(--font-mono);
   font-size: 10.5px;
-  text-align: right;
+  text-align: center;
 }
 
 .adminLink {

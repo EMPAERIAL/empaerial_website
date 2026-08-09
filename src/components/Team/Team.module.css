@@ -38,6 +38,7 @@
 }
 
 .tab {
+  display: inline-grid;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 11px;
@@ -51,18 +52,40 @@
   cursor: pointer;
   transition:
     background var(--dur-micro),
-    color var(--dur-micro),
     border-color var(--dur-micro);
 }
 
+/*
+ * Hover weight is emphasis only — never a colour change. The active pill is
+ * black-on-black otherwise, which makes its label unreadable.
+ * The hidden bold twin reserves the wider bold metrics so pills do not
+ * reflow when the weight changes.
+ */
+.tab > span,
+.tab::after {
+  grid-area: 1 / 1;
+}
+
+.tab::after {
+  content: attr(data-label);
+  font-weight: 700;
+  visibility: hidden;
+  height: 0;
+  pointer-events: none;
+}
+
 .tab:hover {
-  color: #000;
+  font-weight: 700;
   border-color: var(--ink-40);
 }
 
 .tabActive {
   background: #000;
   color: #fff;
+  border-color: #000;
+}
+
+.tabActive:hover {
   border-color: #000;
 }
 

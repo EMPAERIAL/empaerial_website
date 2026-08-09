@@ -3,7 +3,6 @@ export const dynamic = "force-dynamic";
 
 import React, { useState } from "react";
 import Link from "next/link";
-import WingCut from "@/components/WingCut/WingCut";
 import useProjects from "@/hooks/useProjects";
 import styles from "./Projects.module.css";
 
@@ -186,8 +185,6 @@ export default function Projects({ t }) {
           </>
         )}
       </div>
-
-      <WingCut fill="#fff" bgColor="#000" style={{ marginTop: 80 }} />
     </section>
   );
 }
