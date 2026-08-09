@@ -105,6 +105,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Safari inflates text on rotation without this. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -113,6 +116,21 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/*
+ * iOS zooms the page in whenever a focused field's text is under 16px, and
+ * never zooms back out — the apply form, admin login and search field all sat
+ * at 14-15px. Raising the floor only on touch pointers keeps the desktop
+ * typography exactly as designed. !important is needed because every field is
+ * styled from a CSS module, which outranks an element selector here.
+ */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 a {
@@ -239,6 +257,18 @@ button {
 .btn-ghost:hover {
   border-color: #fff;
   color: #fff;
+}
+
+/* Touch pointers get Apple's 44pt minimum on the shared pill buttons; mouse
+   users keep the tighter desktop proportions. */
+@media (hover: none) and (pointer: coarse) {
+  .btn-white,
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* ── WING-CUT ────────────────────────────────────────── */

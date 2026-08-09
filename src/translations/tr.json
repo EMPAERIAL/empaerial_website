@@ -64,6 +64,8 @@
   "team_loading": "Ekip yükleniyor…",
   "team_empty": "Bu departman için henüz üye eklenmedi.",
   "team_error": "Ekip listesi şu anda yüklenemedi. Lütfen kısa süre sonra tekrar deneyin.",
+  "team_show_details": "Ayrıntılar",
+  "team_hide_details": "Ayrıntıları gizle",
   "members": {
     "abdullah": {
       "role": "Yazılım Ekibi (Görüntü İşleme ve Drone Görüşü)",

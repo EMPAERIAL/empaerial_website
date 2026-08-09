@@ -97,6 +97,19 @@
   min-height: 1.5em;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .tab,
+  .apply {
+    align-items: center;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .apply {
+    display: inline-flex;
+  }
+}
+
 /* ── MEMBER GRID ─────────────────────────────────────── */
 .grid {
   display: grid;
@@ -161,6 +174,32 @@
   overflow: hidden;
 }
 
+/* ── DETAILS TOGGLE (touch only) ─────────────────────── */
+.detailsToggle {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .detailsToggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 4px;
+    padding: 0 2px;
+    background: none;
+    border: none;
+    color: var(--ink-60);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 /* ── TOOLTIP ─────────────────────────────────────────── */
 .tooltip {
   position: absolute;
@@ -183,21 +222,29 @@
   z-index: 10;
 }
 
-.card:hover .tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
-}
+/*
+ * Every rule that positions the floating tooltip is confined to hover-capable
+ * pointers. On touch these selectors simply do not exist, so they cannot
+ * out-specify the disclosure layout further down — :hover rules carry more
+ * weight than a plain class and were dragging the panel back off-screen.
+ */
+@media (hover: hover) {
+  .card:hover .tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
 
-/* Not enough headroom above the card — hang the tooltip underneath instead. */
-.cardFlipped .tooltip {
-  bottom: auto;
-  top: calc(100% + 12px);
-  transform: translateX(-50%) translateY(-6px);
-}
+  /* Not enough headroom above the card — hang the tooltip underneath instead. */
+  .cardFlipped .tooltip {
+    bottom: auto;
+    top: calc(100% + 12px);
+    transform: translateX(-50%) translateY(-6px);
+  }
 
-.cardFlipped:hover .tooltip {
-  transform: translateX(-50%) translateY(0);
+  .cardFlipped:hover .tooltip {
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .tooltipName {
@@ -247,5 +294,35 @@
 
   .tooltip {
     display: none;
+  }
+}
+
+/*
+ * Touch devices have no hover, so the floating tooltip never appeared and the
+ * details were simply lost on every phone. Here the same content becomes a
+ * disclosure panel that sits in the flow under the card.
+ */
+@media (hover: none) and (pointer: coarse) {
+  /*
+   * Both selectors, because the hover-flip rule (.cardFlipped .tooltip) is more
+   * specific than a bare .tooltip and would otherwise keep re-applying the
+   * translateX(-50%) centering — which, with the panel back in flow, dragged it
+   * off the left edge of the screen.
+   */
+  .card .tooltip,
+  .cardFlipped .tooltip {
+    display: none;
+    position: static;
+    inset: auto;
+    width: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    margin-top: 10px;
+  }
+
+  .cardExpanded .tooltip,
+  .cardExpanded.cardFlipped .tooltip {
+    display: block;
   }
 }

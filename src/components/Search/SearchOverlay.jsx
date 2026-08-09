@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
+import useScrollLock from "@/hooks/useScrollLock";
 import {
   buildSearchIndex,
   groupResults,
@@ -132,14 +133,7 @@ export default function SearchOverlay({ open, onClose, t, lang }) {
     return () => window.cancelAnimationFrame(id);
   }, [open]);
 
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [open]);
+  useScrollLock(open);
 
   const go = useCallback(
     (hit) => {

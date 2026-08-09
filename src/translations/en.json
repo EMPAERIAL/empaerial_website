@@ -64,6 +64,8 @@
   "team_loading": "Loading roster…",
   "team_empty": "No members listed for this department yet.",
   "team_error": "We could not load the roster right now. Please try again shortly.",
+  "team_show_details": "Details",
+  "team_hide_details": "Hide details",
   "members": {
     "abdullah": {
       "role": "Software Team (Image Processing & Drone Vision).",

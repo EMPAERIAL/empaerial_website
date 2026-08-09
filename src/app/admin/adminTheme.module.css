@@ -1,5 +1,6 @@
 ﻿.adminPage {
   min-height: 100vh;
+  min-height: 100svh;
   background: #000;
   color: #fff;
   padding: 64px 0 80px;

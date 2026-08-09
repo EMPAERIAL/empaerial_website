@@ -3,12 +3,19 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   z-index: 1400;
+}
+
+/* Own block: declared next to the standard property the minifier collapses the
+   pair and keeps only one of them. */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .overlay {
+    -webkit-backdrop-filter: blur(3px);
+  }
 }
 
 .dialog {

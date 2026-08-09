@@ -12,7 +12,11 @@
   justify-content: center;
   /* Let the panel size to its results instead of stretching to the viewport. */
   align-items: flex-start;
-  padding: 12vh 24px 24px;
+  /* dvh tracks the viewport as iOS chrome shows and hides, so the panel is
+     never taller than what the reader can actually see. */
+  height: 100dvh;
+  padding: max(12vh, calc(24px + env(safe-area-inset-top))) max(24px, env(safe-area-inset-right))
+    max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   --ui-focus-ring: #fff;
 }
 
@@ -95,7 +99,10 @@
 
 .escape {
   flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
   padding: 4px 8px;
+  -webkit-tap-highlight-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 5px;
   background: none;
@@ -119,6 +126,7 @@
 .results {
   overflow-y: auto;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 0;
 }
 
@@ -254,15 +262,15 @@
 
 @media (max-width: 720px) {
   .root {
-    padding: 0;
     align-items: stretch;
+    padding: max(16px, calc(8px + env(safe-area-inset-top))) max(16px, env(safe-area-inset-right))
+      max(8px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   }
 
   .panel {
     max-width: none;
     max-height: 100%;
     height: 100%;
-    padding: 16px 16px 8px;
   }
 
   /* Shortcut legend is desktop-only guidance; without it the rule would be an

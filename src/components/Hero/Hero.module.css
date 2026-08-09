@@ -3,8 +3,13 @@
   /* Dark ground — keep the focus ring visible (see globals.css). */
   --ui-focus-ring: #fff;
   position: relative;
+  /* svh is the viewport with browser chrome visible. Plain 100vh on iOS is the
+     URL-bar-collapsed height, so the bottom of the hero sat under the toolbar. */
   min-height: 100vh;
+  min-height: 100svh;
   background: #000;
+  padding: calc(64px + env(safe-area-inset-top)) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,5 +131,36 @@
     width: 90vw;
     right: -20vw;
     opacity: 0.035;
+  }
+}
+
+/*
+ * Short viewports — phone landscape is ~340px tall. The absolutely positioned
+ * telemetry and scroll cue were landing on top of the CTAs, and the centred
+ * block had no room to breathe.
+ */
+@media (max-height: 520px) {
+  .hero {
+    min-height: 0;
+    padding-top: calc(84px + env(safe-area-inset-top));
+    padding-bottom: 48px;
+  }
+
+  .telemetry,
+  .scroll {
+    display: none;
+  }
+
+  .content {
+    gap: 12px;
+  }
+
+  .title {
+    font-size: clamp(40px, 9vw, 72px);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    max-width: 520px;
   }
 }

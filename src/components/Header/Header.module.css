@@ -7,10 +7,19 @@
   z-index: 100;
   background: rgba(0, 0, 0, 0.82);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Bar height plus whatever the notch/status bar reserves. */
+  padding-top: env(safe-area-inset-top);
   transition:
     background var(--dur-state) var(--ease-prop),
     box-shadow var(--dur-state) var(--ease-prop);
+}
+
+/* Kept in its own block: declared alongside the standard property, the
+   minifier merges them and drops one. Safari below 18 needs the prefix. */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .nav {
+    -webkit-backdrop-filter: blur(12px);
+  }
 }
 
 .nav.light {
@@ -29,7 +38,7 @@
 .inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 max(48px, env(safe-area-inset-left)) 0 max(48px, env(safe-area-inset-left));
   height: 64px;
   display: flex;
   align-items: center;
@@ -215,13 +224,19 @@
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
   background: none;
   border: none;
-  padding: 4px;
+  /* 44x44 is Apple's minimum touch target; the bars stay 22px wide. */
+  width: 44px;
+  height: 44px;
+  padding: 0;
   cursor: pointer;
   margin-left: auto;
   flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hamburger span {
@@ -255,19 +270,37 @@
 }
 
 /* ── MOBILE DRAWER ───────────────────────────────────── */
+/*
+ * Portalled onto document.body (see Header.jsx) so no ancestor can capture it
+ * as a containing block. Stays under the bar's z-index 100 so the close button
+ * remains reachable.
+ */
 .drawer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 36px;
   position: fixed;
   inset: 0;
+  /* svh is the viewport with browser chrome showing — the honest number on
+     iOS, where 100vh is taller than what you can actually see. */
+  height: 100svh;
+  padding: calc(64px + env(safe-area-inset-top)) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  /* Short viewports (landscape) can't fit five items; let them scroll. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: #000;
   z-index: 99;
 }
 
 .drawerLink {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 22px;
@@ -286,6 +319,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.drawerLang button {
+  min-width: 44px;
+  min-height: 44px;
 }
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
@@ -311,7 +349,11 @@
   }
 
   .search {
-    padding: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .hamburger {
@@ -320,7 +362,7 @@
   }
 
   .inner {
-    padding: 0 24px;
-    gap: 14px;
+    padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+    gap: 8px;
   }
 }
